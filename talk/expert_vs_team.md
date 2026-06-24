@@ -4,6 +4,12 @@ Tiering (per user direction): **expert = `rivlipk1`** (ground truth);
 **core team = `kitchlm1`, `dxenes1`** (skilled, not benchmark); **students = the
 rest**. Users with **<100 differstack events excluded** (49 → 43 users).
 
+All **other staff-handle annotators are excluded** from the student pool (the
+`lastname+initials+digit` convention: `bishoca1, brodsrf1, …, wiltml1`, 17 total).
+In practice the ≥100-event filter already removed all of them — they carried
+little or no differstack data — so the 40-user student tier is genuine
+proofreaders, uncontaminated by staff.
+
 ## Headline: competence = inspection-per-edit, not speed
 Event-weighted behavior mix (≥100-event users):
 
