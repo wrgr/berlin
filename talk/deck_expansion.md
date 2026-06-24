@@ -124,10 +124,11 @@ KICKER: THE LANGUAGE OF PROOFREADING
 - Three representations, increasing honesty: **naive → designed → learned** (motif dictionary).
 CAVEAT BANNER: RETROSPECTIVE — selection on a known outcome. The pre-registered predictive test is this summer.
 
-### D — "Outreach: calibrating students as scientists"  (before acknowledgments)
+### D — "Outreach: students as a method, not just a mission"  (before acknowledgments)
 KICKER: HUMANS + OUTCOMES  (LENS)
-- The other product of calibration: undergraduates became connectomics contributors.
-- Dual yield, **structurally identical**: a better connectome (mission) AND trained scientists (talent) — novices became top-throughput proofreaders credited in MICrONS; some promoted to expert tasks.
+- Calibrated student judgment IS the method that built the connectome — not a side benefit.
+- **MICrONS relied on this student workforce throughout** — their proofreading underpins the MICrONS connectome (**Nature, 2025**) and downstream contributions. [confirm exact MICrONS Nature citation]
+- Dual yield, **structurally identical**: a better connectome (mission) AND trained scientists (talent) — novices became top-throughput proofreaders credited in MICrONS; eight promoted to expert tasks.
 - Promotion is a **mentorship ladder**, not just a permission flag — APL's AI Pathfinding / MERIT model.
 - "Calibrate the people, not just the microscope" is an investment in people, **measured**.
 BOTTOM LINE: the measurement that prices the budget is the same measurement that develops the workforce.
