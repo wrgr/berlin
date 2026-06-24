@@ -4,9 +4,14 @@ re-review. The value proposition for the prospective test: flag risky decisions 
 import pandas as pd, numpy as np
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 from sklearn.metrics import roc_auc_score
+import os
 from pathlib import Path
-OUT=Path("/tmp/claude-0/-home-user-berlin/eb94da13-135d-5ec6-9497-7a16104e77d6/scratchpad/live_out")
-TALK=Path("/home/user/berlin/talk")
+HERE=Path(__file__).resolve().parent
+OUT=Path(os.environ.get("BERLIN_DATA", HERE/"live_out"))   # CSVs (override with BERLIN_DATA)
+TALK=Path(os.environ.get("BERLIN_TALK", HERE.parent))      # repo talk/ for figure output
+CAV="Preliminary analysis — MICrONS proofreading annotators"
+def _cav():
+    plt.figtext(0.995,0.004,CAV,ha="right",va="bottom",fontsize=6,style="italic",color="0.5")
 T=pd.read_csv(OUT/"separability_task.csv").dropna(subset=["dur"]).copy()
 T=T[T.groupby("assignee")["assignee"].transform("size")>=10].copy()
 T["dur_z"]=T.groupby("assignee")["dur"].transform(lambda s:(s-s.mean())/(s.std() if s.std() else 1))
@@ -30,5 +35,5 @@ for q in [0.20]:
 ax.set_xlabel("% of tasks flagged for re-review"); ax.set_ylabel("% of errors caught")
 ax.set_title("Prospective, ground-truth-free error flagging\nslow-for-this-person tasks are enriched for errors")
 ax.legend(fontsize=8,loc="lower right"); ax.set_xlim(0,100); ax.set_ylim(0,100)
-plt.tight_layout(); plt.savefig(TALK/"fig_prospective_flagging.png",dpi=150)
+plt.tight_layout(); _cav(); plt.savefig(TALK/"fig_prospective_flagging.png",dpi=150)
 print("saved fig_prospective_flagging.png")

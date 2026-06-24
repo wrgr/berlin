@@ -1,17 +1,20 @@
 """Expand berlin_deck_v2.pptx -> berlin_deck_v3.pptx: add cohort, learning-engineering,
 evidence, outreach, acknowledgments slides; reorder into the narrative."""
+import os
 from pathlib import Path
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-SRC="/root/.claude/uploads/eb94da13-135d-5ec6-9497-7a16104e77d6/f00321f7-berlin_deck_v2.pptx"
-DST="/home/user/berlin/talk/berlin_deck_v3.pptx"
+HERE=Path(__file__).resolve().parent
+TALK=Path(os.environ.get("BERLIN_TALK", HERE.parent))                       # repo talk/
+SRC=os.environ.get("BERLIN_DECK_SRC", str(TALK/"berlin_deck_v2.pptx"))      # base deck
+DST=str(TALK/"berlin_deck_v3.pptx")
 prs=Presentation(SRC)
 # pick a content layout: reuse an existing content slide's layout
 layout=prs.slides[2].slide_layout
 SW=prs.slide_width; SH=prs.slide_height
-AST="/home/user/berlin/talk/assets/"
-TALK_FIG="/home/user/berlin/talk/"
+AST=str(TALK)+"/assets/"
+TALK_FIG=str(TALK)+"/"
 def add(title,kicker,bullets,bottom,notes,caveat=None,img=None,imgcap=None):
     s=prs.slides.add_slide(layout)
     # title
@@ -85,7 +88,7 @@ add("Learning engineering: agreement-gated promotion","CALIBRATION WAS DESIGNED,
 add("Preliminary evidence: competence is legible in behavior","THE LANGUAGE OF PROOFREADING",
     ["Dense per-event telemetry: every navigate / edit / annotate, with 3D camera motion.",
      "Behavior separates experts from proto-experts: naive 0.75 → designed 0.95 → learned motif dictionary 0.90.",
-     "Top signals are 3D-exploration kinematics — experts inspect from ~3× more viewpoints.",
+     "Top signals are 3D-exploration kinematics — experts inspect from ~2× more viewpoints.",
      "Yet achieved accuracy is ceiling-clustered across two task types — a calibrated workforce converges on outcomes.",
      "Prospective & GT-free: a task slow FOR THAT PERSON is significantly more error-prone (AUC 0.59, p<0.001) — ‘subconscious uncertainty.’",
      "The language of proofreading ↔ the language of surgery (JIGSAWS; tacit knowledge): skill lives in HOW, not just WHAT."],
@@ -115,9 +118,25 @@ add_figslide("Backup — the evidence (handles suppressed)",
     ["Behavior separates experts from proto-experts (naive→designed→learned).",
      "Ground-truth-free: flag the most behaviorally-anomalous tasks → catch errors above chance."],
     "Two data results: expertise is legible in behavioral style; individual risky decisions can be flagged without ground truth (the prospective hook).")
-# reorder: A,B after slide8(idx7); orig8 stays; C,D,E before closing(orig9); figslide last (backup)
+add_figslide("Backup — behavioral mechanism (3-D exploration & tempo)",
+    [TALK_FIG+"fig_kinematics.png"],
+    ["Experts accumulate ~2× more camera rotation, inspect from more viewpoints, do more, and move faster."],
+    "Mechanism behind the AUC: expertise is a 3-D exploration style.")
+add_figslide("Backup — the language of proofreading (action mix & grammar)",
+    [TALK_FIG+"fig_action_grammar.png"],
+    ["Action mix and navigate↔segment transition grammar differ by cohort."],
+    "The behavioral 'language': which actions, in what order.")
+add_figslide("Backup — what separates experts from proto-experts",
+    [TALK_FIG+"fig_rf_importance_new.png",TALK_FIG+"fig_feature_pca.png",TALK_FIG+"fig_motif_usage.png"],
+    ["RandomForest importance (designed features).","Designed feature space (PCA).","Learned-motif usage (dialect)."],
+    "Importance, low-dim structure, and learned-motif dialect all point to exploration kinematics.")
+add_figslide("Backup — calibration converges; uncertainty stays legible",
+    [TALK_FIG+"fig_accuracy_threegroup.png",TALK_FIG+"fig_uncertainty_calibration.png"],
+    ["Promoted ≈ expert < unpromoted accuracy.","Slower-for-this-person tasks fail more (GT-free)."],
+    "Calibration compresses outcome variance; the surviving signal is per-decision uncertainty.")
+# reorder: A,B after slide8(idx7); orig8 stays; C,D,E before closing(orig9); figslides last (backup)
 sldIdLst=prs.slides._sldIdLst; els=list(sldIdLst)
-order=[0,1,2,3,4,5,6,7,10,11,8,12,13,14,9,15]
+order=[0,1,2,3,4,5,6,7,10,11,8,12,13,14,9,15,16,17,18,19]
 for e in els: sldIdLst.remove(e)
 for i in order: sldIdLst.append(els[i])
 prs.save(DST)

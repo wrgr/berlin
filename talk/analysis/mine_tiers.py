@@ -55,21 +55,21 @@ for u in EXPERTS+STUDENTS:
     except Exception as e:
         print(f"{u}: query err {e}",flush=True); continue
     if df.empty: print(f"{u}: 0 tasks",flush=True); continue
-    ids=[str(x) for x in df.reset_index(names="t")["t"]]; S=[]; ev=0; Q=[]
+    ids=[str(x) for x in df.reset_index(names="t")["t"]]; S=[]; ev=0
     for i in range(0,len(ids),20):
         try: ds=nq.get_differ_stacks(sieve={"task_id":{"$in":ids[i:i+20]},"active":True}, pageSize=1000)
         except: continue
         for _,row in ds.iterrows():
             st=row["differ_stack"]
             if not isinstance(st,list) or len(st)<3: continue
-            seq=[]
+            seq=[]; prevq=None  # reset camera orientation per differstack -> no spurious cross-session rotation
             for e in sorted([x for x in st if isinstance(x,dict)],key=lambda z:z.get("timestamp",0)):
                 lb=lab(e.get("patch","")); ts=(e.get("timestamp",0) or 0)/1000.0; rot=0.0
                 if lb=="N":
                     qv=qval(newwin(e.get("patch","")))
                     if qv is not None:
-                        if Q: rot=qang(Q[-1],qv)
-                        Q.append(qv)
+                        if prevq is not None: rot=qang(prevq,qv)
+                        prevq=qv
                 seq.append((lb,ts,rot)); ev+=1
             if seq: S.append(seq)
         if ev>=2200: break

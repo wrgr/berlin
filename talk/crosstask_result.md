@@ -13,8 +13,8 @@ The talk's core result — a **cross-task, learned** representation, the right w
 
 ## Result
 - **[A] Behavior → expert vs student: CV ROC-AUC = 0.90 (±0.20).** Top features are
-  3D-exploration kinematics: `n_rot` (experts 42 vs students 14), `total_rot_deg`
-  (3953° vs 1377° — **~3× more viewpoints**), `n_events` (3089 vs 973). Experts
+  3D-exploration kinematics: `n_rot` (experts 14 vs proto-experts 6), `total_rot_deg`
+  (1014° vs 466° — **~2× more viewpoints**; per-differstack rotation, corrected), `n_events` (3033 vs 1426). Experts
   examine structure from far more angles and are far more thorough.
 - **[B] Behavior → per-split accuracy (distance-to-GT): CV R² = −5.1.** No signal;
   weak univariate hints only (`pct_annotate` −0.44, `tg_SSN` +0.51).

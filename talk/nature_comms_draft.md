@@ -21,7 +21,7 @@ predicts the **quality** of their work. Using a graded series of representations
 counts → a hand-designed behavioral grammar → an unsupervised motif dictionary), we find that
 behavior **encodes expertise as a working style** — separating experts from agreement-promoted
 "proto-experts" at ROC-AUC 0.90 — driven by three-dimensional exploration kinematics (experts
-inspect structure from ~3× more viewpoints). Yet **achieved accuracy does not separate skill
+inspect structure from ~2× more viewpoints). Yet **achieved accuracy does not separate skill
 levels**: across two independent grading tasks the trained workforce converges to a ceiling
 (experts and novices place split points equally well; per-category label accuracy is
 statistically indistinguishable), and coarse per-annotator behavior fails to predict
@@ -81,7 +81,7 @@ a **naive** tier (four obvious counts), a **designed** tier (the full hand-built
 kinematics, 28 features), and a **learned** tier (an unsupervised k-means **motif
 dictionary** of windowed label+timing+rotation "gestures", the surgical-surgeme analog).
 ROC-AUC rose **0.75 → 0.95 → 0.90** (Fig. 1). The discriminative signal is concentrated in
-**3-D exploration kinematics**: experts accumulate ~3× more total camera rotation and examine
+**3-D exploration kinematics**: experts accumulate ~2× more total camera rotation and examine
 each object from many more viewpoints, and they work ~2× faster. We note honestly that only
 the motif dictionary is a *learned representation*; in the designed tier, "learning" is
 limited to feature-importance selection.

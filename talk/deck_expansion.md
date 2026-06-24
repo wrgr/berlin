@@ -10,7 +10,7 @@ the behavioral evidence, and adds learning-engineering + outreach + acknowledgme
 ## The reframing in one paragraph
 The rich behavioral "language of proofreading" **encodes expertise (a working style),
 not per-task accuracy**. Experts and trained novices place the same split point about
-equally well, but they *work* differently — experts inspect from ~3× more viewpoints and
+equally well, but they *work* differently — experts inspect from ~2× more viewpoints and
 finish faster. Meanwhile the campaign already ran a **calibration mechanism**:
 agreement-gated promotion of students to a proto-expert tier. So the scientific question
 is not "can we grade a point" — it's **"can we price human judgment early enough to
@@ -117,7 +117,7 @@ BOTTOM LINE: promotion-after-agreement is selection on outcome — can we predic
 ### C — "Preliminary evidence: competence is legible in behavior"  (after slide 9)
 KICKER: THE LANGUAGE OF PROOFREADING
 - Dense per-event telemetry (multiSomaId): every navigate / edit / annotate, with 3D camera motion.
-- Behavior → expert vs novice: **AUC ≈ 0.90.** Experts inspect from ~3× more viewpoints; far more thorough.
+- Behavior → expert vs novice: **AUC ≈ 0.90.** Experts inspect from ~2× more viewpoints; far more thorough.
 - Behavior → per-task accuracy: ~no signal — trained novices match experts on the placement itself.
 - Reading: behavior encodes **expertise (style), not achieved accuracy** — the pattern surgical-skill assessment finds.
 - Promoted students perform at **expert accuracy (~310 nm)**; non-promoted scatter (~460+) — the labels are real.
