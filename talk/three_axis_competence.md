@@ -10,8 +10,13 @@ annotator**, spanning behavior → judgment → outcome:
 | **Outcome durability** | whether their edits *survive* (cut supervoxels still in different roots in latest v1817) | `multiSomaId.operation_ids` → `removed_edges` → `get_roots(latest)` | high-ceiling (0.85–1.00, overall 93.7% hold) |
 
 ## Key finding: the axes diverge
-For the 5 annotators measured on all three, the scores do **not** track each other
-(corr: style↔decision −0.04, style↔durability −0.47, decision↔durability −0.70).
+For the 5 annotators measured on all three, the scores do **not** cleanly track
+each other. The raw small-N correlations (style↔decision −0.04, style↔durability
+−0.47, decision↔durability −0.70) are **outlier-sensitive and not robust** — on a
+proper audit, style↔decision is actually significant once the `natalie` outlier is
+removed (Spearman −0.74, p=0.03, n=8), while decision↔durability collapses to −0.17
+(n.s.) on the larger consensus sample. So the precise correlations are unreliable
+here; the durable qualitative point is only that **no single proxy is sufficient**:
 Concretely:
 - the annotator with the **least expert-like style** had the **highest** decision
   agreement (0.96);
