@@ -94,3 +94,32 @@ token and is reproducible from cached task tables.
   multiSomaSplit quality metric).
 - Power: expert-anchored competency is inherently small-N; quantify the ceiling.
 - QC: formalize bad-data rejection (single bad point vs bad annotator).
+
+## 11. Cross-task design + handle identities (the talk's analytical core)
+**Decisive telemetry finding** (verified across all 6 grading notebooks + the data):
+the grading tasks (`multiSomaSplit`, `fullyProofread`, `patProofread`,
+StudentLabeling) record **only a final `ng_state` point + duration — no differstacks**.
+They are quick drop-a-few-labeled-points tasks (~5–8 annotations/task). Dense
+behavioral telemetry lives in the **extension/cleanup tasks**: experts on
+`singleSomaCleanUp` (chris ≈920 events/task), `functionalCellClean`,
+`neuronOtherBodies`; students on `dendExtensionLevel3` (≈400–1000 events/task),
+`axonExtension`. **`multiSomaId` is the common dense task both cohorts share.**
+
+**Design**: extract a rich learned behavioral representation from **`multiSomaId`**
+(task-controlled, dense) per annotator → predict the validated **`multiSomaSplit`
+distance-to-GT** quality (and cohort, and acknowledgment edit-count). Feature bank:
+behavior-mix, transition grammar, motif n-grams, run-lengths, interval distributions,
+entropy, and **3D kinematics** (per-patch quaternion/pan recovery → total rotation,
+viewpoint diversity, pan path). n ≈ 37 annotators with both. Held-out (annotator-
+grouped) validation; surgery-skill ("language of surgery") framing.
+
+**Handle → real identity** (via CAVE operation `user` field + change-log `user_name`):
+- `natalie` → **Natalie Smith** = N. Smith (**24,101 edits — #1 acknowledged proofreader**)
+- `christopher` → **Christopher Knecht** = C. Knecht (7,199 edits)
+- `kitchlm1` → Lindsey Kitchell (grader); `rivlipk1` → P. Rivlin (grader); `erika` →
+  Erika Neace (not acknowledged).
+- **Caveat**: the operation `user` is who *executed* the split in CAVE — `gary` also
+  resolved to Knecht, so an executor/reviewer can differ from the neuvue assignee.
+  Identity needs corroboration (handle name + edit-volume + the project roster) before
+  publication. The acknowledged top proofreaders are the expert/student top performers,
+  per the project lead.
