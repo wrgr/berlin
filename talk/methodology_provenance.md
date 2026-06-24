@@ -123,3 +123,58 @@ grouped) validation; surgery-skill ("language of surgery") framing.
   Identity needs corroboration (handle name + edit-volume + the project roster) before
   publication. The acknowledged top proofreaders are the expert/student top performers,
   per the project lead.
+
+## 12. Update — authoritative cohort, promoted axis, three-tier features, fullyProofread
+(This session; supersedes the cohort counts in §3.)
+
+**Authoritative cohort (NeuVue paper).** 8 part-time expert proofreaders (prior
+neuroanatomical-EM training at Janelia; Nov 2021–Sep 2022) and **36** novice proofreaders
+(JHU undergraduates: 26 founders trained 3 wks Nov 2021 → full-time 3 wks Jan 2022 →
+part-time to Aug 2022; +10 joined Jun 2022). Shared curriculum: neuroanatomy, EM/overlay
+interpretation, the NeuVue interface, per-task decision logic. **Staged promotion**: students
+whose decisions agreed with experts were promoted to a **proto-expert** tier with write
+access to expert-level tasks (systematic workforce calibration). Same routing reused in
+CONNECTS-Proof for H01 NEURD validation (2 experts).
+
+**Promoted (proto-expert) handles (authoritative, project lead):** dylan, vivia, taylor,
+clara, rachel, shruthi, sarah, **lydia** (lydia not in the grading-notebook student lists —
+flagged). Promoted ≠ paper-credited: promotion = internal agreement-gated quality; MICrONS
+acknowledgment = external edit-volume. Expected mismatch = promoted-but-not-credited (and
+e.g. sean_sebastian, non-promoted, scores 1.00 on fullyProofread labels).
+
+**Structural finding — participation is a promotion signal.** Of all students, only the 8
+promoted ones have dense `multiSomaId` telemetry; non-promoted students never received that
+expert-level task. So the behavioral "expert vs student" model in fact separates **experts
+from proto-experts** (conservative), and *doing* the dense task is itself evidence of
+promotion.
+
+**Three-tier representation (naive → designed → learned), CV ROC-AUC, expert vs proto-expert
+(n=16):** naive (4 counts) **0.75** → designed (28 hand-built) **0.95** → learned (10-motif
+unsupervised k-means dictionary over windowed label+timing+rotation streams) **0.90**. Honest
+status: "designed" is hand-built — only RF *importance* is learned; "learned" is the genuine
+unsupervised representation (language-of-surgery analog). Both beat naive; designed ≈ learned.
+(`mine_tiers.py` → `tiers_data.csv`.)
+
+**Accuracy is ceiling-clustered across TWO task types** (so behavior can't predict it):
+- multiSomaSplit distance-to-GT: expert median 309 nm vs student 399 nm, MW p=0.092; best is
+  a novice (rupa 93). Promoted 312 ≈ expert 309 < unpromoted 460 (promoted vs expert p=0.46;
+  vs unpromoted p=0.21 — n.s. at n=7/19, but ordering matches the promotion mechanism).
+- fullyProofread categorical label accuracy vs `patProofread` GT (graders rivlipk1, kitchlm1;
+  exact (seg_id,label,position) match valid — positions pre-placed, 5730/6124 strict): expert
+  median 0.98 vs student 0.97, MW p=0.63. Ceiling effect, BUT a discriminating bad tail
+  (maggie 0.22; experts gary 0.75 / michael 0.73; emily 0.78) → QC value. (`mine_fullyproofread.py`.)
+- **Lesson:** a well-calibrated workforce converges on accuracy; *behavioral style* separates
+  skill levels. Calibration worked → outcomes converged → price the process.
+
+**CAVE identity caveat.** handle→CAVE-uid via operation `user` is unreliable: gary and
+christopher both map to uid 1833 (executor ≠ neuvue assignee), and change-log `user_name` did
+not resolve this run. Use the project lead's list for identity, not CAVE.
+
+**Resolved citation.** "the Morgan–Sanchez paper" = M. Sanchez, D. Moore, E. C. Johnson,
+B. Wester, J. W. Lichtman, W. Gray-Roncal, "Connectomics Annotation Metadata Standardization
+for Increased Accessibility and Queryability," Front. Neuroinform. 16:828458 (2022).
+
+**Talk framing.** Outreach reframed per the Research Incubator deck: **students as a *method***
+for mission impact (not workforce-dev-as-nicety); MERIT / NeuroTrailblazers learning
+engineering; "calibrate the people, not just the microscope." Deck: `berlin_deck_v3.pptx`
+(+ `deck_expansion.md`).
