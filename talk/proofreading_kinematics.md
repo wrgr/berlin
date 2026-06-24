@@ -62,10 +62,21 @@ Discovered in the metadata:
   segs done by 2–3 people) — redundancy for agreement, and `base_state` enables
   trajectory reconstruction.
 
-**Proposed scoring:** per (proofreader, task-type), agreement-with-consensus on
-multiply-annotated / gold segments → a competence score; then test which
-kinematic features (above) predict it. That is the slide-9/10 question made
-concrete: *does early behavior predict agreement?*
+**Update after investigating `fullyProofread`:** the agreement design is real
+(53 segs, each done by up to **55** annotators; 363 `gt_task`-linked), **but**
+these are ~**0.4s binary submits** (median 0.4s, max 22s) with no stored decision
+(`status` is "closed" for nearly all; metadata empty; negligible differstack). So
+there is **no discriminating outcome in the queue** to score agreement on, and no
+behavior to extract there. Meanwhile the rich behavior (kinematics) lives in the
+**split** namespaces, which lack multi-annotator redundancy.
+
+**Consequence:** a competence score is **not computable from the queue alone**. It
+needs the **external promotion/agreement scores** (from the Minnie65 staged-
+promotion study), joined by `assignee` to the per-user kinematic features here.
+That join is the concrete next step: provide `assignee → score/role`, and we test
+which kinematic features (think-time, %nav, look-before-click, tempo) track it,
+within task type. Weak in-queue proxies (errored-rate, speed-vs-peers) are a
+fallback if external scores aren't available.
 
 ## Caveats
 
