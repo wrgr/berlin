@@ -1,0 +1,85 @@
+# Derived proofreading kinematics & per-user variance
+
+Beyond *what* a proofreader does (the behavior dictionary), the signal is in the
+*dynamics around each edit*. These are computed from differstack `timestamp` +
+behavior labels — **no state reconstruction needed** (spatial distance/pan
+magnitude do need it; see "Next").
+
+**Provenance.** Live from `queue.neuvue.io` (2026-06), four **minnie65** human
+namespaces. 632 sessions with ≥1 segment edit; **20 proofreaders with ≥3 sessions**.
+
+## Features (per session, "click" = a segment edit)
+
+| Feature | Definition |
+|---|---|
+| `inter_click_s` | median time between consecutive segment edits |
+| `nav_before_click` | navigation events between one edit and the next (look-before-click) |
+| `think_to_first_click_s` | time from session start to the first edit (deliberation) |
+| `frac_nav` | fraction of events that are navigation |
+| `edits_per_min` | editing tempo |
+| `click_burstiness` | CV of inter-click times (steady vs bursty) |
+
+## How much do proofreaders vary? (the headline)
+
+Cross-user spread of the per-user median (p90 / p10):
+
+| Feature | p10 | median | p90 | spread |
+|---|---:|---:|---:|---:|
+| **think_to_first_click_s** | 0.9 | 7.0 | 15.8 | **17.5×** |
+| frac_nav | 0.11 | 0.38 | 0.54 | 4.9× |
+| **nav_before_click** | 0.33 | 0.94 | 1.37 | 4.2× |
+| edits_per_min | 3.5 | 6.3 | 11.9 | 3.4× |
+| click_burstiness | 0.59 | 1.02 | 1.60 | 2.7× |
+| inter_click_s | 3.1 | 4.4 | 5.3 | 1.7× |
+
+The *deliberation* features (think-time, look-before-click, %navigation) separate
+people most; raw click cadence is the most uniform. Concretely (anonymized):
+one validator looks ~2.7 navigation events before every click; another clicks
+with almost none (0.08). One dives in immediately (0 s); another deliberates ~30 s
+before the first edit.
+
+## Task-type signatures (median by namespace)
+
+| Namespace | inter_click_s | nav_before_click | think_s | edits/min | burstiness |
+|---|---:|---:|---:|---:|---:|
+| `somaSomaReview` (review) | 2.4 | 0.33 | 2.8 | 11.6 | 0.65 |
+| `somaSomaSplit` (split) | 3.3 | 0.88 | 4.4 | 10.7 | 0.93 |
+| `multiSomaSplit` | 4.3 | 1.00 | 5.1 | 6.6 | 0.67 |
+| `fullyProofread` (validate) | 4.6 | 0.64 | 9.3 | 5.0 | 1.06 |
+
+Review is fast and low-effort; validation is slow, deliberate, and bursty. **So
+the same feature means different things per task type — scores must be computed
+within task type, not pooled.**
+
+## The score / ground-truth substrate (where "alignment with truth" comes from)
+
+Discovered in the metadata:
+- **`fullyProofread` is the calibration namespace**: a **`gt_task` flag (363
+  gold tasks)** and the **same `seg_id` done by up to 55 proofreaders** (62% by
+  >1). → inter-annotator **agreement** is directly computable, and agreement on
+  gold tasks is a per-person competence score.
+- **`somaSomaSplit`** has `base_state` + `starting_seg_id` in metadata (34% of
+  segs done by 2–3 people) — redundancy for agreement, and `base_state` enables
+  trajectory reconstruction.
+
+**Proposed scoring:** per (proofreader, task-type), agreement-with-consensus on
+multiply-annotated / gold segments → a competence score; then test which
+kinematic features (above) predict it. That is the slide-9/10 question made
+concrete: *does early behavior predict agreement?*
+
+## Caveats
+
+- Timing is from differstack `timestamp`s; sessions without differstacks are not
+  covered (coverage is partial).
+- "click" = segment-set change, which conflates selection with a graph
+  merge/split (see the behavior dictionary).
+- **No spatial features yet** (distance between clicks, pan/zoom magnitude) — those
+  need reconstructing positions from `base_state` + the patch chain.
+
+## Next
+
+1. Reconstruct positions (`base_state` + diff-match-patch) → distance between
+   clicks, pan/zoom magnitude before a click, dwell vs. travel.
+2. Build the agreement score on `fullyProofread` gold segs; correlate with
+   kinematics within task type.
+3. If external promotion/agreement scores exist, join them directly.
