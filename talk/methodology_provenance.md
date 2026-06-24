@@ -209,3 +209,16 @@ anywhere; rich behavior exists mainly for high-competence annotators (gary, mich
 cindy, joey on extension — joey 15.8k events on dendExtensionLevel3). A richer prospective test
 is possible for those few but cannot reach the bad tail. (`mine_predictive_separability.py` →
 `separability_annotator.csv`, `separability_task.csv`; fig `fig_separability.png`.)
+
+## 14. Locked pipeline & reproducibility
+Single entry point: **`analysis/run_all.py`** sequences the seven stages
+(tiers → fullyproof → separability → prospective → figures → morefigs → deck), logs timing,
+and stops on the first failure. Flags: `--offline` (stages 4-7, no creds), `--stages a-b` /
+`--stages 5,7`, `--list`. Network stages (1-3) ran live this session; the offline stages
+re-validate end-to-end from the cached CSVs (`python analysis/run_all.py --offline` rebuilds
+every figure and the 20-slide deck in ~9 s). Credentials (`.nv_tokens.json`, `.cave_token`),
+`neuvue-client/`, and `live_out/` are kept out of the repo; see `analysis/README.md`.
+Approaches tried, bugs, and retractions are catalogued in `transparency_failure_modes.md`.
+**Deliverables locked:** `berlin_deck_v3.pptx` (20 slides), `methodology_provenance.md`,
+`transparency_failure_modes.md`, `nature_comms_draft.md`, `deck_expansion.md`, 12 `fig_*.png`,
+`analysis/` (pipeline + README).

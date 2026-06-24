@@ -31,3 +31,8 @@ cloud-volume python-pptx pypdf` (install with `pip install --ignore-installed pa
 - Accuracy ceiling-clusters across two task types; annotator-level simple behavior does **not**
   predict competence (LOO AUC 0.14, reported as an honest negative).
 - The surviving signal is per-decision and ground-truth-free (AUC 0.59). See methodology §13.
+
+## Quick start
+- `python run_all.py` — full pipeline, 7 stages in order (needs `.nv_tokens.json`, `.cave_token`).
+- `python run_all.py --offline` — regenerate all figures + the 20-slide deck from cached CSVs (no creds, ~9 s).
+- `python run_all.py --list` — list stages; `--stages 4-7` / `--stages 5,7` to select.
