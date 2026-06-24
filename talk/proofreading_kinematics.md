@@ -84,21 +84,34 @@ concrete: *does early behavior predict agreement?*
    kinematics within task type.
 3. If external promotion/agreement scores exist, join them directly.
 
-## Spatial reconstruction — status (partial)
+## Spatial reconstruction — status (attempted, not reliable yet)
 
-Attempted metric reconstruction to get true distance/pan magnitude. Findings:
-- `base_state` (task metadata) is the **old** NG format (`navigation.pose`) and
-  does **not** match the differ patches (0/10 apply).
-- The right base is the task `ng_state`, which for differstack tasks is a **CAVE
-  state-server URL** (`global.daf-apis.com/nglstate/…`). Resolving it needs a
-  **CAVE bearer token** (works — states return modern JSON).
-- The patch encoding is neuroglancer `quote(safe=":,")` (percent-encode
-  `" { } [ ]`, keep `: ,`).
-- **But** the differ's base is the *live spelunker workspace* state, which does
-  not byte-match the stored `ng_state` (key order, number formatting, load-time
-  setup). With max fuzz, ~**62%** of patches apply and the position field drifts
-  (few distinct positions recovered). So clean metric trajectories are a real
-  sub-project: pin the workspace serialization + identify the moving position
-  field for this NG build. Count/time-based pre-click navigation (above) is the
-  robust proxy in the meantime.
+Pushed hard on metric reconstruction (distance/pan/rotation magnitude). What got
+solved vs. what blocks it:
+
+**Solved:**
+- `base_state` (task metadata) is the *old* NG format and does **not** match the
+  differ patches (0/10 apply). The right base is the task `ng_state`, a **CAVE
+  state-server URL** (`global.daf-apis.com/nglstate/…`).
+- Resolving it needs a **CAVE bearer token** — confirmed working (states return
+  modern JSON).
+- Patch encoding is neuroglancer `quote(safe=":,")`.
+- Identified the navigation fields: `perspectiveOrientation` (quaternion, 3D
+  rotation), `navigation.pose.position.voxelCoordinates` (pan), `perspectiveZoom`
+  / `zoomFactor` (zoom). Navigation patches "apply" at ~96%.
+
+**Blocks it:** the differ's base is the *live spelunker workspace* state, which is
+**not byte-equal** to the stored `ng_state` (key order, number formatting,
+load-time setup). So diff-match-patch can't anchor exactly:
+- with **fuzzy** matching, patches mis-apply and corrupt values (e.g. a
+  91M-voxel "pan" — physically impossible on minnie65);
+- with **strict** matching, most patches fail and the state goes stale (~0).
+
+Reliable metric features therefore need replicating **neuroglancer's exact state
+serialization** (the known `urlSafeStringify` / key-order logic in the NG source)
+so the base byte-matches. That's a scoped sub-project, not a dead end — every
+other piece is in place. **Until then, the count/time-based pre-click navigation
+above is the robust spatial proxy, and scoring should proceed on the temporal
+features.**
+
 
