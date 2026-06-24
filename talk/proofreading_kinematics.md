@@ -83,3 +83,22 @@ concrete: *does early behavior predict agreement?*
 2. Build the agreement score on `fullyProofread` gold segs; correlate with
    kinematics within task type.
 3. If external promotion/agreement scores exist, join them directly.
+
+## Spatial reconstruction — status (partial)
+
+Attempted metric reconstruction to get true distance/pan magnitude. Findings:
+- `base_state` (task metadata) is the **old** NG format (`navigation.pose`) and
+  does **not** match the differ patches (0/10 apply).
+- The right base is the task `ng_state`, which for differstack tasks is a **CAVE
+  state-server URL** (`global.daf-apis.com/nglstate/…`). Resolving it needs a
+  **CAVE bearer token** (works — states return modern JSON).
+- The patch encoding is neuroglancer `quote(safe=":,")` (percent-encode
+  `" { } [ ]`, keep `: ,`).
+- **But** the differ's base is the *live spelunker workspace* state, which does
+  not byte-match the stored `ng_state` (key order, number formatting, load-time
+  setup). With max fuzz, ~**62%** of patches apply and the position field drifts
+  (few distinct positions recovered). So clean metric trajectories are a real
+  sub-project: pin the workspace serialization + identify the moving position
+  field for this NG build. Count/time-based pre-click navigation (above) is the
+  robust proxy in the meantime.
+
