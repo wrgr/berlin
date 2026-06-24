@@ -38,3 +38,24 @@ be computed **per task type**.
 - Use this per-type survival as the **regression target** (objective, per-type) for
   learning expert-likeness from behavior/grammar/3D features.
 - Learning = improvement in this measure over time **within a task type**.
+
+## Complete matrix (all qualifying annotators × all task types)
+Expanded to **18 users × 5 task types, 48 cells** (`competency_ALL_anon.png`), graded
+vs v18xx, two ground-truth methods:
+- **soma/cleanup types** (`multiSomaId, neuronOtherBodies, singleSomaCleanUp`):
+  operation did-cut survived — **high-ceiling** (0.91–0.99), little discrimination.
+- **axon types** (`axonOnAxon, axonOnDendriteV3`): decision vs whether the merge-path
+  endpoints are **separated in v18xx** (cloudvolume point→supervoxel→root) —
+  **discriminating** (0.45–0.88).
+
+Competency is strongly **task-type-specific**: e.g. `christopher` 0.45 (axonV3) →
+0.98 (neuronOtherBodies); `natalie` 0.59 (axonOnAxon) → 0.97 (singleSomaCleanUp).
+
+**Caveats on the axon scores** (weaker than soma did-cut): the endpoint-separation
+truth is approximate, and decisions were collapsed to yes-family vs no-family
+(`yesPartial/yesConditional` forced to "expect separated"), which can misgrade
+nuanced annotators — so e.g. Pat (`rivlipk1`) scoring mid on axon is likely a
+collapse/case-difficulty artifact, not low skill. The **soma did-cut** remains the
+most reliable measure; axon adds spread but needs the graded-decision refinement.
+`axonOnDendrite` (richest, 20 users) lacks `base_state` but is recoverable via the
+reconstructed `nglstate/api/v1/{apl_id_with_syn}` URL (add-on run).
