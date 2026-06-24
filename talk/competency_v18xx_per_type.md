@@ -59,3 +59,25 @@ collapse/case-difficulty artifact, not low skill. The **soma did-cut** remains t
 most reliable measure; axon adds spread but needs the graded-decision refinement.
 `axonOnDendrite` (richest, 20 users) lacks `base_state` but is recoverable via the
 reconstructed `nglstate/api/v1/{apl_id_with_syn}` URL (add-on run).
+
+## Refined axon grading + a validity caveat (important)
+Re-graded axon on **clear yes vs no/noError only** (dropping `yesPartial`/
+`yesConditional`: 8% of axonOnAxon, 44% of axonOnDendriteV3, **67% of
+axonOnDendrite** were ambiguous). Result:
+- Pat stays **0.58 on axonOnAxon** even on clear cases (and drops out of
+  axonOnDendriteV3 for too-few-clear), so her mid axon score was **not** a
+  collapse artifact — it's real.
+- Refined **axonOnDendrite mean = 0.42 — below chance**. An expert-≈-chance,
+  population-below-chance "truth" is **not measuring decision correctness**: for
+  axon-on-dendrite the corrected cut is *local*, so the far merge-path endpoints
+  don't separate even when the decision is right. **The endpoint-separation proxy
+  is invalid for the axon types.**
+
+**Conclusion: trust the soma did-cut (operation survival) as the competency ground
+truth** (0.92–0.97; high-ceiling, low discrimination). Treat the axon
+decision-vs-endpoint columns as unreliable. A proper axon ground truth would need
+the *local* cut supervoxels (from the split-suggestion table), not path endpoints.
+
+RF re-fit on the refined target is unchanged: within-type behavior→competency CV
+R² = −0.24 (axonOnDendrite −0.89, multiSomaId −1.25). Behavior does not predict
+correctness regardless of grading.
