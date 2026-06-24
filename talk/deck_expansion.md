@@ -128,6 +128,7 @@ CAVEAT BANNER: RETROSPECTIVE — selection on a known outcome. The pre-registere
 KICKER: HUMANS + OUTCOMES  (LENS)
 - Calibrated student judgment IS the method that built the connectome — not a side benefit.
 - **MICrONS relied on this student workforce throughout** — their proofreading underpins the MICrONS connectome (**Nature, 2025**) and downstream contributions. [confirm exact MICrONS Nature citation]
+- **Students we hired became co-authors and contributing members** — Daniel Xenes (now leading NeuVue) is the exemplar of the pipeline.
 - Dual yield, **structurally identical**: a better connectome (mission) AND trained scientists (talent) — novices became top-throughput proofreaders credited in MICrONS; eight promoted to expert tasks.
 - Promotion is a **mentorship ladder**, not just a permission flag — APL's AI Pathfinding / MERIT model.
 - "Calibrate the people, not just the microscope" is an investment in people, **measured**.
@@ -166,3 +167,16 @@ Slide E updated. Workforce-model refs: Cervantes et al. (ASEE 2023), Floryanzia 
   so you must price the *process* — which is the talk.
 - Figures to add: tier-AUC bar (naive/designed/learned); learned motif-dictionary heatmap;
   per-annotator accuracy strip for both tasks, promoted highlighted.
+
+## Item 1 results (prospective, GT-free) — for slide C / appendix
+- **Annotator-level simple-behavior separability FAILS** (honest negative): |rho|≤0.24 n.s.;
+  LOO good/bad **AUC 0.14**, missed all 5 bad (maggie, donovan9, gary, stella, emily),
+  false-flagged jonas/maryam/makayla/titus/clara.
+- **Per-task GT-free uncertainty signal EXISTS but is weak**: slow-for-this-person → error
+  **AUC 0.59 (p<0.001)**; pooled 0.58. = "subconscious uncertainty."
+- **Framing explicit**: language of surgery / JIGSAWS (motifs ↔ surgemes) / tacit knowledge
+  (skill in HOW not WHAT). Workforce calibration removes outcome variance → signal lives in
+  style + per-task uncertainty.
+- Bad-tail annotators lack dense telemetry; a richer prospective test is only reachable for
+  gary/michael/cindy/joey. Figures: `fig_tier_auc`, `fig_motif_dictionary`,
+  `fig_two_task_quality`, `fig_separability`.

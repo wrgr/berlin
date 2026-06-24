@@ -178,3 +178,34 @@ for Increased Accessibility and Queryability," Front. Neuroinform. 16:828458 (20
 for mission impact (not workforce-dev-as-nicety); MERIT / NeuroTrailblazers learning
 engineering; "calibrate the people, not just the microscope." Deck: `berlin_deck_v3.pptx`
 (+ `deck_expansion.md`).
+
+## 13. Item 1 — prospective, GT-free competence signal (the open question)
+Target with variance = **fullyProofread label accuracy** (the bad tail), not the ceiling-
+clustered split task. Min 10 tasks/annotator; n=36.
+
+**Annotator-level competence is NOT legible in simple behavior (honest negative).** Per-
+annotator duration/throughput/thoroughness features show ~zero rank correlation with accuracy
+(|rho|≤0.24, all n.s.); a LOO good-vs-bad classifier scores **AUC 0.14** (worse than chance) —
+it missed all 5 bad annotators (FN: maggie, donovan9, gary, stella, emily) and false-flagged 5
+good ones (FP: jonas, maryam, makayla, titus, clara). Coarse per-person summaries do not price
+competence.
+
+**Per-task uncertainty IS weakly legible, prospectively and GT-free.** Pooling 764 tasks (error
+base-rate 0.25): a task **slow for that person** (within-annotator duration z) is significantly
+more error-prone — **AUC 0.59, rho=+0.14, p<0.001** (raw duration AUC 0.50; pts n.s.; pooled
+dur_z+pts_z AUC 0.58). Small but real, and uses no ground truth — it flags individual risky
+decisions = **"subconscious uncertainty."**
+
+**Framing — language of surgery / tacit knowledge / JIGSAWS.** Proofreading analog of surgical-
+skill assessment: motif dictionary ↔ surgemes (JIGSAWS); behavioral kinematics ↔ surgical
+motion; "skill lives in HOW, not WHAT" ↔ tacit knowledge (Polanyi, "we know more than we can
+tell"). Key difference: JIGSAWS skill is strongly legible because outcomes vary; here the
+workforce was **calibrated to converge**, so outcome variance is gone and the signal moves to
+(a) expertise *style* (AUC 0.90) and (b) per-task *uncertainty* (AUC 0.59). The prospective
+claim — flag from behavior, pre-registered, no GT — is the open work.
+
+**Data limit.** The worst annotators (maggie, donovan9, emily, mia) have **no dense telemetry**
+anywhere; rich behavior exists mainly for high-competence annotators (gary, michael on cleanup;
+cindy, joey on extension — joey 15.8k events on dendExtensionLevel3). A richer prospective test
+is possible for those few but cannot reach the bad tail. (`mine_predictive_separability.py` →
+`separability_annotator.csv`, `separability_task.csv`; fig `fig_separability.png`.)
