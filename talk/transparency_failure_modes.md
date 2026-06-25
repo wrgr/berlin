@@ -88,6 +88,19 @@ fixed cell stays ~0.55; CAVE morphological confirmation is **inconclusive** (17/
 2021-22 roots). See `enrich_fullyproofread.py`, `explore_task_risk_prediction.py`, `cave_difficulty.py`,
 `fig_task_risk.png`.
 
+## Principled-feature prototypes (grammars / morphology)
+Two follow-ups on *"learn the features, don't hand-build them"*:
+- **Behavioral grammar.** A first-order Markov (n-gram) grammar over the action stream recovers
+  expertise at LOO **AUC 0.95** (≈ the designed tier) — the "language of proofreading" is real and
+  learnable. But a more expressive **HMM latent grammar collapses (0.39–0.59) at n=15**: the
+  expressive models (HMM, and by extension transformers) are **data-starved**, not wrong — the
+  scale-up, not a present result. (`extract_streams.py`, `grammar_probe.py`, `fig_grammar_morphology.png`)
+- **Morphological difficulty (caliber/branches).** In the 28-cell benchmark, caliber / branches /
+  size do **not** predict per-cell error (all p>0.09; thin-fraction +0.16 — right direction, n.s.).
+  The GT-free risk signal (0.76) is **annotation-category difficulty, not cell morphology** here;
+  17/28 cells carried stale roots. A clean test needs more cells + a morphology-sensitive task.
+  (`cave_morphology.py`)
+
 ## What survived
 Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
 tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
