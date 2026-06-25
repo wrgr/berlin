@@ -115,7 +115,8 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
   (2) the 0.14 LOO AUC sits **inside** the permutation null (0.45 ± 0.20, p≈0.07) — not "worse than
   chance"; (3) the expertise axis (rotation) tilts the **wrong way** for accuracy among calibrated
   annotators (ρ=−0.44). Companion checks: variance-rich distance-to-GT also unpredictable (Ridge
-  ρ=0.07); the per-decision signal survives difficulty control.
+  ρ=0.07, and no scale transform/model recovers it); the per-decision signal survives task-size
+  control (3-D structural difficulty: a follow-up).
 
 ---
 
@@ -124,8 +125,9 @@ Annotator-level *accuracy* is **not** behaviorally predictable — and the caref
 LOO AUC 0.14 is **within the permutation null** (0.45 ± 0.20, p≈0.07) — *no signal*, not "worse than
 chance" — and it holds on **both** ceiling-bound label accuracy **and** the variance-rich
 distance-to-GT (Ridge ρ=0.07, p=0.71); different classifiers/weights don't recover it (sweep
-0.00–0.34). The deployable signal is **per-decision and ground-truth-free** (AUC 0.59) and is *not* a
-difficulty artifact (survives task-size control; holds within every size stratum). So competence is
+0.00–0.34) — nor do scale transforms or flexible regressors on the continuous distance target (best
+Spearman 0.26, p=0.25). The deployable signal is **per-decision and ground-truth-free** (AUC 0.59) and is *not* a
+task-size artifact (survives task-size control; holds within every size stratum). So competence is
 legible **per-decision, not per-person** (see `fig_accuracy_unpredictable.png`). The figures show
 *expertise is legible* and *calibration converges* — not that accuracy can be predicted per person.
 Prospective test pre-registered for this summer.

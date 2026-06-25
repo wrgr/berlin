@@ -43,9 +43,12 @@ metric). Companion to `methodology_provenance.md`.
      the null). The sub-0.5 estimate reflects the *expertise* axis being weakly **opposed** to
      accuracy among calibrated annotators (rotation ρ≈−0.44). **The signal that survives is
      per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
-     uncorrelated with task size and holds within every size stratum (0.57 / 0.52 / 0.69). (See
+     uncorrelated with task size and holds within every size stratum (0.57 / 0.52 / 0.69). Scale transforms (log, rank-invariant) and flexible
+     regressors (RF/GBM/kNN) on the continuous distance target don't recover a signal either (best CV
+     Spearman 0.26, permutation p=0.25); the only difficulty proxy controlled is task **size** —
+     3-D structural difficulty (path length, branches, volume, synapse density) is a follow-up. (See
      `analysis/explore_accuracy_predictability.py`, `explore_accuracy_confound_and_target.py`,
-     `fig_accuracy_unpredictable.png`.)
+     `explore_distance_regression.py`, `fig_accuracy_unpredictable.png`.)
 
 ## Bugs found and fixed
 8. **Duration mis-scaling** — a field in *seconds* was treated as milliseconds ("0.0 min"); fixed.
@@ -78,5 +81,5 @@ metric). Companion to `methodology_provenance.md`.
 Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
 tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
 within the LOO null 0.45±0.20 — *no signal*, not "worse than chance"; also null on variance-rich
-distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, difficulty-robust). All
+distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, robust to task size). All
 passed the sanity checks above.
