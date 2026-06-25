@@ -35,8 +35,17 @@ metric). Companion to `methodology_provenance.md`.
    ~399 nm, p=0.092); little variance.
 7. **fullyProofread** categorical label accuracy: expert 0.98 vs student 0.97, p=0.63; a ceiling
    with a small discriminating tail.
-   - *Consequence:* annotator-level behavior→accuracy is unpredictable (LOO **AUC 0.14**, an
-     honest negative). The signal that survives is **per-decision and ground-truth-free**.
+   - *Consequence:* annotator-level behavior→accuracy is **not predictable** — but "worse than
+     chance (LOO AUC 0.14)" over-read a noisy point estimate. Against this estimator's LOO
+     permutation null (**0.45 ± 0.20**, one-sided p≈0.07) the 0.14 is *no signal*, not an anti-signal;
+     it holds on **both** ceiling-bound label accuracy **and** the variance-rich `multiSomaSplit`
+     distance-to-GT (Ridge ρ=0.07, p=0.71), and a classifier/weight sweep spans 0.00–0.34 (all inside
+     the null). The sub-0.5 estimate reflects the *expertise* axis being weakly **opposed** to
+     accuracy among calibrated annotators (rotation ρ≈−0.44). **The signal that survives is
+     per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
+     uncorrelated with task size and holds within every size stratum (0.57 / 0.52 / 0.69). (See
+     `analysis/explore_accuracy_predictability.py`, `explore_accuracy_confound_and_target.py`,
+     `fig_accuracy_unpredictable.png`.)
 
 ## Bugs found and fixed
 8. **Duration mis-scaling** — a field in *seconds* was treated as milliseconds ("0.0 min"); fixed.
@@ -67,5 +76,7 @@ metric). Companion to `methodology_provenance.md`.
 
 ## What survived
 Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
-tasks; promoted ≈ expert < unpromoted; annotator-level negative (AUC 0.14); per-task GT-free
-uncertainty (AUC 0.59, flag-20%→catch-28%). All passed the sanity checks above.
+tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
+within the LOO null 0.45±0.20 — *no signal*, not "worse than chance"; also null on variance-rich
+distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, difficulty-robust). All
+passed the sanity checks above.

@@ -110,12 +110,22 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 - **`fig_separability.png`** — per-annotator competence bars (the bad tail < 0.90 that simple
   behavior can't predict; **annotator-level LOO AUC 0.14**, the honest negative) + the GT-free
   uncertainty histogram (AUC 0.59).
+- **`fig_accuracy_unpredictable.png`** (diagnostic) — *why* per-annotator accuracy isn't
+  predictable, in 3 panels: (1) accuracy is ceiling-clustered (31 at ceiling + a 5-point tail);
+  (2) the 0.14 LOO AUC sits **inside** the permutation null (0.45 ± 0.20, p≈0.07) — not "worse than
+  chance"; (3) the expertise axis (rotation) tilts the **wrong way** for accuracy among calibrated
+  annotators (ρ=−0.44). Companion checks: variance-rich distance-to-GT also unpredictable (Ridge
+  ρ=0.07); the per-decision signal survives difficulty control.
 
 ---
 
 ### Honest negatives (apply across all figures)
-Annotator-level *accuracy* is **not** predictable from simple behavior (LOO AUC 0.14); achieved
-accuracy is ceiling-clustered (fullyProofread median expert 0.98 vs student 0.97); the only
-deployable signal is **per-decision and ground-truth-free** (AUC 0.59), and the prospective test is
-pre-registered for this summer. The figures show *expertise is legible* and *calibration converges* —
-not that accuracy can be predicted per person.
+Annotator-level *accuracy* is **not** behaviorally predictable — and the careful version matters: the
+LOO AUC 0.14 is **within the permutation null** (0.45 ± 0.20, p≈0.07) — *no signal*, not "worse than
+chance" — and it holds on **both** ceiling-bound label accuracy **and** the variance-rich
+distance-to-GT (Ridge ρ=0.07, p=0.71); different classifiers/weights don't recover it (sweep
+0.00–0.34). The deployable signal is **per-decision and ground-truth-free** (AUC 0.59) and is *not* a
+difficulty artifact (survives task-size control; holds within every size stratum). So competence is
+legible **per-decision, not per-person** (see `fig_accuracy_unpredictable.png`). The figures show
+*expertise is legible* and *calibration converges* — not that accuracy can be predicted per person.
+Prospective test pre-registered for this summer.
