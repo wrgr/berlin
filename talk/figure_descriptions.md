@@ -14,7 +14,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
-## Slide 15 — the two evidence panels
+## Slide 13 — the two evidence panels
 
 ### `fig_tier_auc.png` — Behavior separates experts from proto-experts
 - **Plots:** three bars = cross-validated ROC-AUC for classifying expert vs proto-expert from
@@ -39,7 +39,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
-## Slide 16 — `fig_kinematics.png` — the 3-D exploration mechanism
+## Slide 14 — `fig_kinematics.png` — the 3-D exploration mechanism
 - **Plots:** four boxplots (expert vs proto-expert, n = 8 each; medians + jittered points) on the
   dense `multiSomaId` telemetry —
   - total camera rotation **1014° vs 466°** (~2.2×)
@@ -53,7 +53,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
-## Slide 17 — `fig_action_grammar.png` — the language of proofreading
+## Slide 15 — `fig_action_grammar.png` — the language of proofreading
 - **Plots:** (left) action-mix bars — fraction of events that are navigate / segment / annotate /
   other; (center & right) the row-normalized **navigate↔segment transition grammar** (2×2) per
   cohort.
@@ -66,7 +66,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
-## Slide 18 — three structure panels
+## Slide 16 — three structure panels
 ### `fig_rf_importance_new.png` — RandomForest importance (designed features)
 - Top-12 feature importances (RandomForest, 800 trees, n = 16) for expert vs proto-expert. The
   **highest-importance features are the 3-D exploration kinematics** (total rotation, # viewpoints,
@@ -83,7 +83,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
-## Slide 19 — two calibration panels
+## Slide 17 — two calibration panels
 ### `fig_accuracy_threegroup.png` — calibration converges
 - multiSomaSplit **distance-to-ground-truth (nm, lower = better)** for three groups: **expert
   median 309**, **promoted 312**, **unpromoted 460** (n = 8 / 7 / 19; expert vs unpromoted p ≈ 0.07).
@@ -112,6 +112,19 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 - **Caveat:** the 0.92 under random CV was **cell-identity leakage** (only 28 cells); per-annotator
   competence within a fixed cell stays ~0.55; CAVE morphological confirmation inconclusive (stale roots).
 
+## Slide 18 — `fig_task_risk.png` — GT-free task risk is estimable
+- **Plots:** (left) CV ROC-AUC predicting per-task error under **random** vs **grouped-by-cell** CV,
+  for nested GT-free feature sets — `dur_z` (0.50 / 0.48), +throughput (0.67 / 0.60), +category-mix
+  (0.92 / **0.79**), category-mix only (0.80 / **0.76**). The grouped bars are honest; the random bars
+  leak cell identity (only 28 cells). (right) per-cell error rate, 28 cells sorted — **3 "killer" cells**
+  (err > 0.78, red) above the 0.25 base rate.
+- **Reads as:** task **risk** (error-proneness) is predictable **ground-truth-free at AUC 0.76 on
+  held-out cells** (grouped permutation null 0.47 ± 0.02, p<0.001) from annotation-category structure —
+  the deployable estimate of the *risk* axis in the impact×risk allocation. The headline 0.92 was
+  cell-identity leakage, corrected by grouping.
+- **Caveat:** 28-cell benchmark; the signal is largely "flag the few intrinsically-hard cells." Per-person
+  competence *within* a cell stays weak (AUC 0.55) — **per-decision, not per-person**.
+
 ## Spare figures (in repo, not embedded in the deck)
 - **`fig_two_task_quality.png`** — scatter of multiSomaSplit distance vs fullyProofread accuracy;
   both **ceiling-clustered**, the single best split placement is a novice, promoted circled. (The
@@ -121,7 +134,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 - **`fig_separability.png`** — per-annotator competence bars (the bad tail < 0.90 that simple
   behavior can't predict; **annotator-level LOO AUC 0.14**, the honest negative) + the GT-free
   uncertainty histogram (AUC 0.59).
-- **`fig_accuracy_unpredictable.png`** (diagnostic) — *why* per-annotator accuracy isn't
+- **`fig_accuracy_unpredictable.png`** (backup slide 23) — *why* per-annotator accuracy isn't
   predictable, in 3 panels: (1) accuracy is ceiling-clustered (31 at ceiling + a 5-point tail);
   (2) the 0.14 LOO AUC sits **inside** the permutation null (0.45 ± 0.20, p≈0.07) — not "worse than
   chance"; (3) the expertise axis (rotation) tilts the **wrong way** for accuracy among calibrated
