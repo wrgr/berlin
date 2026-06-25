@@ -29,9 +29,14 @@ Methods: `fig_grammar_morphology`. Spares: `fig_motif_dictionary`, `fig_two_task
 `fig_separability`. All carry a *"Preliminary — MICrONS annotators"* stamp; handles suppressed.
 
 ## Analysis (`analysis/`)
-Reproducible pipeline. `run_all.py` orchestrates the stages (`--offline` rebuilds figures + deck from
-cached CSVs). Network stages need NeuVue + CAVE credentials (not committed); per-annotator CSVs carry
-annotator handles and are deliberately not committed. See `analysis/README.md`.
+Reproducible pipeline. **Core figures + CSVs:** `run_all.py` — network stages 1–3 mine NeuVue + CAVE;
+offline stages 4–6 rebuild the core figures from cached CSVs (`--offline`). **The current deck**
+(`berlin_deck_v11`) is built by the `build_v6.py … build_v11.py` chain from the `berlin_deck_v5` base
+(each reads the prior deck). **The risk / grammar figures** come from `enrich_fullyproofread.py` +
+`explore_task_risk_prediction.py` (risk) and `extract_streams.py` + `grammar_probe.py` +
+`cave_morphology.py` (grammar / morphology). Network stages need NeuVue + CAVE credentials (not
+committed); per-annotator CSVs carry annotator handles and are deliberately not committed. See
+`analysis/README.md`.
 
 ## Archive (`archive/`)
 Superseded decks (v2–v4, v6–v10), early plots (incl. the retracted axon-GT figure), and early analysis

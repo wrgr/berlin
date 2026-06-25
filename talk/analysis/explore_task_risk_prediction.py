@@ -36,8 +36,9 @@ print("RANDOM 5-fold (leaks cell identity): "+"  ".join("%s=%.2f"%(n,gb(f,Strati
 print("GROUPED by cell (HONEST):            "+"  ".join("%s=%.2f"%(n,gb(f,GroupKFold(5),True)) for n,f in sets.items()))
 X=StandardScaler().fit_transform(T2[catf].fillna(0))
 def gauc(yy): return roc_auc_score(yy,cross_val_predict(GradientBoostingClassifier(random_state=0),X,yy,cv=GroupKFold(5),groups=groups,method='predict_proba')[:,1])
-obs=gauc(y); rng=np.random.RandomState(0); null=np.array([gauc(rng.permutation(y)) for _ in range(100)])
-print("catmix grouped: obs=%.3f  perm-null=%.2f±%.2f  p=%.3f"%(obs,null.mean(),null.std(),(null>=obs).mean()))
+obs=gauc(y); rng=np.random.RandomState(0); NPERM=1000; null=np.array([gauc(rng.permutation(y)) for _ in range(NPERM)])
+hits=int((null>=obs).sum()); pval=hits/NPERM if hits else 1.0/(NPERM+1)
+print("catmix grouped: obs=%.3f  perm-null=%.2f±%.2f  p%s%.4f (%d perms; bound 1/(N+1) when 0 hits)"%(obs,null.mean(),null.std(),"=" if hits else "<",pval,NPERM))
 rows=[(roc_auc_score(g.err,g.dur_z),len(g)) for _,g in T2.groupby('seg_id') if g.err.nunique()>1 and len(g)>=10]
 print("WITHIN-CELL behavior->error (competence, difficulty fixed): dur_z weighted AUC=%.2f over %d cells"%(
     np.average([r[0] for r in rows],weights=[r[1] for r in rows]),len(rows)))
