@@ -34,10 +34,10 @@ issues are localized. **No length was cut** — edits trade repetition for forwa
    *"Promoted ≈ expert < unpromoted — split distance-to-GT (lower = better),"* matching the axis and
    `figure_descriptions.md`.
 
-## Recommended, not changed (your call — say the word and I'll roll them in)
-- **Restore a closing slide.** The deck ends on Acknowledgments, so the thesis never lands at the
-  end. Suggest re-adding the close (*"Proofreading is an optimization problem. Calibrate the people,
-  not just the microscope."*) as a final slide — strong story hygiene for a talk.
-- **Slide 18** — *"Science & Engineering  Automated segmentation…"* is missing the label separator
-  the other rows use (*"Science & Engineering — Automated…"*).
-- **Slide 18** — *"intersectional ecosystem"* can be misread; *"interconnected"* reads cleaner.
+## Applied in v7 (`analysis/build_v7.py`)
+- **Restored a closing slide** — a bookend of the title slide (same layout/fonts), so the thesis
+  lands at the end: *"Proofreading is an optimization problem. / The missing piece is the price of
+  human judgment. / Calibrate the people, not just the microscope.  ·  Thank you."* (now 21 slides).
+- **Slide 18 separator** — *"Science & Engineering"* now uses the same 3-space label gap as the
+  other rows.
+- **Slide 18 wording** — *"intersectional ecosystem" → "interconnected ecosystem."*
