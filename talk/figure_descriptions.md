@@ -101,6 +101,17 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
+## Risk evidence — `fig_task_risk.png` (main slide)
+- **Plots:** (left) CV ROC-AUC for predicting per-task *error*, random vs honest **grouped-by-cell**
+  CV, across four GT-free feature sets (`dur_z` → +throughput → +category-mix → category-mix-only);
+  (right) the 28 benchmark cells' error rates, sorted — bimodal (25 easy + 3 "killer" cells).
+- **Reads as:** GT-free **task RISK** (error-proneness) is predictable at **AUC 0.76** on held-out
+  cells from point-category structure (grouped permutation null 0.47 ± 0.02, p<0.001) — the "risk"
+  axis of impact×risk, scored *before* spending expert time. The richer representation is what
+  unlocked it (`dur_z` alone ≈ 0.5).
+- **Caveat:** the 0.92 under random CV was **cell-identity leakage** (only 28 cells); per-annotator
+  competence within a fixed cell stays ~0.55; CAVE morphological confirmation inconclusive (stale roots).
+
 ## Spare figures (in repo, not embedded in v4)
 - **`fig_two_task_quality.png`** — scatter of multiSomaSplit distance vs fullyProofread accuracy;
   both **ceiling-clustered**, the single best split placement is a novice, promoted circled. (The

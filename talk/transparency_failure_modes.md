@@ -77,9 +77,20 @@ metric). Companion to `methodology_provenance.md`.
     models use `multiSomaId`, where **only experts + promoted proto-experts appear** — the worst
     performers have no dense telemetry, so the rich prospective test cannot yet reach them.
 
+## A positive result from the same thread: GT-free task RISK
+Pushing on *"is the representation rich enough?"* paid off — for a different target than annotator
+competence. With a richer GT-free per-task representation (point-category mix), **task
+error-proneness (RISK) is predictable at AUC 0.76 on held-out cells** (grouped-by-cell CV;
+permutation null 0.47 ± 0.02, p<0.001) — the "risk" axis of the impact×risk allocation, scored before
+any expert time is spent. Caveats: the headline 0.92 under random CV was **cell-identity leakage**
+(only 28 benchmark cells, bimodal — 25 easy + 3 "killer" cells); per-annotator competence within a
+fixed cell stays ~0.55; CAVE morphological confirmation is **inconclusive** (17/28 cells carry stale
+2021-22 roots). See `enrich_fullyproofread.py`, `explore_task_risk_prediction.py`, `cave_difficulty.py`,
+`fig_task_risk.png`.
+
 ## What survived
 Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
 tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
 within the LOO null 0.45±0.20 — *no signal*, not "worse than chance"; also null on variance-rich
-distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, robust to task size). All
+distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, robust to task size); GT-free task **RISK** predictable at 0.76 (grouped CV, p<0.001). All
 passed the sanity checks above.
