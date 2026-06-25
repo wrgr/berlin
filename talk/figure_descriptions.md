@@ -1,6 +1,6 @@
 # Figure descriptions — synced to the analysis
 
-Each figure is the exact artifact embedded in `berlin_deck_v10` (the current deck). The numbers are
+Each figure is the exact artifact embedded in `berlin_deck_v11` (the current deck). The numbers are
 computed by the analysis pipeline's **network stages** (`analysis/run_all.py` stages 1–3) from
 NeuVue + CAVE (credentials required); the resulting per-annotator CSVs carry annotator **handles**
 and are deliberately **not committed** — the same privacy reason handles are suppressed in every

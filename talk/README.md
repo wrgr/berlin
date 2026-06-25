@@ -10,8 +10,9 @@ per-task **risk is estimable ground-truth-free at AUC 0.76**, the deployable bas
 allocation of expert effort.
 
 ## Deck
-- **`berlin_deck_v10.pptx`** — current talk (23 slides). **`berlin_deck_v5.pptx`** — human-edited base.
-  Derivation is scripted: `analysis/build_v6.py … build_v10.py` (each reads the prior deck from `v5`).
+- **`berlin_deck_v11.pptx`** — current talk (23 slides; incorporates a review pass — page
+  numbers, centered figure legends, NIH disclaimer). **`berlin_deck_v5.pptx`** — human-edited base.
+  Derivation is scripted: `analysis/build_v6.py … build_v11.py` (each reads the prior deck from `v5`).
 
 ## Documents
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).
@@ -33,5 +34,5 @@ cached CSVs). Network stages need NeuVue + CAVE credentials (not committed); per
 annotator handles and are deliberately not committed. See `analysis/README.md`.
 
 ## Archive (`archive/`)
-Superseded decks (v2–v4, v6–v9), early plots (incl. the retracted axon-GT figure), and early analysis
+Superseded decks (v2–v4, v6–v10), early plots (incl. the retracted axon-GT figure), and early analysis
 notes — moved out so the main directory is all-current. Nothing deleted; see `archive/README.md`.

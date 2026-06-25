@@ -219,6 +219,6 @@ re-validate end-to-end from the cached CSVs (`python analysis/run_all.py --offli
 every figure and the 20-slide deck in ~9 s). Credentials (`.nv_tokens.json`, `.cave_token`),
 `neuvue-client/`, and `live_out/` are kept out of the repo; see `analysis/README.md`.
 Approaches tried, bugs, and retractions are catalogued in `transparency_failure_modes.md`.
-**Deliverables locked:** `berlin_deck_v10.pptx` (23 slides; human base `berlin_deck_v5.pptx`), `methodology_provenance.md`,
+**Deliverables locked:** `berlin_deck_v11.pptx` (23 slides; human base `berlin_deck_v5.pptx`), `methodology_provenance.md`,
 `transparency_failure_modes.md`, `nature_comms_draft.md`, `deck_expansion.md`, 12 `fig_*.png`,
 `analysis/` (pipeline + README).
