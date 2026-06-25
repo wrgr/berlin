@@ -1,6 +1,6 @@
 # Figure descriptions — synced to the analysis
 
-Each figure is the exact artifact embedded in `berlin_deck_v4` (slide noted). The numbers are
+Each figure is the exact artifact embedded in `berlin_deck_v10` (the current deck). The numbers are
 computed by the analysis pipeline's **network stages** (`analysis/run_all.py` stages 1–3) from
 NeuVue + CAVE (credentials required); the resulting per-annotator CSVs carry annotator **handles**
 and are deliberately **not committed** — the same privacy reason handles are suppressed in every
@@ -112,7 +112,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 - **Caveat:** the 0.92 under random CV was **cell-identity leakage** (only 28 cells); per-annotator
   competence within a fixed cell stays ~0.55; CAVE morphological confirmation inconclusive (stale roots).
 
-## Spare figures (in repo, not embedded in v4)
+## Spare figures (in repo, not embedded in the deck)
 - **`fig_two_task_quality.png`** — scatter of multiSomaSplit distance vs fullyProofread accuracy;
   both **ceiling-clustered**, the single best split placement is a novice, promoted circled. (The
   "convergence" evidence in one frame.)

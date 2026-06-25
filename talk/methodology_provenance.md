@@ -176,7 +176,7 @@ for Increased Accessibility and Queryability," Front. Neuroinform. 16:828458 (20
 
 **Talk framing.** Outreach reframed per the Research Incubator deck: **students as a *method***
 for mission impact (not workforce-dev-as-nicety); MERIT / NeuroTrailblazers learning
-engineering; "calibrate the people, not just the microscope." Deck: `berlin_deck_v3.pptx`
+engineering; "calibrate the people, not just the microscope." Deck: `berlin_deck_v10.pptx`
 (+ `deck_expansion.md`).
 
 ## 13. Item 1 — prospective, GT-free competence signal (the open question)
@@ -219,6 +219,6 @@ re-validate end-to-end from the cached CSVs (`python analysis/run_all.py --offli
 every figure and the 20-slide deck in ~9 s). Credentials (`.nv_tokens.json`, `.cave_token`),
 `neuvue-client/`, and `live_out/` are kept out of the repo; see `analysis/README.md`.
 Approaches tried, bugs, and retractions are catalogued in `transparency_failure_modes.md`.
-**Deliverables locked:** `berlin_deck_v3.pptx` (20 slides), `methodology_provenance.md`,
+**Deliverables locked:** `berlin_deck_v10.pptx` (23 slides; human base `berlin_deck_v5.pptx`), `methodology_provenance.md`,
 `transparency_failure_modes.md`, `nature_comms_draft.md`, `deck_expansion.md`, 12 `fig_*.png`,
 `analysis/` (pipeline + README).
