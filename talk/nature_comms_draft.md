@@ -107,9 +107,13 @@ calibrated to agree, the *outcome* has little variance left to predict.
 Using `fullyProofread` accuracy — which has a discriminating bad tail — as the competence
 target, simple telemetry-free per-annotator features (duration statistics, throughput,
 thoroughness) show no rank correlation with accuracy (|ρ|≤0.24, all n.s.), and a
-leave-one-out good-vs-bad classifier performs **worse than chance (AUC 0.14)**, missing every
-poor performer. Competence is not legible in coarse per-person summaries — a result we report
-plainly, because it bounds what behavioral calibration can and cannot do retrospectively.
+leave-one-out good-vs-bad classifier returns AUC 0.14 — but this is **within the leave-one-out
+permutation null** (0.45 ± 0.20, p≈0.07), i.e. *no signal*, not a true anti-signal. The negative is
+robust: it holds on both ceiling-bound label accuracy and the variance-rich `multiSomaSplit`
+distance-to-ground-truth (Ridge ρ=0.07), and survives scale transforms (log, rank) and flexible
+regressors (best held-out ρ=0.26, p=0.25). Competence is not legible in coarse per-person summaries —
+a result we report plainly, because it bounds what behavioral calibration can and cannot do
+retrospectively.
 
 ### A ground-truth-free, per-decision uncertainty signal
 The signal that *does* survive is at the level of the individual decision and requires **no
@@ -121,6 +125,31 @@ errors** (1.4× over chance), and the top 10% recovers 15% (1.55×) — using on
 annotator's own behavior (Fig. 4). We read this as a measurable correlate of **subconscious
 uncertainty**: hesitation that the annotator does not flag but that their behavior betrays —
 the proofreading analog of tacit, motion-legible surgical skill.
+
+### Task risk is predictable, ground-truth-free; the language is a learnable grammar
+The corollary of the per-decision result is that competence is legible **per-decision, not
+per-person** — and pushing on the *representation*, rather than the model, makes the per-decision case
+much stronger. Re-mining the same `fullyProofread` tasks with a richer ground-truth-free description —
+within-annotator duration/throughput plus the **point-category composition** of each task — a
+gradient-boosted model predicts which tasks are error-prone at **AUC 0.76 on held-out cells** (honest
+grouped-by-cell cross-validation; permutation null 0.47 ± 0.02, p<0.001), up from 0.50 for duration
+alone. (A naive random split inflates this to 0.92 by memorizing the 28 benchmark cells; grouping by
+cell removes the leak.) This is precisely the **risk axis** of an impact×risk allocation: a task's
+error-proneness can be scored from its structure *before* any expert time is spent. The same gain does
+**not** transfer to per-person ranking — within a fixed cell, behavior separates which annotator erred
+at only AUC 0.55 — reinforcing *per-decision, not per-person*.
+
+The behavioral vocabulary is moreover a genuine **grammar**: a first-order Markov model over the
+action stream (navigate↔segment↔annotate transitions) recovers expert-vs-proto-expert at LOO AUC 0.95,
+matching the hand-built features — the "language of proofreading" is learnable, not merely a metaphor.
+More expressive models do not yet pay off at this scale: an unsupervised hidden-Markov grammar collapses
+to AUC 0.39–0.59 across 15 annotators, and morphological task-difficulty descriptors (caliber,
+branching) do not predict error in the 28-cell benchmark. We read these as **data-limited, not
+falsified** — representation learning (HMM→transformer) and structural difficulty become tractable as
+dense telemetry is logged on *graded* tasks and the annotator pool scales, which is exactly what the
+prospective test and the training pipeline provide. The program is therefore to learn two
+representations — behavioral (a sequence grammar) and structural (morphological difficulty) — and let
+them meet at the decision: the learnable form of the impact×risk allocation.
 
 ## Discussion
 Behavior is a strong, interpretable readout of **expertise as a style**, but in this campaign

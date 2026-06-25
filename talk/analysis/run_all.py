@@ -2,9 +2,9 @@
 """
 LOCKED END-TO-END PIPELINE — proofreader behavior & competency (minnie65 / MICrONS)
 ==================================================================================
-Single entry point that reproduces the full analysis behind the talk (berlin_deck_v3.pptx),
-the methodology record (methodology_provenance.md), and the Nature Communications draft
-(nature_comms_draft.md).
+Single entry point that reproduces the CORE figures + CSVs behind the talk (current deck
+berlin_deck_v11.pptx — built separately, see NOTE), the methodology record
+(methodology_provenance.md), and the Nature Communications draft (nature_comms_draft.md).
 
 STAGES (run in order; each is a standalone, re-runnable script — this runner just sequences
 them, logs timing, and STOPS on the first failure so a broken stage is obvious):
@@ -16,7 +16,12 @@ them, logs timing, and STOPS on the first failure so a broken stage is obvious):
   4  prospective   offline   prospective_flagging.py         fig_prospective_flagging.png  (GT-free error-flagging curve)
   5  figures       offline   make_figures.py                 fig_tier_auc / motif_dictionary / two_task_quality / separability  (handles suppressed)
   6  morefigs      offline   make_more_figures.py            kinematics / grammar / rf_importance / pca / motif_usage / 3-group / uncertainty  (over-complete pool)
-  7  deck          offline   build_deck.py                   ../berlin_deck_v3.pptx  (v2 -> 20-slide v3)
+
+NOTE — this runner produces the CORE figures + CSVs only. The CURRENT DECK (berlin_deck_v11.pptx) is
+built separately by build_v6.py … build_v11.py from berlin_deck_v5.pptx (each reads the prior deck);
+the RISK / GRAMMAR figures come from enrich_fullyproofread.py + explore_task_risk_prediction.py and
+extract_streams.py + grammar_probe.py + cave_morphology.py. The old build_deck.py (v2->v3) stage was
+removed — v2 is archived and v3 is superseded.
 
 PREREQUISITES
   Network stages (1-3) query NeuVue (queue.neuvue.io) + CAVE (minnie65_phase3_v1) and need,
@@ -25,16 +30,16 @@ PREREQUISITES
       .cave_token        CAVE auth token        (NOT committed)
       neuvue-client/     checkout on the import path
       live_out/          output dir for CSVs (created if missing)
-  Offline stages (4-7) consume the cached CSVs in live_out/ + the uploaded v2 deck; no creds.
+  Offline stages (4-6) consume the cached CSVs in live_out/; no creds.
   Python deps: numpy pandas scipy scikit-learn matplotlib diff-match-patch caveclient
                cloud-volume python-pptx pypdf
                (install with: pip install --ignore-installed packaging <pkg>)
 
 USAGE
   python run_all.py                 # every stage in order (full reproduction; needs creds)
-  python run_all.py --offline       # only offline stages 4-7 (no network/creds; uses cached CSVs)
-  python run_all.py --stages 4-7    # a contiguous range (1-indexed)
-  python run_all.py --stages 5,7    # specific stages
+  python run_all.py --offline       # only offline stages 4-6 (no network/creds; uses cached CSVs)
+  python run_all.py --stages 4-6    # a contiguous range (1-indexed)
+  python run_all.py --stages 5,6    # specific stages
   python run_all.py --list          # list stages and exit
 
 PROVENANCE
@@ -56,7 +61,6 @@ STAGES = [
     ("prospective",  "prospective_flagging.py",        "GT-free error-flagging curve",                           False),
     ("figures",      "make_figures.py",                "core talk figures (handles suppressed)",                 False),
     ("morefigs",     "make_more_figures.py",           "over-complete data-figure pool",                         False),
-    ("deck",         "build_deck.py",                  "build berlin_deck_v3.pptx (20 slides)",                  False),
 ]
 
 def parse_stages(spec):

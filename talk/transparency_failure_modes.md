@@ -35,8 +35,20 @@ metric). Companion to `methodology_provenance.md`.
    ~399 nm, p=0.092); little variance.
 7. **fullyProofread** categorical label accuracy: expert 0.98 vs student 0.97, p=0.63; a ceiling
    with a small discriminating tail.
-   - *Consequence:* annotator-level behavior→accuracy is unpredictable (LOO **AUC 0.14**, an
-     honest negative). The signal that survives is **per-decision and ground-truth-free**.
+   - *Consequence:* annotator-level behavior→accuracy is **not predictable** — but "worse than
+     chance (LOO AUC 0.14)" over-read a noisy point estimate. Against this estimator's LOO
+     permutation null (**0.45 ± 0.20**, one-sided p≈0.07) the 0.14 is *no signal*, not an anti-signal;
+     it holds on **both** ceiling-bound label accuracy **and** the variance-rich `multiSomaSplit`
+     distance-to-GT (Ridge ρ=0.07, p=0.71), and a classifier/weight sweep spans 0.00–0.34 (all inside
+     the null). The sub-0.5 estimate reflects the *expertise* axis being weakly **opposed** to
+     accuracy among calibrated annotators (rotation ρ≈−0.44). **The signal that survives is
+     per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
+     uncorrelated with task size and holds within every size stratum (0.57 / 0.52 / 0.69). Scale transforms (log, rank-invariant) and flexible
+     regressors (RF/GBM/kNN) on the continuous distance target don't recover a signal either (best CV
+     Spearman 0.26, permutation p=0.25); the only difficulty proxy controlled is task **size** —
+     3-D structural difficulty (path length, branches, volume, synapse density) is a follow-up. (See
+     `analysis/explore_accuracy_predictability.py`, `explore_accuracy_confound_and_target.py`,
+     `explore_distance_regression.py`, `fig_accuracy_unpredictable.png`.)
 
 ## Bugs found and fixed
 8. **Duration mis-scaling** — a field in *seconds* was treated as milliseconds ("0.0 min"); fixed.
@@ -65,7 +77,33 @@ metric). Companion to `methodology_provenance.md`.
     models use `multiSomaId`, where **only experts + promoted proto-experts appear** — the worst
     performers have no dense telemetry, so the rich prospective test cannot yet reach them.
 
+## A positive result from the same thread: GT-free task RISK
+Pushing on *"is the representation rich enough?"* paid off — for a different target than annotator
+competence. With a richer GT-free per-task representation (point-category mix), **task
+error-proneness (RISK) is predictable at AUC 0.76 on held-out cells** (grouped-by-cell CV;
+permutation null 0.47 ± 0.02, p<0.001) — the "risk" axis of the impact×risk allocation, scored before
+any expert time is spent. Caveats: the headline 0.92 under random CV was **cell-identity leakage**
+(only 28 benchmark cells, bimodal — 25 easy + 3 "killer" cells); per-annotator competence within a
+fixed cell stays ~0.55; CAVE morphological confirmation is **inconclusive** (17/28 cells carry stale
+2021-22 roots). See `enrich_fullyproofread.py`, `explore_task_risk_prediction.py`, `cave_difficulty.py`,
+`fig_task_risk.png`.
+
+## Principled-feature prototypes (grammars / morphology)
+Two follow-ups on *"learn the features, don't hand-build them"*:
+- **Behavioral grammar.** A first-order Markov (n-gram) grammar over the action stream recovers
+  expertise at LOO **AUC 0.95** (≈ the designed tier) — the "language of proofreading" is real and
+  learnable. But a more expressive **HMM latent grammar collapses (0.39–0.59) at n=15**: the
+  expressive models (HMM, and by extension transformers) are **data-starved**, not wrong — the
+  scale-up, not a present result. (`extract_streams.py`, `grammar_probe.py`, `fig_grammar_morphology.png`)
+- **Morphological difficulty (caliber/branches).** In the 28-cell benchmark, caliber / branches /
+  size do **not** predict per-cell error (all p>0.09; thin-fraction +0.16 — right direction, n.s.).
+  The GT-free risk signal (0.76) is **annotation-category difficulty, not cell morphology** here;
+  17/28 cells carried stale roots. A clean test needs more cells + a morphology-sensitive task.
+  (`cave_morphology.py`)
+
 ## What survived
 Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
-tasks; promoted ≈ expert < unpromoted; annotator-level negative (AUC 0.14); per-task GT-free
-uncertainty (AUC 0.59, flag-20%→catch-28%). All passed the sanity checks above.
+tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
+within the LOO null 0.45±0.20 — *no signal*, not "worse than chance"; also null on variance-rich
+distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, robust to task size); GT-free task **RISK** predictable at 0.76 (grouped CV, p<0.001). All
+passed the sanity checks above.
