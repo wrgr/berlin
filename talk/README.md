@@ -16,6 +16,9 @@ allocation of expert effort.
   `archive/decks/`. Derivation is scripted: `analysis/build_v6.py … build_v11.py` (each reads the
   prior deck, starting from the `v5` base); per-slide speaker notes are completed by
   `analysis/add_speaker_notes.py` (source: `talk_script.md`).
+- **`berlin_deck_short.pptx`** — a ~7-slide condensation (the main point + the big idea), themed on
+  *an agent is agnostic to human or machine*. Built by `analysis/build_short_deck.py` from `v11`
+  (scripted/reversible); story arc in `talk_short_story.md`.
 
 ## Documents
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).
