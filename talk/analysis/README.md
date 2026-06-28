@@ -1,22 +1,49 @@
-# Analysis pipeline — proofreader behavior & competency
+# Analysis pipeline — proofreader behavior & competency (minnie65 / MICrONS)
 
-Working scripts behind the talk (`../berlin_deck_v3.pptx`), the methodology/provenance log
-(`../methodology_provenance.md`), and the paper draft (`../nature_comms_draft.md`).
-Handles are suppressed in all figures. A single cleaned end-to-end runner with full comments
-is a planned follow-up (see methodology §10–13).
+Working scripts behind the talk (current deck `../berlin_deck_v11.pptx`), the methodology/provenance
+log (`../methodology_provenance.md`), the figure legends (`../figure_descriptions.md`), and the
+paper draft (`../nature_comms_draft.md`). Handles are suppressed in all committed figures; the
+per-annotator CSVs (which carry handles) are deliberately **not committed**. The canonical
+sequencer is **`run_all.py`** — start there.
 
-## Scripts
-| script | what it does | key output |
-|---|---|---|
-| `mine_tiers.py` | naive → designed → **learned** (k-means motif dictionary) behavioral reps from the dense `multiSomaId` telemetry; recover expert-vs-proto-expert | `tiers_data.csv`; AUC 0.75 / 0.95 / 0.90 |
-| `mine_fullyproofread.py` | per-annotator categorical label accuracy vs `patProofread` grader GT (exact (seg,label,pos) match) | `fullyproofread_accuracy.csv` |
-| `mine_predictive_separability.py` | item 1: simple-behavior competence separability (LOO, FP/FN) + per-task GT-free uncertainty signal; dense-telemetry availability | `separability_{annotator,task}.csv` |
-| `prospective_flagging.py` | deployment view: rank tasks by GT-free behavioral anomaly → error-catch vs fraction flagged | `fig_prospective_flagging.png` |
-| `make_figures.py` | all talk figures (handles suppressed) | `fig_*.png` |
-| `build_deck.py` | expands `berlin_deck_v2.pptx` → `berlin_deck_v3.pptx` (workforce / learning-engineering / evidence / outreach / acknowledgments / backup slides) | `../berlin_deck_v3.pptx` |
+## Quick start
+- `python run_all.py` — full pipeline, the 6 core stages in order (needs `.nv_tokens.json`, `.cave_token`).
+- `python run_all.py --offline` — regenerate the core figures from cached CSVs (no creds, ~9 s).
+- `python run_all.py --list` — list stages; `--stages 4-6` / `--stages 5,6` to select.
 
-## Running
-Each `mine_*` script refreshes a NeuVue token and queries `queue.neuvue.io` + CAVE
+## Core pipeline (sequenced by `run_all.py`)
+| # | stage | script | key output |
+|---|---|---|---|
+| 1 | tiers | `mine_tiers.py` | naive → designed → **learned** (k-means motif dictionary) reps from dense `multiSomaId` telemetry → `tiers_data.csv`; expertise AUC 0.75 / 0.95 / 0.90 |
+| 2 | fullyproof | `mine_fullyproofread.py` | per-annotator categorical label accuracy vs grader GT (exact `(seg,label,pos)` match) → `fullyproofread_accuracy.csv` |
+| 3 | separability | `mine_predictive_separability.py` | simple-behavior competence separability (LOO) + per-task GT-free uncertainty → `separability_{annotator,task}.csv` |
+| 4 | prospective | `prospective_flagging.py` | GT-free error-flagging deployment curve → `fig_prospective_flagging.png` |
+| 5 | figures | `make_figures.py` | core talk figures (handles suppressed) → `fig_*.png` |
+| 6 | morefigs | `make_more_figures.py` | kinematics / grammar / RF importance / PCA / motif usage / 3-group / uncertainty |
+
+## Deck build chain (run separately, not via `run_all.py`)
+The current deck is built from the human-edited base `../berlin_deck_v5.pptx` by an ordered,
+reversible chain — each script reads the prior deck and writes the next (`BERLIN_TALK` overrides paths):
+`build_v6.py → build_v7.py → build_v8.py → build_v9.py → build_v10.py → build_v11.py`.
+Then **`add_speaker_notes.py`** completes the deck's per-slide speaker notes (idempotent; source of
+truth is `../talk_script.md`). Superseded early builders (`build_deck.py` v2→v3, `build_v5.py`
+v4→v5) are kept only as a historical record — the decks they produced are in `../archive/decks/`.
+
+## Risk & grammar / morphology figures
+- **Risk:** `enrich_fullyproofread.py` (per-task assignee/duration/accuracy → `enriched_task.csv`)
+  + `explore_task_risk_prediction.py` → `fig_task_risk.png` (GT-free task risk, AUC 0.76 grouped CV).
+- **Grammar / morphology:** `extract_streams.py` + `grammar_probe.py` (Markov action grammar) and
+  `cave_morphology.py` → `fig_grammar_morphology.png`.
+
+## Exploratory / honest-negative scripts (not in the core pipeline)
+These produced the negative results recorded in `../transparency_failure_modes.md`:
+`explore_accuracy_predictability.py` (the LOO AUC 0.14 honest negative),
+`explore_accuracy_confound_and_target.py` (difficulty-confound control),
+`explore_distance_regression.py` (continuous distance-from-GT — unpredictable),
+`cave_difficulty.py` (structural difficulty vs cell error rate — inconclusive, stale roots).
+
+## Running the network stages
+Each `mine_*` / `enrich_*` script refreshes a NeuVue token and queries `queue.neuvue.io` + CAVE
 (`minnie65_phase3_v1`). They expect, in the working directory:
 - `.nv_tokens.json` (NeuVue refresh token) — **not committed**
 - `.cave_token` (CAVE auth token) — **not committed**
@@ -29,10 +56,6 @@ cloud-volume python-pptx pypdf` (install with `pip install --ignore-installed pa
 - The "designed" tier is hand-built; only RandomForest importance is learned. The motif
   dictionary in `mine_tiers.py` is the genuine unsupervised representation.
 - Accuracy ceiling-clusters across two task types; annotator-level simple behavior does **not**
-  predict competence (LOO AUC 0.14, reported as an honest negative).
-- The surviving signal is per-decision and ground-truth-free (AUC 0.59). See methodology §13.
-
-## Quick start
-- `python run_all.py` — full pipeline, 7 stages in order (needs `.nv_tokens.json`, `.cave_token`).
-- `python run_all.py --offline` — regenerate all figures + the 20-slide deck from cached CSVs (no creds, ~9 s).
-- `python run_all.py --list` — list stages; `--stages 4-7` / `--stages 5,7` to select.
+  predict competence (LOO AUC 0.14, reported as an honest negative within the 0.45±0.20 null).
+- The surviving signal is per-decision and ground-truth-free (uncertainty AUC 0.59; task-risk
+  AUC 0.76 grouped CV). See `../methodology_provenance.md` §10–14.

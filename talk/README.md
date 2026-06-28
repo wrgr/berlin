@@ -12,13 +12,15 @@ allocation of expert effort.
 ## Deck
 - **`berlin_deck_v11.pptx`** — current talk (23 slides; incorporates a review pass — page
   numbers, centered figure legends, NIH disclaimer). **`berlin_deck_v5.pptx`** — human-edited base.
-  Derivation is scripted: `analysis/build_v6.py … build_v11.py` (each reads the prior deck from `v5`).
+  Derivation is scripted: `analysis/build_v6.py … build_v11.py` (each reads the prior deck from `v5`);
+  per-slide speaker notes are completed by `analysis/add_speaker_notes.py` (source: `talk_script.md`).
 
 ## Documents
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).
 - `methodology_provenance.md` — methods & provenance: every claim with the analysis behind it.
 - `transparency_failure_modes.md` — retractions, dead ends, robustness checks, honest negatives.
-- `figure_descriptions.md` — per-figure legends synced to the analysis (mapped to v10 slides).
+- `figure_descriptions.md` — per-figure legends synced to the analysis (mapped to v11 slides).
+- `talk_script.md` — per-slide speaker script (beats + takeaways); the source for the deck's speaker notes.
 - `deck_coherence_review.md`, `deck_v5_changes.md` — deck change logs.
 
 ## Figures (in deck + spares)
