@@ -22,12 +22,14 @@ sequencer is **`run_all.py`** — start there.
 | 6 | morefigs | `make_more_figures.py` | kinematics / grammar / RF importance / PCA / motif usage / 3-group / uncertainty |
 
 ## Deck build chain (run separately, not via `run_all.py`)
-The current deck is built from the human-edited base `../berlin_deck_v5.pptx` by an ordered,
+The current deck is built from the human-edited base `berlin_deck_v5.pptx` by an ordered,
 reversible chain — each script reads the prior deck and writes the next (`BERLIN_TALK` overrides paths):
 `build_v6.py → build_v7.py → build_v8.py → build_v9.py → build_v10.py → build_v11.py`.
 Then **`add_speaker_notes.py`** completes the deck's per-slide speaker notes (idempotent; source of
-truth is `../talk_script.md`). Superseded early builders (`build_deck.py` v2→v3, `build_v5.py`
-v4→v5) are kept only as a historical record — the decks they produced are in `../archive/decks/`.
+truth is `../talk_script.md`). The base and all intermediate decks now live in `../archive/decks/`,
+so re-running the chain means staging those decks into a working `talk/` dir (point `BERLIN_TALK`
+at it). Superseded early builders (`build_deck.py` v2→v3, `build_v5.py` v4→v5) are archived in
+`../archive/analysis/` as a historical record — the decks they produced are in `../archive/decks/`.
 
 ## Risk & grammar / morphology figures
 - **Risk:** `enrich_fullyproofread.py` (per-task assignee/duration/accuracy → `enriched_task.csv`)

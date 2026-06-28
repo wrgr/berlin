@@ -217,11 +217,12 @@ and stops on the first failure. Flags: `--offline` (stages 4-6, no creds), `--st
 `--stages 5,6`, `--list`. Network stages (1-3) ran live this session; the offline stages
 re-validate end-to-end from the cached CSVs (`python analysis/run_all.py --offline` rebuilds
 every core figure in ~9 s). The current deck (`berlin_deck_v11.pptx`) is built separately by the
-`build_v6.py … build_v11.py` chain from the `berlin_deck_v5.pptx` human base (each reads the prior
-deck), and its speaker notes are completed by `add_speaker_notes.py`. Credentials
+`build_v6.py … build_v11.py` chain from the `berlin_deck_v5.pptx` human base (archived in
+`archive/decks/` with the intermediates; each reads the prior deck), and its speaker notes are
+completed by `add_speaker_notes.py`. Credentials
 (`.nv_tokens.json`, `.cave_token`), `neuvue-client/`, and `live_out/` are kept out of the repo;
 see `analysis/README.md`. Approaches tried, bugs, and retractions are catalogued in
 `transparency_failure_modes.md`.
-**Deliverables locked:** `berlin_deck_v11.pptx` (23 slides; human base `berlin_deck_v5.pptx`), `methodology_provenance.md`,
+**Deliverables locked:** `berlin_deck_v11.pptx` (23 slides; human base `archive/decks/berlin_deck_v5.pptx`), `methodology_provenance.md`,
 `transparency_failure_modes.md`, `nature_comms_draft.md`, `figure_descriptions.md`, `talk_script.md`,
 12 `fig_*.png`, `analysis/` (pipeline + README).
