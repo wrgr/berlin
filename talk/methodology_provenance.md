@@ -211,14 +211,18 @@ is possible for those few but cannot reach the bad tail. (`mine_predictive_separ
 `separability_annotator.csv`, `separability_task.csv`; fig `fig_separability.png`.)
 
 ## 14. Locked pipeline & reproducibility
-Single entry point: **`analysis/run_all.py`** sequences the seven stages
-(tiers → fullyproof → separability → prospective → figures → morefigs → deck), logs timing,
-and stops on the first failure. Flags: `--offline` (stages 4-7, no creds), `--stages a-b` /
-`--stages 5,7`, `--list`. Network stages (1-3) ran live this session; the offline stages
+Single entry point: **`analysis/run_all.py`** sequences the six core stages
+(tiers → fullyproof → separability → prospective → figures → morefigs), logs timing,
+and stops on the first failure. Flags: `--offline` (stages 4-6, no creds), `--stages a-b` /
+`--stages 5,6`, `--list`. Network stages (1-3) ran live this session; the offline stages
 re-validate end-to-end from the cached CSVs (`python analysis/run_all.py --offline` rebuilds
-every figure and the 20-slide deck in ~9 s). Credentials (`.nv_tokens.json`, `.cave_token`),
-`neuvue-client/`, and `live_out/` are kept out of the repo; see `analysis/README.md`.
-Approaches tried, bugs, and retractions are catalogued in `transparency_failure_modes.md`.
-**Deliverables locked:** `berlin_deck_v11.pptx` (23 slides; human base `berlin_deck_v5.pptx`), `methodology_provenance.md`,
-`transparency_failure_modes.md`, `nature_comms_draft.md`, `deck_expansion.md`, 12 `fig_*.png`,
-`analysis/` (pipeline + README).
+every core figure in ~9 s). The current deck (`berlin_deck_v11.pptx`) is built separately by the
+`build_v6.py … build_v11.py` chain from the `berlin_deck_v5.pptx` human base (archived in
+`archive/decks/` with the intermediates; each reads the prior deck), and its speaker notes are
+completed by `add_speaker_notes.py`. Credentials
+(`.nv_tokens.json`, `.cave_token`), `neuvue-client/`, and `live_out/` are kept out of the repo;
+see `analysis/README.md`. Approaches tried, bugs, and retractions are catalogued in
+`transparency_failure_modes.md`.
+**Deliverables locked:** `berlin_deck_v11.pptx` (23 slides; human base `archive/decks/berlin_deck_v5.pptx`), `methodology_provenance.md`,
+`transparency_failure_modes.md`, `nature_comms_draft.md`, `figure_descriptions.md`, `talk_script.md`,
+12 `fig_*.png`, `analysis/` (pipeline + README).
