@@ -1,7 +1,7 @@
 """Resample every embedded image in a deck to 300 DPI at its on-slide display size.
 Downsamples oversized rasters (big file savings, still print-quality); never upsamples.
 Preserves z-order (edits the image PART blob in place, not remove+add) and image format.
-Usage: python resample_deck_300dpi.py [in.pptx] [out.pptx]  (defaults: berlin_deck_v14 in place)
+Usage: python resample_deck_300dpi.py [in.pptx] [out.pptx]  (defaults: Calibrate_the_Humans_v14 in place)
 """
 import sys, io
 from pathlib import Path
@@ -11,7 +11,7 @@ from pptx.oxml.ns import qn
 from PIL import Image as PILImage
 
 TALK=Path(__file__).resolve().parent.parent
-SRC=Path(sys.argv[1]) if len(sys.argv)>1 else TALK/"berlin_deck_v14.pptx"
+SRC=Path(sys.argv[1]) if len(sys.argv)>1 else TALK/"Calibrate_the_Humans_v14.pptx"
 OUT=Path(sys.argv[2]) if len(sys.argv)>2 else SRC
 DPI=300
 
