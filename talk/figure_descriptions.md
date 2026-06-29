@@ -1,6 +1,6 @@
 # Figure descriptions — synced to the analysis
 
-Each figure is the exact artifact embedded in `berlin_deck_v11` (the current deck). The numbers are
+Each figure is the exact artifact embedded in `berlin_deck_v12` (the current deck). The numbers are
 computed by the analysis pipeline's **network stages** (`analysis/run_all.py` stages 1–3) from
 NeuVue + CAVE (credentials required); the resulting per-annotator CSVs carry annotator **handles**
 and are deliberately **not committed** — the same privacy reason handles are suppressed in every
@@ -124,6 +124,22 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
   cell-identity leakage, corrected by grouping.
 - **Caveat:** 28-cell benchmark; the signal is largely "flag the few intrinsically-hard cells." Per-person
   competence *within* a cell stays weak (AUC 0.55) — **per-decision, not per-person**.
+
+## Point-agreement evidence — `fig_point_agreement.png` (slides 8 & 17 footnote)
+- **Plots:** (left) per-annotator **point-label agreement with the expert grader** (Pat / `rivlipk1`)
+  on the shared fullyProofread / patProofread benchmark cells, by cohort — each dot one annotator
+  (handles suppressed), bar = group median: **expert 98%, promoted 100%, unpromoted 94%** (the
+  unpromoted group is bimodal, with a low tail down to ~27%). (right) the per-point **confusion
+  matrix** for a representative expert (chris) — near-identity, **99.3% (141/142)**, one off-diagonal
+  (a `spine` vs `axon`).
+- **Reads as:** calibration **converges outcomes at the level of individual decisions** — promoted ≈
+  expert, both matching the grader on ~99% of point classifications, while the variance lives in the
+  unpromoted tail. This is the outcome/agreement companion to the behavioral evidence, and it
+  operationalizes "converged agreement" (slide 8) and "per-decision, not per-person" (slide 17).
+- **Caveat:** agreement vs **one grader** (Pat) as the competence surrogate; free-text labels
+  normalized to canonical classes (`compare_points.py --raw` for exact strings). Two experts sit
+  lower (gary 76%, michael 74%) — possible labeling-convention or cell-subset effects; behavioral
+  Pat-likeness ≠ label agreement (style ≠ proficiency). Built by `make_point_agreement_figure.py`.
 
 ## Spare figures (in repo, not embedded in the deck)
 - **`fig_two_task_quality.png`** — scatter of multiSomaSplit distance vs fullyProofread accuracy;

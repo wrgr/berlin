@@ -216,13 +216,32 @@ Single entry point: **`analysis/run_all.py`** sequences the six core stages
 and stops on the first failure. Flags: `--offline` (stages 4-6, no creds), `--stages a-b` /
 `--stages 5,6`, `--list`. Network stages (1-3) ran live this session; the offline stages
 re-validate end-to-end from the cached CSVs (`python analysis/run_all.py --offline` rebuilds
-every core figure in ~9 s). The current deck (`berlin_deck_v11.pptx`) is built separately by the
-`build_v6.py … build_v11.py` chain from the `berlin_deck_v5.pptx` human base (archived in
+every core figure in ~9 s). The current deck (`berlin_deck_v12.pptx`) is built separately by the
+`build_v6.py … build_v12.py` chain from the `berlin_deck_v5.pptx` human base (archived in
 `archive/decks/` with the intermediates; each reads the prior deck), and its speaker notes are
 completed by `add_speaker_notes.py`. Credentials
 (`.nv_tokens.json`, `.cave_token`), `neuvue-client/`, and `live_out/` are kept out of the repo;
 see `analysis/README.md`. Approaches tried, bugs, and retractions are catalogued in
 `transparency_failure_modes.md`.
-**Deliverables locked:** `berlin_deck_v11.pptx` (23 slides; human base `archive/decks/berlin_deck_v5.pptx`), `methodology_provenance.md`,
+**Deliverables locked:** `berlin_deck_v12.pptx` (23 slides; human base `archive/decks/berlin_deck_v5.pptx`), `methodology_provenance.md`,
 `transparency_failure_modes.md`, `nature_comms_draft.md`, `figure_descriptions.md`, `talk_script.md`,
-12 `fig_*.png`, `analysis/` (pipeline + README).
+13 `fig_*.png`, `analysis/` (pipeline + README).
+
+## 15. Point-agreement with the expert grader (per-decision convergence)
+The fullyProofread / patProofread benchmark tasks are **forced-choice point classification**: the
+same points are pre-placed on a cell, and each annotator labels every point (spine / axon / dendrite
+/ soma / nucleus / cilia / error-flags) via the annotation `description`. Points are therefore
+**co-located across annotators**, so the proofreading signal is the **label**, not the position.
+`compare_points.py` matches each annotator's points to the grader's (Pat / `rivlipk1`) co-located
+points (≤ 1 µm, same `seg_id`) and computes per-point label agreement; free-text labels are
+normalized to canonical classes (`canon()`; `--raw` for exact strings). On the shared benchmark:
+- **Expert** (n=8): median **98.5%** agreement (chris 99.3% = 141/142, one `spine`/`axon`; gary 76%
+  and michael 74% are low outliers — convention / cell-subset, flagged).
+- **Promoted** (n=7): median **100%** — promoted ≈ expert.
+- **Unpromoted** (n=10): median ~94%, **bimodal** with a low tail (down to ~27%).
+This is the outcome companion to the behavioral evidence (§6–13): calibration converges *decisions*
+even though behavioral *style* differs (chris vs Pat agree ~99% on labels but read as different
+behavioral dialects — editor vs reviewer; see `compare_annotators.py`). Figure:
+`make_point_agreement_figure.py` → `fig_point_agreement.png`. **Caveat:** agreement vs one grader as
+the competence surrogate (consistent with the Pat-anchored competency, §8); 17 shared cells, 142
+points for the representative expert; per-annotator values carry handles and stay in `live_out/`.

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Build berlin_deck_short.pptx — a ~7-slide condensation of berlin_deck_v11.pptx.
+"""Build berlin_deck_short.pptx — a ~7-slide condensation of berlin_deck_v12.pptx.
 
 Captures the main point and big idea, with one emphasis: an **agent** is agnostic to human or
 machine. Experts, students, and ML are interchangeable agents in the loop; the whole talk is about
 routing each decision to the agent that should make it, and pricing every agent's judgment.
 
-Method (scripted/reversible, matching the repo's build_v* pattern): load v11, keep 7 slides, apply
+Method (scripted/reversible, matching the repo's build_v* pattern): load v12, keep 7 slides, apply
 targeted single-line text edits to push the agent-agnostic framing into titles/banners/close, fix
-the page numbers, rewrite the speaker notes for the condensed arc, and save a NEW file. v11 is never
+the page numbers, rewrite the speaker notes for the condensed arc, and save a NEW file. v12 is never
 modified. Run with BERLIN_TALK pointing at talk/ (defaults to the repo-relative talk/ dir).
 
-Source -> short mapping (1-based v11 slide -> short position):
+Source -> short mapping (1-based v12 slide -> short position):
   1 Title                         -> 1   (reframe: calibrate the *agents*)
   2 Problem is a decision         -> 2   (optimization, not a quality check)
   3 Route to the right agent      -> 3   (THE big idea: agent = human or machine)
@@ -25,10 +25,10 @@ from pptx import Presentation
 
 HERE = Path(__file__).resolve().parent
 TALK = Path(os.environ.get("BERLIN_TALK", HERE.parent))
-SRC = TALK / "berlin_deck_v11.pptx"
+SRC = TALK / "berlin_deck_v12.pptx"
 DST = TALK / "berlin_deck_short.pptx"
 
-# 1-based v11 slide numbers to keep, in display order.
+# 1-based v12 slide numbers to keep, in display order.
 KEEP = [1, 2, 3, 7, 8, 13, 22]
 
 # Targeted single-line edits: orig_slide -> list of (match_substring, new_full_text).

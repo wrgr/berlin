@@ -1,8 +1,8 @@
 # Short talk — the 7-slide story ("Calibrate the agents")
 
-A condensation of the 23-slide deck (`berlin_deck_v11.pptx`) down to the main point and the big
+A condensation of the 23-slide deck (`berlin_deck_v12.pptx`) down to the main point and the big
 idea, for a ~4-minute version. Built by `analysis/build_short_deck.py` → `berlin_deck_short.pptx`
-(scripted/reversible; v11 is never modified). Speaker notes are embedded in the deck.
+(scripted/reversible; v12 is never modified). Speaker notes are embedded in the deck.
 
 ## The one idea this version emphasizes
 **An *agent* is agnostic to human or machine.** Experts, students, and ML are interchangeable
@@ -12,7 +12,7 @@ through-line runs explicitly through slides 3, 5, and 7.
 
 ## The arc (problem → big idea → method → evidence → close)
 
-| # | slide (v11 source) | the beat | takeaway |
+| # | slide (v12 source) | the beat | takeaway |
 |---|---|---|---|
 | 1 | Title (S1) | You have a volume and finite proofreaders — when do you stop, and can you trust the answer? Define **agent** = anything that makes a decision (expert / student / ML). | Calibrate the *agents*, not just the microscope. |
 | 2 | Problem is a decision (S2) | It's engineering under a hard constraint: judgment is finite, expensive, ambiguous (agents disagree → no free ground truth). | "Done" is about the dataset; **"trustworthy enough" is an optimization**. |
@@ -24,6 +24,6 @@ through-line runs explicitly through slides 3, 5, and 7.
 
 ## Rebuild
 ```
-python analysis/build_short_deck.py        # reads berlin_deck_v11.pptx, writes berlin_deck_short.pptx
+python analysis/build_short_deck.py        # reads berlin_deck_v12.pptx, writes berlin_deck_short.pptx
 ```
 Editing the slide selection, the agent-agnostic text edits, or the notes is all in that one script.
