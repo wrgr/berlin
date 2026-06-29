@@ -93,7 +93,8 @@ in the section headers.
 ### 12 · What behavior already reveals
 - Dense per-event telemetry — every navigate / edit / annotate, with 3-D camera motion. A label-free
   signal already works: a task slow *for that person* is more error-prone (no ground truth needed).
-- Cohorts separate from behavior (pilot, n=16): **naive 0.75 → designed 0.95 → learned-grammar 0.90.**
+- Cohorts separate from behavior (pilot, n=16): naive and the CV'd learned-motif tier both **~0.81**;
+  the post-hoc designed bank reaches **0.98** (exploratory ceiling). Model-free anchor: experts explore **~2.18× more**.
 - **Takeaway:** competence is **legible in behavior** — next five slides are the evidence.
 
 ---

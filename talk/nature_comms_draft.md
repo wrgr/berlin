@@ -20,9 +20,9 @@ proofreading"), captured as per-event viewer telemetry during the minnie65 MICrO
 predicts the **quality** of their work. Using a graded series of representations (naive
 counts → a hand-designed behavioral grammar → an unsupervised motif dictionary), we find that
 behavior **encodes expertise as a working style** — separating experts from agreement-promoted
-"proto-experts" as a broad signal (median single-feature AUC 0.80, rising to an engineered but
-n=16-fragile 0.95) driven by three-dimensional exploration kinematics (experts accumulate ~2× more
-camera rotation). Yet **achieved accuracy does not separate skill
+"proto-experts" as a broad signal (naive counts and the cross-validated learned motif tier both ~0.81; a 28-feature
+designed bank reaches 0.98 but is engineered post-hoc on n=16) driven by three-dimensional
+exploration kinematics (experts accumulate ~2× more camera rotation). Yet **achieved accuracy does not separate skill
 levels**: across two independent grading tasks the trained workforce converges to a ceiling
 (experts and novices place split points equally well; per-category label accuracy is
 statistically indistinguishable), and coarse per-annotator behavior fails to predict
@@ -83,12 +83,12 @@ The most robust fact needs no model: on the dense common task (`multiSomaId`), e
 experts from proto-experts at AUC 0.80, and a conservative **un-fished four-count tier** (event
 count, events/session, %navigate, dwell) reaches leave-one-out AUC **0.81** (Fig. 1).
 
-Richer representations score higher — a 28-feature **designed** grammar+kinematics bank at LOO
-0.98 and an unsupervised k-means **motif dictionary** (windowed label+timing+rotation "gestures",
-the surgical-surgeme analog) at 0.95 — but these features were **engineered on this same
-16-annotator sample** (post-hoc, not preregistered), so we read 0.95–0.98 as an **exploratory
-ceiling** rather than a calibrated estimate; a fresh re-mine moves the motif tier to 0.81, a ~0.1
-swing that shows the magnitudes are n=16-fragile. The high numbers are **not** an artifact of
+The **designed** 28-feature grammar+kinematics bank scores higher — LOO 0.98 — but those features
+were **hand-engineered on this same 16-annotator sample** (post-hoc, not preregistered), so we read
+0.98 as an **exploratory ceiling** rather than a calibrated estimate. The **learned** motif
+dictionary, with the k-means refit *inside* each CV fold (the only valid way), scores **0.81** — not
+the 0.90/0.95 obtained when the dictionary is fit on all annotators before the split, which is
+representation leakage. The high numbers are **not** an artifact of
 fitting 28 features to 16 points: 28 *pure-noise* features reach AUC 1.0 in-sample but **collapse
 to 0.45 under the same leave-one-out**, matching the label-permutation null (0.47 ± 0.19) — so
 cross-validation catches the trivial fit, and the real features carry signal the noise does not
@@ -169,7 +169,7 @@ it is a weak readout of **achieved accuracy** — because the workforce was deli
 experts perform like experts), so the variance that surgical-skill studies exploit is largely
 gone, and the legible behavioral signal moves to (i) who works like an expert and (ii) which
 individual decisions carry hidden uncertainty. This reconciles the apparently paradoxical pair
-of findings — AUC 0.90 for expertise, no signal for accuracy — and turns a "negative" result
+of findings — a clear expertise signal (~0.81 CV), no signal for accuracy — and turns a "negative" result
 into a statement about calibration: *successful calibration is exactly what makes outcomes
 hard to predict from behavior.*
 

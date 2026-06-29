@@ -4,15 +4,17 @@ Current deliverables for the *language of proofreading* talk and the Nature Comm
 Everything in this directory is current; superseded material lives in `archive/` (reversible).
 
 ## The result, in one line
-Behavioral telemetry encodes **expertise as a working style** (AUC 0.90) but **not achieved accuracy**
+Behavioral telemetry encodes **expertise as a working style** (a robust ~0.81 CV signal; experts explore ~2.18× more) but **not achieved accuracy**
 (a calibrated workforce converges); competence is legible **per-decision, not per-person** — and
 per-task **risk is estimable ground-truth-free at AUC 0.76**, the deployable basis for an impact×risk
 allocation of expert effort.
 
 ## Deck
-- **`berlin_deck_v11.pptx`** — current talk (23 slides; incorporates a review pass — page
-  numbers, centered figure legends, NIH disclaimer). **`berlin_deck_v5.pptx`** — human-edited base.
-  Derivation is scripted: `analysis/build_v6.py … build_v11.py` (each reads the prior deck from `v5`).
+- **`berlin_deck_v12.pptx`** — current talk (24 slides; "Calibrate the Humans, Not Just the
+  Microscope"). Built by `analysis/build_v12.py` from the rebaselined base: S13 leads with the
+  model-free **~2.18× exploration** anchor + the **CV AUC ladder** (`fig_expertise_evidence.png`,
+  learned tier CV-correct at 0.81, designed 0.98 an exploratory ceiling); S17 frames ρ=−0.44 as a
+  selection artifact. **`berlin_deck_v11.pptx`** — prior line (`build_v6.py … build_v11.py` from `v5`).
 
 ## Documents
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).
@@ -22,17 +24,19 @@ allocation of expert effort.
 - `deck_coherence_review.md`, `deck_v5_changes.md` — deck change logs.
 
 ## Figures (in deck + spares)
-In-deck: `fig_tier_auc`, `fig_prospective_flagging`, `fig_kinematics`, `fig_action_grammar`,
-`fig_rf_importance_new`, `fig_feature_pca`, `fig_motif_usage`, `fig_accuracy_threegroup`,
-`fig_uncertainty_calibration`, `fig_task_risk`, `fig_accuracy_unpredictable` (backup).
-Methods: `fig_grammar_morphology`. Spares: `fig_motif_dictionary`, `fig_two_task_quality`,
-`fig_separability`. All carry a *"Preliminary — MICrONS annotators"* stamp; handles suppressed.
+In-deck: `fig_expertise_evidence` (honest AUC ladder + 2.18× anchor, S13), `fig_prospective_flagging`,
+`fig_kinematics`, `fig_action_grammar`, `fig_rf_importance_new`, `fig_feature_pca`, `fig_motif_usage`,
+`fig_accuracy_threegroup`, `fig_uncertainty_calibration`, `fig_task_risk`, `fig_accuracy_unpredictable`
+(backup). Methods/audit: `fig_fishing_audit` (single-feature histogram + trivial-fit ladder),
+`fig_grammar_morphology`. Spares: `fig_tier_auc` (superseded), `fig_motif_dictionary`,
+`fig_two_task_quality`, `fig_separability`. All carry a *"Preliminary — MICrONS annotators"* stamp; handles suppressed.
 
 ## Analysis (`analysis/`)
 Reproducible pipeline. **Core figures + CSVs:** `run_all.py` — network stages 1–3 mine NeuVue + CAVE;
 offline stages 4–6 rebuild the core figures from cached CSVs (`--offline`). **The current deck**
-(`berlin_deck_v11`) is built by the `build_v6.py … build_v11.py` chain from the `berlin_deck_v5` base
-(each reads the prior deck). **The risk / grammar figures** come from `enrich_fullyproofread.py` +
+(`berlin_deck_v12`) is built by `build_v12.py` from the rebaselined base (`build_v6.py … build_v11.py`
+is the prior `v5` line); the S13 evidence figure is `make_expertise_evidence_fig.py`, the fishing
+audit is `fishing_audit.py` + `motif_cv.py`, and the ρ=−0.44 check is `rho_robustness.py`. **The risk / grammar figures** come from `enrich_fullyproofread.py` +
 `explore_task_risk_prediction.py` (risk) and `extract_streams.py` + `grammar_probe.py` +
 `cave_morphology.py` (grammar / morphology). Network stages need NeuVue + CAVE credentials (not
 committed); per-annotator CSVs carry annotator handles and are deliberately not committed. See

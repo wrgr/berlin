@@ -35,15 +35,17 @@ The 28 "designed" features and 10 k-means motifs were built on this same n=16 (p
 preregistered), so the headline 0.90–0.98 is optimistic. We audited it three ways
 (`fishing_audit.py`, `motif_cv.py`):
 - **Robust floor ~0.80.** Median of 38 single-feature AUCs = 0.80; the un-fished 4-count naive tier
-  = LOO 0.81; the motif dictionary refit **inside each CV fold** = 0.81 (identical to the leaky
-  fit, so representation-leakage premium ≈ 0.00). A fresh re-mine swings the motif tier 0.95→0.81 —
-  the rich magnitudes are n=16-fragile and are reported as an **exploratory ceiling**.
+  = LOO 0.81; the **learned** motif dictionary refit **inside each CV fold** = **0.81** (on fresh
+  windows the in-fold and leaky variants agree, premium ≈ 0.00). The 0.90/0.95 once reported for the
+  learned tier fit the k-means on **all** annotators (representation leakage) and is **retired**; the
+  lone high tier is the post-hoc **designed bank (0.98)**, an **exploratory ceiling**.
 - **Not mere p≫n dimensionality.** 28 pure-noise features reach AUC 1.0 in-sample but collapse to
   0.45 under the same LOO, matching the label-permutation null (0.47 ± 0.19) — CV catches the
   trivial fit; the real features carry signal the noise does not.
 - **Model-free anchor.** Experts rotate 1014° vs proto 466° (2.18×) — no classifier needed.
-Honest claim: a real, broad **~0.80** expertise signal anchored in 3-D exploration; **0.95–0.98 is
-an engineered ceiling** pending the pre-registered prospective test.
+Honest claim: a real, broad **~0.80** expertise signal (naive and CV'd-learned tiers both 0.81)
+anchored in 3-D exploration; the **designed 0.98 is an engineered ceiling** pending the pre-registered
+prospective test.
 
 ## Targets that proved too clustered (ceiling effects)
 6. **multiSomaSplit** one-point distance-to-GT: trained novices match experts (medians ~309 vs
@@ -128,7 +130,7 @@ Two follow-ups on *"learn the features, don't hand-build them"*:
   (`cave_morphology.py`)
 
 ## What survived
-Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
+Expertise signal ~0.81 CV (naive and learned both 0.81; designed 0.98 engineered; the leaky 0.75/0.95/0.90 retired); accuracy ceiling-clustering on two
 tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
 within the LOO null 0.45±0.20 — *no signal*, not "worse than chance"; also null on variance-rich
 distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, robust to task size); GT-free task **RISK** predictable at 0.76 (grouped CV, p<0.001). All
