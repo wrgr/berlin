@@ -18,7 +18,7 @@ This is the per-point view behind the deck's fullyProofread accuracy. Default pa
 Needs NeuVue creds (.nv_tokens.json / env / cfg) + the neuvueclient checkout, like the other tools.
 Coordinates are mip0 voxels; nm uses VOXEL_NM = (4,4,40) for minnie65_phase3_v1.
 """
-import os, sys, json, ast, http.client, argparse, collections
+import os, sys, json, ast, re, http.client, argparse, collections
 from pathlib import Path
 import numpy as np
 
@@ -66,6 +66,18 @@ def parse_pts(ngval, seg):
             out.append((str(seg), lb, np.array([float(pt[0]), float(pt[1]), float(pt[2])])))
     return out
 
+def canon(lb):
+    """Collapse free-text descriptions to a canonical class so phrasing variants agree.
+    Keeps genuine class differences (e.g. spine vs axon). Error flags take priority over anatomy."""
+    s = re.sub(r"[^a-z0-9 ]", " ", lb.lower()); toks = set(s.split())
+    if toks & {"falsely", "false", "split", "merge", "merged", "merger", "error", "missing", "extra"}:
+        for kw in ("falsely split", "falsely merged", "merge", "split", "missing", "error"):
+            if all(t in s for t in kw.split()): return kw
+    if "apical" in toks: return "apical dendrite"
+    for kw in ("nucleus", "soma", "cilia", "spine", "axon", "dendrite"):
+        if kw in toks: return kw
+    return s.strip()
+
 def grab(nq, assignee, ns, lim):
     tk = nq.get_tasks(sieve={"assignee": assignee, "namespace": ns, "status": "closed"},
                       select=["seg_id", "ng_state"], convert_states_to_json=False, limit=lim, pageSize=lim)
@@ -75,60 +87,71 @@ def grab(nq, assignee, ns, lim):
             by_seg[seg].append((lb, pos))
     return by_seg
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--user", default="chris"); ap.add_argument("--user-ns", default="fullyProofread")
-    ap.add_argument("--gt", default="rivlipk1"); ap.add_argument("--gt-ns", default="patProofread")
-    ap.add_argument("--limit", type=int, default=600)
-    a = ap.parse_args()
-
-    nq = neuvue_queue()
-    A = grab(nq, a.user, a.user_ns, a.limit)
-    G = grab(nq, a.gt, a.gt_ns, a.limit)
+def compare_one(A, G, normalize=True):
+    """Match co-located points on shared segments; return agreement metrics + confusion."""
+    norm = canon if normalize else (lambda x: x)
     shared = sorted(set(A) & set(G))
-    print(f"\n=== raw point relationship: {a.user}/{a.user_ns}  vs  {a.gt}/{a.gt_ns} ===")
-    print(f"{a.user}: {len(A)} segments, {sum(len(v) for v in A.values())} points")
-    print(f"{a.gt}: {len(G)} segments, {sum(len(v) for v in G.values())} points")
-    print(f"shared segments: {len(shared)}")
-    if not shared:
-        print("No shared segments — nothing to compare."); return
-
-    matched, agree, disagree = 0, 0, collections.Counter()
-    a_only, g_only = 0, 0
-    a_lab_tot, g_lab_tot = collections.Counter(), collections.Counter()
-    seg_agree = []
+    matched = agree = a_only = g_only = 0
+    disagree, confusion, seg_agree = collections.Counter(), collections.Counter(), []
     for seg in shared:
         ap_, gp_ = A[seg], G[seg]
-        for l, _ in ap_: a_lab_tot[l] += 1
-        for l, _ in gp_: g_lab_tot[l] += 1
         gpos = np.array([p * VOXEL_NM for _, p in gp_])
-        used = set(); seg_ok = seg_n = 0
+        used = set(); ok = n = 0
         for lb, pos in ap_:
             d = np.linalg.norm(gpos - pos * VOXEL_NM, axis=1) if len(gpos) else np.array([])
             j = int(np.argmin(d)) if len(d) else -1
             if j >= 0 and d[j] <= MATCH_NM:
-                matched += 1; used.add(j); seg_n += 1
-                glab = gp_[j][0]
-                if glab == lb: agree += 1; seg_ok += 1
-                else: disagree[f"{lb} -> {glab}"] += 1   # A said {lb}, GT said {glab}
-            else:
-                a_only += 1
+                matched += 1; used.add(j); n += 1
+                al, gl = norm(lb), norm(gp_[j][0]); confusion[(gl, al)] += 1
+                if al == gl: agree += 1; ok += 1
+                else: disagree[f"{al} -> {gl}"] += 1
+            else: a_only += 1
         g_only += sum(1 for k in range(len(gp_)) if k not in used)
-        if seg_n: seg_agree.append(seg_ok / seg_n)
+        if n: seg_agree.append(ok / n)
+    return dict(shared=len(shared), matched=matched, agree=agree, a_only=a_only, g_only=g_only,
+                disagree=disagree, confusion=confusion, seg_agree=seg_agree)
 
-    print(f"\nco-located points compared: {matched}")
-    print(f"LABEL AGREEMENT ({a.user} vs {a.gt}): {100*agree/max(1,matched):.1f}%  ({agree}/{matched})")
-    if seg_agree:
-        print(f"per-segment agreement: median {100*np.median(seg_agree):.0f}%, "
-              f"range {100*min(seg_agree):.0f}-{100*max(seg_agree):.0f}%  (n={len(seg_agree)} segs)")
-    print(f"points only {a.user} labeled: {a_only}   |   only {a.gt} labeled: {g_only}")
-    if disagree:
-        print(f"\ntop disagreements  ({a.user} label -> {a.gt} label):")
-        for k, n in disagree.most_common(10): print(f"    {n:3d}  {k}")
-    print(f"\nlabel mix {a.user}: {dict(a_lab_tot.most_common())}")
-    print(f"label mix {a.gt}: {dict(g_lab_tot.most_common())}")
-    print("\nNB: points are pre-placed (co-located); label = per-point `description`. "
-          "Agreement, not proficiency.")
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--users", default="chris", help="comma-separated handles")
+    ap.add_argument("--user-ns", default="fullyProofread")
+    ap.add_argument("--gt", default="rivlipk1"); ap.add_argument("--gt-ns", default="patProofread")
+    ap.add_argument("--group", default="", help="optional label for a cohort run")
+    ap.add_argument("--raw", action="store_true", help="exact-string labels (no normalization)")
+    ap.add_argument("--confusion", action="store_true", help="print the confusion matrix")
+    ap.add_argument("--limit", type=int, default=600)
+    a = ap.parse_args()
+    users = [u.strip() for u in a.users.split(",") if u.strip()]
+    nq = neuvue_queue()
+    G = grab(nq, a.gt, a.gt_ns, a.limit)
+
+    print(f"\n=== point-label agreement vs {a.gt}/{a.gt_ns}"
+          f"{' ['+a.group+']' if a.group else ''}  (labels: {'raw' if a.raw else 'normalized'}) ===")
+    rows, agg_conf, agg_dis = [], collections.Counter(), collections.Counter()
+    accs = []
+    for u in users:
+        A = grab(nq, u, a.user_ns, a.limit)
+        m = compare_one(A, G, normalize=not a.raw)
+        if not m["matched"]:
+            print(f"  {u:14s} no shared points"); continue
+        acc = 100 * m["agree"] / m["matched"]; accs.append(acc)
+        rows.append((u, acc, m["agree"], m["matched"], m["shared"]))
+        agg_conf.update(m["confusion"]); agg_dis.update(m["disagree"])
+    print(f"\n  {'handle':14s} {'agree%':>7s} {'pts':>9s} {'segs':>5s}")
+    for u, acc, ag, mt, sh in rows:
+        print(f"  {u:14s} {acc:7.1f} {f'{ag}/{mt}':>9s} {sh:5d}")
+    if len(accs) > 1:
+        print(f"  {'— mean —':14s} {np.mean(accs):7.1f}  (n={len(accs)} annotators)")
+    if agg_dis:
+        print(f"\n  disagreements (annotator -> {a.gt}):")
+        for k, n in agg_dis.most_common(12): print(f"    {n:3d}  {k}")
+    if a.confusion:
+        labs = sorted({l for (g, p) in agg_conf for l in (g, p)})
+        print(f"\n  confusion (rows = {a.gt} truth, cols = annotator):")
+        print("    " + "".join(f"{l[:7]:>8s}" for l in labs))
+        for g in labs:
+            print(f"  {g[:9]:9s} " + "".join(f"{agg_conf.get((g,p),0):8d}" for p in labs))
+    print("\nNB: points are pre-placed (co-located); label = per-point `description`. Agreement, not proficiency.")
 
 if __name__ == "__main__":
     main()
