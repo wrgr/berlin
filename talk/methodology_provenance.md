@@ -155,6 +155,31 @@ status: "designed" is hand-built — only RF *importance* is learned; "learned" 
 unsupervised representation (language-of-surgery analog). Both beat naive; designed ≈ learned.
 (`mine_tiers.py` → `tiers_data.csv`.)
 
+**Uncertainty on the tier AUCs (n=16; second estimator).** Under leave-one-out + balanced logistic
+(independent of the CV above), the same three reps give **0.81 / 0.98 / 0.95** with 1000-permutation
+nulls 0.45–0.48 ± 0.20, one-sided p = **0.022 / <0.001 / 0.001**, and 400-bootstrap 95% CIs
+**[0.62,1.00] / [0.96,1.00] / [0.85,1.00]**. Bars are wide at n=16, but designed and learned sit
+decisively above the null; the honest verb is "separates in a pilot." (`scratchpad/substantiate.py`.)
+
+**Volume vs style (is it just "experts did more"?).** Stripping the six raw-volume totals
+(event/session counts, total rotation, run maxima) and keeping only the 22 **rate/intensive** features
+still separates at **AUC 0.95** (raw totals alone 0.84; all 28 designed 0.98) — the separation is not
+merely activity volume. Caveat: volume and style are entangled — experts do ~2× more of everything
+(total_rot_deg ratio 2.18, n_rot 2.38, n_events 2.13) and total_rot_deg ~ n_events ρ=0.71 — so we
+report "survives removing volume," not "independent of volume."
+
+**Why accuracy cannot rank PEOPLE here (and why a richer grammar won't fix it).** The −0.44
+rotation↔accuracy correlation is (i) non-significant (p=0.10, CI [−0.83,+0.20]) and (ii) a
+**selection-confounded between-cohort comparison**, not "skill hurts": it splits into experts
+(rotation↑, acc 0.92) vs proto-experts (rotation↓, acc 0.98) with no within-cohort trend (−0.60 n=8 /
+−0.04 n=7). Proto-experts were **promoted for agreeing with the graders**, and fullyProofread accuracy
+*is* grader-agreement — so the comparison group was chosen on the outcome metric, and the expertise
+features inherit a spurious negative (the most-negative coefficients are systematically the expertise
+ones: runN_max, motifs, rotation, n_rot). Plus range restriction: the cohort is 8 experts + 8 promoted
+proto-experts with **no true-novice accuracy** to anchor the scale. Behavior reads *who is an expert*
+(0.90–0.98), not *residual accuracy among the calibrated* — no representation predicts a near-constant,
+selection-shaped target. (`rho_robustness.py`.)
+
 **Accuracy is ceiling-clustered across TWO task types** (so behavior can't predict it):
 - multiSomaSplit distance-to-GT: expert median 309 nm vs student 399 nm, MW p=0.092; best is
   a novice (rupa 93). Promoted 312 ≈ expert 309 < unpromoted 460 (promoted vs expert p=0.46;

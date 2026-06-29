@@ -40,9 +40,20 @@ metric). Companion to `methodology_provenance.md`.
      permutation null (**0.45 ± 0.20**, one-sided p≈0.07) the 0.14 is *no signal*, not an anti-signal;
      it holds on **both** ceiling-bound label accuracy **and** the variance-rich `multiSomaSplit`
      distance-to-GT (Ridge ρ=0.07, p=0.71), and a classifier/weight sweep spans 0.00–0.34 (all inside
-     the null). The sub-0.5 estimate reflects the *expertise* axis being weakly **opposed** to
-     accuracy among calibrated annotators (rotation ρ≈−0.44). **The signal that survives is
-     per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
+     the null). The sub-0.5 point estimate is **not an anti-signal**: the rotation ρ≈−0.44 behind it
+     is non-significant (p=0.10; bootstrap 95% CI **[−0.83, +0.20]**, crosses zero) AND it is a
+     **selection-confounded between-cohort comparison, not "skill hurts."** It decomposes into two
+     clouds — experts (high rotation, accuracy 0.92) vs proto-experts (low rotation, accuracy 0.98) —
+     with no within-cohort trend (experts ρ=−0.60 n=8 n.s.; proto-experts ρ=−0.04). The proto-experts
+     are exactly the students **promoted for agreeing with the graders**, while fullyProofread accuracy
+     *is* agreement with grader GT — so the comparison group was selected on the outcome metric, and
+     the expertise features (rotation, runs, motifs — systematically the most-negative coefficients)
+     inherit a spurious negative. It is the footprint of agreement-gated promotion + range restriction
+     (no true novices), not an "expertise axis pointing the wrong way." Task difficulty is not the
+     driver (equal across cohorts, 8.0 vs 8.0 pts, 0.25 vs 0.24 axon-frac; partialling it leaves −0.44
+     unchanged), and no per-person accuracy signal is recoverable by a richer grammar because the
+     **target has almost no variance** (0.95±0.09) and is selection-shaped. **The signal
+     that survives is per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
      uncorrelated with task size and holds within every size stratum (0.57 / 0.52 / 0.69). Scale transforms (log, rank-invariant) and flexible
      regressors (RF/GBM/kNN) on the continuous distance target don't recover a signal either (best CV
      Spearman 0.26, permutation p=0.25); the only difficulty proxy controlled is task **size** —

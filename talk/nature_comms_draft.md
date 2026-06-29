@@ -80,7 +80,11 @@ sophistication for separating experts from proto-experts (n=16; held-out cross-v
 a **naive** tier (four obvious counts), a **designed** tier (the full hand-built grammar +
 kinematics, 28 features), and a **learned** tier (an unsupervised k-means **motif
 dictionary** of windowed label+timing+rotation "gestures", the surgical-surgeme analog).
-ROC-AUC rose **0.75 → 0.95 → 0.90** (Fig. 1). The discriminative signal is concentrated in
+ROC-AUC rose **0.75 → 0.95 → 0.90** (Fig. 1; under an independent leave-one-out estimator
+0.81 → 0.98 → 0.95, 1000-permutation p = 0.02 / <0.001 / 0.001, bootstrap 95% CI
+[0.62,1.00] / [0.96,1.00] / [0.85,1.00] — wide at n=16 but clear of the 0.46 null, and the
+separation survives stripping raw-volume totals, rate/intensive features alone giving AUC 0.95).
+The discriminative signal is concentrated in
 **3-D exploration kinematics**: experts accumulate ~2× more total camera rotation and examine
 each object from many more viewpoints, and they work ~2× faster. We note honestly that only
 the motif dictionary is a *learned representation*; in the designed tier, "learning" is
@@ -169,12 +173,24 @@ behavior signals risk. This reframes "calibrate the annotators" as an online, la
 control problem rather than a retrospective audit.
 
 **Limitations.** Cohorts are small (expertise n=16; per-annotator competence n=36) and effect
-estimates are wide; the expertise comparison is retrospective (selection on known outcome) and
-is experts-vs-proto-experts, not experts-vs-arbitrary-novices; the poorest performers lack
-dense telemetry entirely, so the rich behavioral test cannot yet reach them; identity linkage
-through the chunkedgraph operation `user` field is unreliable (executor ≠ assignee) and was
-not used for any claim. Two distinct quality tasks show the same ceiling, which strengthens the
-convergence interpretation but limits accuracy-prediction power.
+estimates are wide. Most consequentially, **we cannot test naive-vs-expert on achieved accuracy
+at all**: the ground-truth-labeled cohort is 8 experts + 8 *agreement-promoted* proto-experts —
+both already calibrated — so the accuracy range is restricted to its top, and the bottom (true
+novices) is unmeasured for want of graded tasks. The apparent **anti**-correlation between
+expertise style and accuracy (rotation ρ≈−0.44) is **not significant** (p=0.10, 95% CI [−0.83, +0.20])
+and is a **selection-confounded between-cohort comparison**: it splits into experts (more rotation,
+accuracy 0.92) versus proto-experts (less rotation, accuracy 0.98), with no within-cohort trend, and
+the proto-experts are precisely the students *promoted for agreeing with the graders* — the same
+agreement that fullyProofread accuracy scores. We therefore do **not** read it as "style opposes
+proficiency"; it is the footprint of agreement-gated promotion on a range-restricted, near-ceiling
+target, not a too-poor representation. The expertise comparison is likewise retrospective (selection on known outcome)
+and is experts-vs-proto-experts, not experts-vs-arbitrary-novices; the poorest performers lack
+dense telemetry entirely, so the rich behavioral test cannot yet reach them. The richer task
+description that lifts risk prediction relies on per-point category labels, whose coverage is
+uneven across task types. Identity linkage through the chunkedgraph operation `user` field is
+unreliable (executor ≠ assignee) and was not used for any claim. Two distinct quality tasks show
+the same ceiling, which strengthens the convergence interpretation but limits accuracy-prediction
+power.
 
 **The prospective test.** We pre-register the decisive experiment for the next campaign:
 predict competence and flag risky decisions **from early behavior, before outcomes are known**,
