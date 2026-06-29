@@ -3,7 +3,7 @@
 LOCKED END-TO-END PIPELINE — proofreader behavior & competency (minnie65 / MICrONS)
 ==================================================================================
 Single entry point that reproduces the CORE figures + CSVs behind the talk (current deck
-berlin_deck_v11.pptx — built separately, see NOTE), the methodology record
+berlin_deck_v12.pptx — built separately, see NOTE), the methodology record
 (methodology_provenance.md), and the Nature Communications draft (nature_comms_draft.md).
 
 STAGES (run in order; each is a standalone, re-runnable script — this runner just sequences
@@ -17,8 +17,8 @@ them, logs timing, and STOPS on the first failure so a broken stage is obvious):
   5  figures       offline   make_figures.py                 fig_tier_auc / motif_dictionary / two_task_quality / separability  (handles suppressed)
   6  morefigs      offline   make_more_figures.py            kinematics / grammar / rf_importance / pca / motif_usage / 3-group / uncertainty  (over-complete pool)
 
-NOTE — this runner produces the CORE figures + CSVs only. The CURRENT DECK (berlin_deck_v11.pptx) is
-built separately by build_v6.py … build_v11.py from berlin_deck_v5.pptx (each reads the prior deck);
+NOTE — this runner produces the CORE figures + CSVs only. The CURRENT DECK (berlin_deck_v12.pptx) is
+built separately by build_v6.py … build_v12.py from berlin_deck_v5.pptx (each reads the prior deck);
 the RISK / GRAMMAR figures come from enrich_fullyproofread.py + explore_task_risk_prediction.py and
 extract_streams.py + grammar_probe.py + cave_morphology.py. The old build_deck.py (v2->v3) stage was
 removed — v2 is archived and v3 is superseded.

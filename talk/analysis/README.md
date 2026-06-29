@@ -1,6 +1,6 @@
 # Analysis pipeline — proofreader behavior & competency (minnie65 / MICrONS)
 
-Working scripts behind the talk (current deck `../berlin_deck_v11.pptx`), the methodology/provenance
+Working scripts behind the talk (current deck `../berlin_deck_v12.pptx`), the methodology/provenance
 log (`../methodology_provenance.md`), the figure legends (`../figure_descriptions.md`), and the
 paper draft (`../nature_comms_draft.md`). Handles are suppressed in all committed figures; the
 per-annotator CSVs (which carry handles) are deliberately **not committed**. The canonical
@@ -24,9 +24,9 @@ sequencer is **`run_all.py`** — start there.
 ## Deck build chain (run separately, not via `run_all.py`)
 The current deck is built from the human-edited base `berlin_deck_v5.pptx` by an ordered,
 reversible chain — each script reads the prior deck and writes the next (`BERLIN_TALK` overrides paths):
-`build_v6.py → build_v7.py → build_v8.py → build_v9.py → build_v10.py → build_v11.py`.
-Then **`add_speaker_notes.py`** completes the deck's per-slide speaker notes (idempotent; source of
-truth is `../talk_script.md`). The base and all intermediate decks now live in `../archive/decks/`,
+`build_v6.py → … → build_v11.py` (review pass) `→ build_v12.py` (point-agreement footnotes on
+slides 8 & 17). `add_speaker_notes.py` completes the per-slide speaker notes on v11 (idempotent;
+source `../talk_script.md`) before `build_v12.py` reads it. The base and all intermediate decks now live in `../archive/decks/`,
 so re-running the chain means staging those decks into a working `talk/` dir (point `BERLIN_TALK`
 at it). Superseded early builders (`build_deck.py` v2→v3, `build_v5.py` v4→v5) are archived in
 `../archive/analysis/` as a historical record — the decks they produced are in `../archive/decks/`.
@@ -36,6 +36,18 @@ at it). Superseded early builders (`build_deck.py` v2→v3, `build_v5.py` v4→v
   + `explore_task_risk_prediction.py` → `fig_task_risk.png` (GT-free task risk, AUC 0.76 grouped CV).
 - **Grammar / morphology:** `extract_streams.py` + `grammar_probe.py` (Markov action grammar) and
   `cave_morphology.py` → `fig_grammar_morphology.png`.
+
+## Annotator comparison (NeuVue; two-handle, on demand)
+Compare any two annotators (e.g. an expert vs the grader Pat / `rivlipk1`):
+- `compare_annotators.py` — **behavioral style** on a shared task type (action-mix, navigate↔segment
+  grammar, tempo, 3-D rotation) from differstacks.
+- `compare_points.py` — **per-point label agreement** on shared segments (forced-choice point
+  classification); `--users a,b,c` for cohort tables, `--confusion` for the matrix, `--raw` to skip
+  label normalization.
+- `make_point_agreement_figure.py` → `../fig_point_agreement.png` — agreement-with-grader by cohort
+  (expert / promoted / unpromoted) + a representative confusion matrix.
+These need NeuVue creds (`.nv_tokens.json` / env / cfg) + the `neuvue-client` checkout; the CAVE
+token does **not** work for NeuVue. Per-annotator outputs (handles) cache to `live_out/` (not committed).
 
 ## Exploratory / honest-negative scripts (not in the core pipeline)
 These produced the negative results recorded in `../transparency_failure_modes.md`:

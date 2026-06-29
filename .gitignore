@@ -6,3 +6,13 @@ notebooks/outputs/
 __pycache__/
 *.pyc
 .venv/
+
+# Secrets & live data — NEVER commit (NeuVue / CAVE auth, per-annotator outputs, client checkout)
+.cave_token
+.nv_tokens.json
+**/.cave_token
+**/.nv_tokens.json
+live_out/
+**/live_out/
+neuvue-client/
+**/neuvue-client/
