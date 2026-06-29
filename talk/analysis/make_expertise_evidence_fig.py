@@ -86,7 +86,7 @@ leg=[mpatches.Patch(color=EXP,label="engineered ceiling (28 post-hoc feat)"),
 ax[1].legend(handles=leg,fontsize=6.6,loc="lower right",framealpha=.92,borderpad=.5)
 plt.figtext(0.995,0.005,"Preliminary analysis — MICrONS proofreading annotators (n=16 pilot)",
             ha="right",va="bottom",fontsize=6,style="italic",color="0.5")
-plt.tight_layout(rect=[0,0.015,1,1]); plt.savefig(TALK/"fig_expertise_evidence.png",dpi=160)
+plt.tight_layout(rect=[0,0.015,1,1]); plt.savefig(TALK/"fig_expertise_evidence.png",dpi=300)
 print("designed=%.2f naive=%.2f learned_leaky=%.2f learned_CV=%s median_single=%.2f noise=%.2f perm=%.2f rot_ratio=%.2f"%(
     d_loo,n_loo,m_loo,("%.2f"%m_nested if m_nested is not None else "NA"),med_single,noise,perm,ratio))
 print("saved fig_expertise_evidence.png")
