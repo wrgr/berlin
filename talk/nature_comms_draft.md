@@ -20,12 +20,13 @@ proofreading"), captured as per-event viewer telemetry during the minnie65 MICrO
 predicts the **quality** of their work. Using a graded series of representations (naive
 counts → a hand-designed behavioral grammar → an unsupervised motif dictionary), we find that
 behavior **encodes expertise as a working style** — separating experts from agreement-promoted
-"proto-experts" at ROC-AUC 0.90 — driven by three-dimensional exploration kinematics (experts
-inspect structure from ~2× more viewpoints). Yet **achieved accuracy does not separate skill
+"proto-experts" as a broad signal (median single-feature AUC 0.80, rising to an engineered but
+n=16-fragile 0.95) driven by three-dimensional exploration kinematics (experts accumulate ~2× more
+camera rotation). Yet **achieved accuracy does not separate skill
 levels**: across two independent grading tasks the trained workforce converges to a ceiling
 (experts and novices place split points equally well; per-category label accuracy is
 statistically indistinguishable), and coarse per-annotator behavior fails to predict
-competence (leave-one-out AUC 0.14). Critically, a **ground-truth-free, per-decision**
+competence (leave-one-out AUC within its permutation null — no signal). Critically, a **ground-truth-free, per-decision**
 signal survives: a task that is anomalously slow *for that individual* is significantly more
 error-prone (AUC 0.59, p<0.001), so flagging the most behaviorally-anomalous 20% of tasks
 recovers 28% of errors (1.4× over chance) with no reference annotation. We interpret these
@@ -75,20 +76,26 @@ grammar, motif n-grams, run-length and inter-event-interval distributions, actio
 and exploration kinematics — the components of a "language of proofreading."
 
 ### Behavior encodes expertise as a working style
-On the dense common task (`multiSomaId`), we compared three representations of increasing
-sophistication for separating experts from proto-experts (n=16; held-out cross-validation):
-a **naive** tier (four obvious counts), a **designed** tier (the full hand-built grammar +
-kinematics, 28 features), and a **learned** tier (an unsupervised k-means **motif
-dictionary** of windowed label+timing+rotation "gestures", the surgical-surgeme analog).
-ROC-AUC rose **0.75 → 0.95 → 0.90** (Fig. 1; under an independent leave-one-out estimator
-0.81 → 0.98 → 0.95, 1000-permutation p = 0.02 / <0.001 / 0.001, bootstrap 95% CI
-[0.62,1.00] / [0.96,1.00] / [0.85,1.00] — wide at n=16 but clear of the 0.46 null, and the
-separation survives stripping raw-volume totals, rate/intensive features alone giving AUC 0.95).
-The discriminative signal is concentrated in
-**3-D exploration kinematics**: experts accumulate ~2× more total camera rotation and examine
-each object from many more viewpoints, and they work ~2× faster. We note honestly that only
-the motif dictionary is a *learned representation*; in the designed tier, "learning" is
-limited to feature-importance selection.
+The most robust fact needs no model: on the dense common task (`multiSomaId`), experts
+**explore ~2× more** than proto-experts — 1014° vs 466° of accumulated camera rotation
+(ratio 2.18), inspecting each object from more viewpoints and working ~2× faster. The signal is
+**broad, not cherry-picked**: across 38 behavioral features the *median* single feature separates
+experts from proto-experts at AUC 0.80, and a conservative **un-fished four-count tier** (event
+count, events/session, %navigate, dwell) reaches leave-one-out AUC **0.81** (Fig. 1).
+
+Richer representations score higher — a 28-feature **designed** grammar+kinematics bank at LOO
+0.98 and an unsupervised k-means **motif dictionary** (windowed label+timing+rotation "gestures",
+the surgical-surgeme analog) at 0.95 — but these features were **engineered on this same
+16-annotator sample** (post-hoc, not preregistered), so we read 0.95–0.98 as an **exploratory
+ceiling** rather than a calibrated estimate; a fresh re-mine moves the motif tier to 0.81, a ~0.1
+swing that shows the magnitudes are n=16-fragile. The high numbers are **not** an artifact of
+fitting 28 features to 16 points: 28 *pure-noise* features reach AUC 1.0 in-sample but **collapse
+to 0.45 under the same leave-one-out**, matching the label-permutation null (0.47 ± 0.19) — so
+cross-validation catches the trivial fit, and the real features carry signal the noise does not
+(Fig. 1). We therefore report a **real, broad ~0.80 expertise signal** anchored in 3-D
+exploration, with a richer but provisional ceiling whose confirmation is the **pre-registered
+prospective test on held-out annotators**. (In the designed tier "learning" is only
+feature-importance selection; only the motif dictionary is a genuinely learned representation.)
 
 A structural observation reinforces the interpretation: among students, **only the
 agreement-promoted proto-experts ever performed the dense expert task at all** — so the

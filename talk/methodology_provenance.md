@@ -161,6 +161,17 @@ nulls 0.45–0.48 ± 0.20, one-sided p = **0.022 / <0.001 / 0.001**, and 400-boo
 **[0.62,1.00] / [0.96,1.00] / [0.85,1.00]**. Bars are wide at n=16, but designed and learned sit
 decisively above the null; the honest verb is "separates in a pilot." (`scratchpad/substantiate.py`.)
 
+**Fishing audit — is the high AUC real or in-sample inflation?** The 28 designed + 10 motif features
+were engineered on this same n=16 (post-hoc, not preregistered), so the magnitudes are optimistic.
+What is robust and pipeline-stable converges on **~0.80**: the median of 38 single-feature AUCs is 0.80,
+the un-fished 4-count naive tier is LOO 0.81, and re-mining the motif dictionary **inside the CV fold**
+gives 0.81 (= leaky, so the representation-leakage premium ≈ 0.00). The 0.95–0.98 designed/motif numbers
+are an **exploratory ceiling** (a fresh re-mine swings the motif tier 0.95→0.81). This is *not* mere
+p≫n dimensionality: 28 pure-noise features hit AUC 1.0 in-sample but **collapse to 0.45 under the same
+LOO**, matching the label-permutation null (0.47 ± 0.19) — CV catches the trivial fit, and the real
+features carry signal the noise does not. Anchor (no classifier): experts rotate 1014° vs proto 466°
+(2.18×). Confirmation = the pre-registered prospective held-out test. (`fishing_audit.py`, `motif_cv.py`.)
+
 **Volume vs style (is it just "experts did more"?).** Stripping the six raw-volume totals
 (event/session counts, total rotation, run maxima) and keeping only the 22 **rate/intensive** features
 still separates at **AUC 0.95** (raw totals alone 0.84; all 28 designed 0.98) — the separation is not

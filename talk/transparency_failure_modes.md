@@ -30,6 +30,21 @@ metric). Companion to `methodology_provenance.md`.
    (two different handles resolved to the same uid 1833; names did not resolve on a later run).
    **Not used for any claim**; we use the project lead's authoritative promoted list.
 
+## Fishing audit — how much of the expertise AUC is real?
+The 28 "designed" features and 10 k-means motifs were built on this same n=16 (post-hoc, not
+preregistered), so the headline 0.90–0.98 is optimistic. We audited it three ways
+(`fishing_audit.py`, `motif_cv.py`):
+- **Robust floor ~0.80.** Median of 38 single-feature AUCs = 0.80; the un-fished 4-count naive tier
+  = LOO 0.81; the motif dictionary refit **inside each CV fold** = 0.81 (identical to the leaky
+  fit, so representation-leakage premium ≈ 0.00). A fresh re-mine swings the motif tier 0.95→0.81 —
+  the rich magnitudes are n=16-fragile and are reported as an **exploratory ceiling**.
+- **Not mere p≫n dimensionality.** 28 pure-noise features reach AUC 1.0 in-sample but collapse to
+  0.45 under the same LOO, matching the label-permutation null (0.47 ± 0.19) — CV catches the
+  trivial fit; the real features carry signal the noise does not.
+- **Model-free anchor.** Experts rotate 1014° vs proto 466° (2.18×) — no classifier needed.
+Honest claim: a real, broad **~0.80** expertise signal anchored in 3-D exploration; **0.95–0.98 is
+an engineered ceiling** pending the pre-registered prospective test.
+
 ## Targets that proved too clustered (ceiling effects)
 6. **multiSomaSplit** one-point distance-to-GT: trained novices match experts (medians ~309 vs
    ~399 nm, p=0.092); little variance.
