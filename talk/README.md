@@ -11,9 +11,10 @@ per-task **risk is estimable ground-truth-free at AUC 0.76**, the deployable bas
 allocation of expert effort.
 
 ## Deck
-- **`berlin_deck_v12.pptx`** — current talk (23 slides). v11 added a review pass (page numbers,
-  centered legends, NIH disclaimer); **v12 threads the point-agreement result into slides 8 & 17**
-  (calibrated annotators match the grader on ~99% of point decisions). The only main deck in this
+- **`berlin_deck_v12.pptx`** — current talk (24 slides: 23 + a point-agreement backup). v11 added a
+  review pass (page numbers, centered legends, NIH disclaimer); **v12 threads the point-agreement
+  result into slides 8 & 17** (calibrated annotators match the grader on ~99% of point decisions)
+  and adds a backup slide showing `fig_point_agreement`. The only main deck in this
   directory; all superseded versions (the human-edited base `v5` and intermediates `v2–v4`,
   `v6–v11`) live in `archive/decks/`. Derivation is scripted: `analysis/build_v6.py … build_v12.py`
   (each reads the prior deck, starting from the `v5` base); per-slide speaker notes are completed by

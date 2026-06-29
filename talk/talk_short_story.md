@@ -1,6 +1,6 @@
 # Short talk — the 7-slide story ("Calibrate the agents")
 
-A condensation of the 23-slide deck (`berlin_deck_v12.pptx`) down to the main point and the big
+A condensation of the 24-slide deck (`berlin_deck_v12.pptx`) down to the main point and the big
 idea, for a ~4-minute version. Built by `analysis/build_short_deck.py` → `berlin_deck_short.pptx`
 (scripted/reversible; v12 is never modified). Speaker notes are embedded in the deck.
 

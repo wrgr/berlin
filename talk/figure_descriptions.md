@@ -125,7 +125,7 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 - **Caveat:** 28-cell benchmark; the signal is largely "flag the few intrinsically-hard cells." Per-person
   competence *within* a cell stays weak (AUC 0.55) — **per-decision, not per-person**.
 
-## Point-agreement evidence — `fig_point_agreement.png` (slides 8 & 17 footnote)
+## Point-agreement evidence — `fig_point_agreement.png` (backup slide 24; cited in slides 8 & 17 footnotes)
 - **Plots:** (left) per-annotator **point-label agreement with the expert grader** (Pat / `rivlipk1`)
   on the shared fullyProofread / patProofread benchmark cells, by cohort — each dot one annotator
   (handles suppressed), bar = group median: **expert 98%, promoted 100%, unpromoted 94%** (the

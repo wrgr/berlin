@@ -223,7 +223,7 @@ completed by `add_speaker_notes.py`. Credentials
 (`.nv_tokens.json`, `.cave_token`), `neuvue-client/`, and `live_out/` are kept out of the repo;
 see `analysis/README.md`. Approaches tried, bugs, and retractions are catalogued in
 `transparency_failure_modes.md`.
-**Deliverables locked:** `berlin_deck_v12.pptx` (23 slides; human base `archive/decks/berlin_deck_v5.pptx`), `methodology_provenance.md`,
+**Deliverables locked:** `berlin_deck_v12.pptx` (24 slides; human base `archive/decks/berlin_deck_v5.pptx`), `methodology_provenance.md`,
 `transparency_failure_modes.md`, `nature_comms_draft.md`, `figure_descriptions.md`, `talk_script.md`,
 13 `fig_*.png`, `analysis/` (pipeline + README).
 
