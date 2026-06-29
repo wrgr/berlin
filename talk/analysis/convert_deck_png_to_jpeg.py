@@ -3,14 +3,14 @@ ZIP-level surgery (not python-pptx shape API) so the old PNG parts are truly rem
   - convert ppt/media/*.png > THRESH bytes to JPEG (skip images with real transparency: charts/logos)
   - rename the media part .png -> .jpg, rewrite every .rels Target, add a jpg Default content-type
 Charts/logos (small or transparent PNGs) are left untouched. Reversible: originals in git history.
-Usage: python convert_deck_png_to_jpeg.py [in.pptx] [out.pptx]   (default: berlin_deck_v12 in place)
+Usage: python convert_deck_png_to_jpeg.py [in.pptx] [out.pptx]   (default: berlin_deck_v14 in place)
 """
 import sys, io, zipfile, os
 from pathlib import Path
 from PIL import Image as PILImage
 
 TALK=Path(__file__).resolve().parent.parent
-SRC=Path(sys.argv[1]) if len(sys.argv)>1 else TALK/"berlin_deck_v12.pptx"
+SRC=Path(sys.argv[1]) if len(sys.argv)>1 else TALK/"berlin_deck_v14.pptx"
 OUT=Path(sys.argv[2]) if len(sys.argv)>2 else SRC
 THRESH=800_000; Q=88
 

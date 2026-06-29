@@ -1,4 +1,4 @@
-"""build_v12 — apply the honest-reframe to the rebaselined 'Calibrate the Humans' deck.
+"""build_v14 — apply the honest-reframe to the rebaselined 'Calibrate the Humans' deck.
 Base: the user's rebaselined CalibratetheHumansNotJusttheMicroscope.pptx (24 slides).
 Changes (lead with the robust, model-free signal; label the engineered AUCs an exploratory ceiling;
 correct the rho=-0.44 framing to a selection artifact, NOT 'style != proficiency'):
@@ -6,7 +6,7 @@ correct the rho=-0.44 framing to a selection artifact, NOT 'style != proficiency
   S14  '~2x' -> '~2.18x (1014 vs 466 deg)', model-free
   S16  subtitle: mark EXPLORATORY (post-hoc features)
   S17  add a selection-artifact + data-limitation caveat (calibrated cohort, no true novices)
-Outputs talk/berlin_deck_v12.pptx.
+Outputs talk/berlin_deck_v14.pptx.
 """
 import os, copy
 from pathlib import Path
@@ -17,7 +17,7 @@ from pptx.text.text import _Paragraph
 SCR=Path(os.environ.get("BERLIN_SCRATCH","/tmp/claude-0/-home-user-berlin/eb94da13-135d-5ec6-9497-7a16104e77d6/scratchpad"))
 TALK=Path(os.environ.get("BERLIN_TALK","/home/user/berlin/talk"))
 BASE=SCR/"deck_rebaseline.pptx"
-OUT=TALK/"berlin_deck_v12.pptx"
+OUT=TALK/"berlin_deck_v14.pptx"
 p=Presentation(str(BASE))
 
 def shape_containing(slide, sub):

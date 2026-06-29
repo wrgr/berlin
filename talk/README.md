@@ -10,8 +10,8 @@ per-task **risk is estimable ground-truth-free at AUC 0.76**, the deployable bas
 allocation of expert effort.
 
 ## Deck
-- **`berlin_deck_v12.pptx`** — current talk (24 slides; "Calibrate the Humans, Not Just the
-  Microscope"). Built by `analysis/build_v12.py` from the rebaselined base: S13 leads with the
+- **`berlin_deck_v14.pptx`** — current talk (24 slides; "Calibrate the Humans, Not Just the
+  Microscope"). Built by `analysis/build_v14.py` from the rebaselined base: S13 leads with the
   model-free **~2.18× exploration** anchor + the **CV AUC ladder** (`fig_expertise_evidence.png`,
   learned tier CV-correct at 0.81, designed 0.98 an exploratory ceiling); S17 frames ρ=−0.44 as a
   selection artifact. **`berlin_deck_v11.pptx`** — prior line (`build_v6.py … build_v11.py` from `v5`).
@@ -34,7 +34,7 @@ In-deck: `fig_expertise_evidence` (honest AUC ladder + 2.18× anchor, S13), `fig
 ## Analysis (`analysis/`)
 Reproducible pipeline. **Core figures + CSVs:** `run_all.py` — network stages 1–3 mine NeuVue + CAVE;
 offline stages 4–6 rebuild the core figures from cached CSVs (`--offline`). **The current deck**
-(`berlin_deck_v12`) is built by `build_v12.py` from the rebaselined base (`build_v6.py … build_v11.py`
+(`berlin_deck_v14`) is built by `build_v14.py` from the rebaselined base (`build_v6.py … build_v11.py`
 is the prior `v5` line); the S13 evidence figure is `make_expertise_evidence_fig.py`, the fishing
 audit is `fishing_audit.py` + `motif_cv.py`, and the ρ=−0.44 check is `rho_robustness.py`. **The risk / grammar figures** come from `enrich_fullyproofread.py` +
 `explore_task_risk_prediction.py` (risk) and `extract_streams.py` + `grammar_probe.py` +
