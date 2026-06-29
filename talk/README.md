@@ -10,14 +10,14 @@ per-task **risk is estimable ground-truth-free at AUC 0.76**, the deployable bas
 allocation of expert effort.
 
 ## Deck
-- **`Calibrate_the_Humans_v14.pptx`** — current talk (**20 main + 4 backup** slides; "Calibrate the
+- **`Calibrate_the_Humans_v14.pptx`** — current talk (**19 main + 5 backup** slides; "Calibrate the
   Humans, Not Just the Microscope"). The Evidence slide leads with the model-free **~2.18× exploration**
   anchor + the **CV AUC ladder** (`fig_expertise_evidence.png`, learned tier CV-correct at 0.81, designed
   0.98 an exploratory ceiling); the per-decision slide frames ρ=−0.44 as a selection artifact. Pipeline:
   `build_v14.py` (apply reframe to the rebaselined base) → `convert_deck_png_to_jpeg.py` (photos→JPEG,
   27→6.4 MB) → `trim_tighten_v14.py` (merge mechanism+grammar and ecosystem+outreach, RF/PCA/motif →
-  backup, condense exposition) → `merge_s3_s4.py` (agents+routing → one slide). **`berlin_deck_v11.pptx`**
-  — prior line (`build_v6.py … build_v11.py`).
+  backup, condense exposition) → `merge_s3_s4.py` (agents+routing → one slide) → `merge_s8_s9.py` (language-question + JIGSAWS →
+  one slide). **`berlin_deck_v11.pptx`** — prior line (`build_v6.py … build_v11.py`).
 
 ## Documents
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).

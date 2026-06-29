@@ -1,6 +1,6 @@
 # Speaker script — "Calibrate the Humans, Not Just the Microscope"
 
-~9 minutes · 20 slides (+4 backup). Aligned to `Calibrate_the_Humans_v14.pptx`. For each slide:
+~8–9 minutes · 19 slides (+5 backup). Aligned to `Calibrate_the_Humans_v14.pptx`. For each slide:
 **beats** (landing points — expand naturally, don't read) and **takeaway** (the one line to leave on).
 
 ---
@@ -52,33 +52,31 @@
 
 ---
 
-## ACT II — Can we read it? (slides 8–11, ~1.5 min)
+## ACT II — Can we read it? (slides 8–10, ~1.5 min)
 
-### 8 · Can we learn a language of proofreading?
-- A retrospective target of opportunity (MICrONS), with a planned prospective validation: read performance
-  and capability from *how* the work is done, to route limited expert attention.
-- **Takeaway:** if skill lives in the *how*, we can read it as the work happens.
+### 8 · A language of proofreading? — inspiration: JIGSAWS
+- Can we read proofreading skill from *how* the work is done, to route limited expert attention? Surgery
+  already has a "language": JIGSAWS describes procedures as gesture sequences and transitions; expert
+  surgeons show more efficient, consistent patterns and smoother motion.
+- **The language of proofreading ↔ the language of surgery** — a retrospective MICrONS target, with
+  prospective validation planned.
+- **Takeaway:** if skill lives in the *grammar* of the work, we can read it as the work happens.
 
-### 9 · Inspiration: JIGSAWS (language of surgery)
-- Surgery is describable as gestures and transitions — a structured "language." Experts show more efficient,
-  consistent patterns and smoother motion. **The language of proofreading ↔ the language of surgery.**
-- **Takeaway:** skill is assessable from the *grammar* of the work, not just the outcome.
-
-### 10 · Promotion: from ad hoc to a learning diagnostic
+### 9 · Promotion: from ad hoc to a learning diagnostic
 - Today promotion is hand-judged after the fact (expert time spent watching). Goal: a diagnostic with
   formative signals (in training) and summative signals (at promotion).
 - **Takeaway:** turn promotion into a measurement, not a bottleneck.
 
-### 11 · What behavior already reveals
+### 10 · What behavior already reveals
 - Three things: calibration **converges** outcomes (it works); behavior **separates** experts from
   proto-experts (skill leaves a trace); competence reads **per-decision** (flag risky decisions, don't rank people).
 - **Takeaway:** competence is **legible in behavior** — the next slides are the evidence.
 
 ---
 
-## ACT III — The evidence (slides 12–15, ~2 min)
+## ACT III — The evidence (slides 11–14, ~2 min)
 
-### 12 · The evidence — the language of proofreading
+### 11 · The evidence — the language of proofreading
 - Left: the rawest signal needs no model — **experts explore ~2.18× more**. The AUC ladder is honest and
   **cross-validated**: naive 4-count features and the learned 10-motif dictionary both separate at **0.81**;
   the 28-feature designed bank hits **0.98** but is engineered post-hoc on n=16 — an **exploratory ceiling**.
@@ -87,13 +85,13 @@
 - **Takeaway:** a real, broad **~0.80** expertise signal anchored in 3-D exploration; risky decisions flagged
   with **no answer key**.
 
-### 13 · The language of proofreading — exploration & grammar
+### 12 · The language of proofreading — exploration & grammar
 - The mechanism: experts accumulate ~2× more camera rotation, inspect from more viewpoints, work faster;
   the action-mix and the **navigate↔segment transition grammar** differ by cohort — experts edit in
   sustained runs, proto-experts hop. *(Grammar figure in backup.)*
 - **Takeaway:** there's a real **grammar** to proofreading, and it encodes expertise.
 
-### 14 · Competence is legible per-decision, not per-person
+### 13 · Competence is legible per-decision, not per-person
 - Calibration **converges** outcomes — promoted ≈ expert (~99% point-agreement) — so achieved accuracy can't
   rank people. What survives is **per-decision**: slower-for-this-person tasks fail more, ground-truth-free.
 - **Honest caveat (say it):** the calibrated cohort (n=16, no true novices) is why the rotation↔accuracy dip
@@ -101,38 +99,38 @@
   very metric), **not** "style ≠ proficiency."
 - **Takeaway:** **don't rank people — flag risky decisions.**
 
-### 15 · Risk is estimable, ground-truth-free
+### 14 · Risk is estimable, ground-truth-free
 - From a task's structure alone — no labels — predict error-proneness at **AUC 0.76 on held-out cells**
   (honest grouped CV; the inflated 0.92 was cell-memorization; 1000-perm null p<0.001).
 - **Takeaway:** you can **score risk before you spend** — exactly what "route to where risk is high" needs.
 
 ---
 
-## ACT IV — The workforce & why it matters (slides 16–20, ~2 min)
+## ACT IV — The workforce & why it matters (slides 15–19, ~2 min)
 
-### 16 · Who we calibrated: the workforce at APL
+### 15 · Who we calibrated: the workforce at APL
 - 8 part-time **experts** (Janelia EM training) + 36 **JHU undergraduate novices**, one curriculum, routed
   and recorded on NeuVue.
 - **Takeaway:** "calibrate the annotators" isn't a metaphor — it's 44 people and a training pipeline.
 
-### 17 · Learning engineering: agreement-gated promotion
+### 16 · Learning engineering: agreement-gated promotion
 - Students whose decisions agreed with experts were **promoted to a proto-expert tier** with write-access:
   train → practice → measure agreement → promote.
 - **Takeaway:** promotion-by-agreement works — but it's **selection on outcome**. Can we predict it *early*?
   *(That's the pre-registered prospective test.)*
 
-### 18 · Where this lives — students as the method
+### 17 · Where this lives — students as the method
 - This serves the HI-MC connectome (Lichtman UM1); the Master's program trains the workforce; CV supplies the
   automated agents. And the payoff: **MICrONS relied on this workforce**; students became co-authors —
   **Daniel Xenes**, now leading NeuVue, is the exemplar.
 - **Takeaway:** the measurement that **prices the budget** is the same one that **develops the workforce** —
   talent development and mission acceleration are the same act.
 
-### 19 · Close — calibrate the people, not just the microscope
+### 18 · Close — calibrate the people, not just the microscope
 - **Proofreading is an optimization problem. The missing piece is a principled price for human judgment.**
 - **Takeaway / land here:** *Calibrate the people, not just the microscope.*
 
-### 20 · Thank you & acknowledgments
+### 19 · Thank you & acknowledgments
 - NeuVue (Daniel Xenes & team), the graders (Pat Rivlin, Lindsey Kitchell), the 8 experts and 36 novices, the
   JHU/APL workforce model. *(NIH BRAIN CONNECTS, UM1NS132250.)*
 - **Takeaway:** a team effort — name the people.
@@ -145,6 +143,7 @@
   "dialect") all point to 3-D exploration kinematics. *Exploratory, n=16, post-hoc features.*
 - **Outreach (detail)** — demonstrated results, co-authorship pipeline, why the systems approach is rigorous.
 - **Proofreaders as Agents (detail)** — the agent taxonomy diagram (naive → expert → ML; capability, cost, scope).
+- **Can we learn a language? (pivot)** — the framing question, if you want to set it up explicitly.
 
 If pressed on the honest negatives: per-**person** accuracy is **not** predictable (the 0.14 is within the
 permutation null; ρ=−0.44 is a selection artifact); per-**decision** risk **is** (0.76, p<0.001). Flag
