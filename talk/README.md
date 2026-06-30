@@ -23,8 +23,9 @@ allocation of expert effort.
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).
 - `methodology_provenance.md` — methods & provenance: every claim with the analysis behind it.
 - `transparency_failure_modes.md` — retractions, dead ends, robustness checks, honest negatives.
-- `figure_descriptions.md` — per-figure legends synced to the analysis (mapped to v10 slides).
-- `deck_coherence_review.md`, `deck_v5_changes.md` — deck change logs.
+- `figure_descriptions.md` — per-figure legends synced to the analysis (mapped to v12 slides).
+- `talk_script.md` — per-slide speaker script (beats + takeaways); the source for the deck's speaker notes.
+  (Deck change logs for the superseded transitions are in `archive/notes/`.)
 
 ## Figures (in deck + spares)
 In-deck: `fig_expertise_evidence` (honest AUC ladder + 2.18× anchor, S13), `fig_prospective_flagging`,
@@ -41,10 +42,14 @@ offline stages 4–6 rebuild the core figures from cached CSVs (`--offline`). **
 is the prior `v5` line); the S13 evidence figure is `make_expertise_evidence_fig.py`, the fishing
 audit is `fishing_audit.py` + `motif_cv.py`, and the ρ=−0.44 check is `rho_robustness.py`. **The risk / grammar figures** come from `enrich_fullyproofread.py` +
 `explore_task_risk_prediction.py` (risk) and `extract_streams.py` + `grammar_probe.py` +
-`cave_morphology.py` (grammar / morphology). Network stages need NeuVue + CAVE credentials (not
-committed); per-annotator CSVs carry annotator handles and are deliberately not committed. See
-`analysis/README.md`.
+`cave_morphology.py` (grammar / morphology). **Annotator comparison (NeuVue):**
+`compare_annotators.py` (behavioral style), `compare_points.py` (per-point label agreement), and
+`make_point_agreement_figure.py` (→ `fig_point_agreement.png`). Network stages need NeuVue + CAVE
+credentials (not committed); per-annotator CSVs carry annotator handles and are deliberately not
+committed. See `analysis/README.md`.
 
 ## Archive (`archive/`)
-Superseded decks (v2–v4, v6–v10), early plots (incl. the retracted axon-GT figure), and early analysis
-notes — moved out so the main directory is all-current. Nothing deleted; see `archive/README.md`.
+Superseded decks (v2–v11, incl. the human-edited `v5` base), superseded build scripts
+(`build_deck.py`, `build_v5.py`), deck change logs, early plots (incl. the retracted axon-GT
+figure), and early analysis notes — moved out so the main directory is all-current. Nothing
+deleted; see `archive/README.md`.

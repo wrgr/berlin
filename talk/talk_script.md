@@ -149,6 +149,14 @@ If pressed on the honest negatives: per-**person** accuracy is **not** predictab
 permutation null; ρ=−0.44 is a selection artifact); per-**decision** risk **is** (0.76, p<0.001). Flag
 decisions, don't rank people.
 
+### 24 · Backup — calibration converges, per decision (point agreement)
+- *Only if asked "how close to the grader are they?"* Forced-choice point classification: same points
+  pre-placed, everyone labels them → per-point agreement with the expert grader. Promoted **median
+  100%**, expert **98%** (a representative expert 141/142); unpromoted **bimodal** with a low tail.
+- The kicker: decision-agreement is **decoupled from style** — same expert, ~99% on labels, a totally
+  different behavioral dialect. Style = manner; points = correctness.
+- **Takeaway:** outcomes converge; the residual signal is per-decision — flag decisions, don't rank people.
+
 ---
 
 ## Leave the audience with

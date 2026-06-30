@@ -114,6 +114,16 @@ mechanism, agreement-promoted students perform at **expert-level accuracy** (med
 expert 309 nm) while unpromoted students are more dispersed (median 460 nm). In a workforce
 calibrated to agree, the *outcome* has little variance left to predict.
 
+The convergence is starkest at the level of individual decisions. The `fullyProofread` tasks
+present the **same pre-placed points** to every annotator, who classifies each (spine / axon /
+dendrite / soma / nucleus / …); we therefore measure **per-point label agreement** with the expert
+grader directly. Promoted students match the grader on a **median 100%** of points and experts on a
+**median 98%** (a representative expert: 141/142, 99.3%), whereas the unpromoted group is **bimodal**
+with a low tail (median ~94%, down to ~27%) — Fig. 3b. Strikingly, this decision-level agreement is
+**decoupled from behavioral style**: the same expert who agrees with the grader on ~99% of point
+labels exhibits a markedly different behavioral *dialect* (more sustained editing runs vs the
+grader's navigation-dominated review), confirming that behavior encodes *manner*, not *correctness*.
+
 ### Coarse per-annotator behavior does not predict competence (a negative result)
 Using `fullyProofread` accuracy — which has a discriminating bad tail — as the competence
 target, simple telemetry-free per-annotator features (duration statistics, throughput,
