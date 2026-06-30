@@ -10,22 +10,29 @@ per-task **risk is estimable ground-truth-free at AUC 0.76**, the deployable bas
 allocation of expert effort.
 
 ## Deck
-- **`Calibrate_the_Humans_v14.pptx`** — current talk (**19 main + 5 backup** slides; "Calibrate the
-  Humans, Not Just the Microscope"). The Evidence slide leads with the model-free **~2.18× exploration**
-  anchor + the **CV AUC ladder** (`fig_expertise_evidence.png`, learned tier CV-correct at 0.81, designed
-  0.98 an exploratory ceiling); the per-decision slide frames ρ=−0.44 as a selection artifact. Pipeline:
-  `build_v14.py` (apply reframe to the rebaselined base) → `convert_deck_png_to_jpeg.py` (photos→JPEG,
-  27→6.4 MB) → `trim_tighten_v14.py` (merge mechanism+grammar and ecosystem+outreach, RF/PCA/motif →
-  backup, condense exposition) → `merge_s3_s4.py` (agents+routing → one slide) → `merge_s8_s9.py` (language-question + JIGSAWS →
-  one slide). **`berlin_deck_v11.pptx`** — prior line (`build_v6.py … build_v11.py`).
+- **`Calibrate_the_Humans_v15_presented.pptx`** — **the talk as presented** (17 slides; canonical record).
+- **`Calibrate_the_Humans_v14.pptx`** — the last *reproducible, scripted* build (19 main + 5 backup);
+  v15 is this plus final manual edits made live in PowerPoint. The Evidence slide leads with the
+  model-free **~2.18× exploration** anchor + the **CV AUC ladder** (`fig_expertise_evidence.png`,
+  learned tier CV-correct at 0.81, designed 0.98 an exploratory ceiling); the Risk slide shows two
+  ground-truth-free signals (`fig_task_risk.png`); the per-decision slide frames ρ=−0.44 as a selection
+  artifact. Build pipeline: `build_v14.py` → `convert_deck_png_to_jpeg.py` → `trim_tighten_v14.py` →
+  `merge_s3_s4.py` → `merge_s8_s9.py`.
 
 ## Documents
 - `nature_comms_draft.md` — paper draft (per-decision-not-per-person → GT-free risk → grammar → scale-up).
 - `methodology_provenance.md` — methods & provenance: every claim with the analysis behind it.
 - `transparency_failure_modes.md` — retractions, dead ends, robustness checks, honest negatives.
-- `figure_descriptions.md` — per-figure legends synced to the analysis (mapped to v12 slides).
+- `figure_descriptions.md` — per-figure legends synced to the analysis (incl. the long-form, acronym-free risk legend).
 - `talk_script.md` — per-slide speaker script (beats + takeaways); the source for the deck's speaker notes.
+- `PROVENANCE.md` — end-to-end trace: NeuVue/CAVE calls → mining scripts → evidence → figures → slides.
   (Deck change logs for the superseded transitions are in `archive/notes/`.)
+
+## Evidence (`evidence/`) — traceable & reproducible
+De-identified copies of the per-annotator data behind every figure (handles → opaque ids `E01..`/`S01..`;
+no tokens, no name map), so the plots reproduce from this repo **with no credentials** — e.g.
+`cd analysis && BERLIN_DATA=../evidence python make_risk_fig.py` (regenerates `fig_task_risk.png`,
+AUC 0.59/0.76 bit-for-bit). Produced by `analysis/anonymize_evidence.py`; see `evidence/README.md`.
 
 ## Figures (in deck + spares)
 In-deck: `fig_expertise_evidence` (honest AUC ladder + 2.18× anchor, S13), `fig_prospective_flagging`,
@@ -45,11 +52,12 @@ audit is `fishing_audit.py` + `motif_cv.py`, and the ρ=−0.44 check is `rho_ro
 `cave_morphology.py` (grammar / morphology). **Annotator comparison (NeuVue):**
 `compare_annotators.py` (behavioral style), `compare_points.py` (per-point label agreement), and
 `make_point_agreement_figure.py` (→ `fig_point_agreement.png`). Network stages need NeuVue + CAVE
-credentials (not committed); per-annotator CSVs carry annotator handles and are deliberately not
-committed. See `analysis/README.md`.
+credentials (not committed); raw per-annotator CSVs carry handles and stay uncommitted, but
+**de-identified copies live in `evidence/`** so every figure reproduces offline
+(`anonymize_evidence.py`; `PROVENANCE.md`).
 
 ## Archive (`archive/`)
-Superseded decks (v2–v11, incl. the human-edited `v5` base), superseded build scripts
-(`build_deck.py`, `build_v5.py`), deck change logs, early plots (incl. the retracted axon-GT
-figure), and early analysis notes — moved out so the main directory is all-current. Nothing
+Superseded decks (the full `berlin_deck` v2–v11 line, incl. the human-edited `v5` base), superseded
+build scripts (`build_deck.py`, `build_v5.py`), deck change logs, early plots (incl. the retracted
+axon-GT figure), and early analysis notes — moved out so the main directory is all-current. Nothing
 deleted; see `archive/README.md`.
