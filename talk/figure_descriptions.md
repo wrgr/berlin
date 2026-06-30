@@ -102,29 +102,36 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ---
 
-## Risk evidence — `fig_task_risk.png` (main slide)
-- **Plots:** (left) CV ROC-AUC for predicting per-task *error*, random vs honest **grouped-by-cell**
-  CV, across four GT-free feature sets (`dur_z` → +throughput → +category-mix → category-mix-only);
-  (right) the 28 benchmark cells' error rates, sorted — bimodal (25 easy + 3 "killer" cells).
-- **Reads as:** GT-free **task RISK** (error-proneness) is predictable at **AUC 0.76** on held-out
-  cells from point-category structure (grouped permutation null 0.47 ± 0.02, p<0.001) — the "risk"
-  axis of impact×risk, scored *before* spending expert time. The richer representation is what
-  unlocked it (`dur_z` alone ≈ 0.5).
-- **Caveat:** the 0.92 under random CV was **cell-identity leakage** (only 28 cells); per-annotator
-  competence within a fixed cell stays ~0.55; CAVE morphological confirmation inconclusive (stale roots).
+## Risk slide — `fig_task_risk.png` — two ground-truth-free ways to flag a risky decision
+*Long-form, acronym-free legend (for vetting). "Ground-truth-free" = the prediction uses only
+information available before review; the correct answer is used afterward, only to check it.*
 
-## Slide 18 — `fig_task_risk.png` — GT-free task risk is estimable
-- **Plots:** (left) CV ROC-AUC predicting per-task error under **random** vs **grouped-by-cell** CV,
-  for nested GT-free feature sets — `dur_z` (0.50 / 0.48), +throughput (0.67 / 0.60), +category-mix
-  (0.92 / **0.79**), category-mix only (0.80 / **0.76**). The grouped bars are honest; the random bars
-  leak cell identity (only 28 cells). (right) per-cell error rate, 28 cells sorted — **3 "killer" cells**
-  (err > 0.78, red) above the 0.25 base rate.
-- **Reads as:** task **risk** (error-proneness) is predictable **ground-truth-free at AUC 0.76 on
-  held-out cells** (grouped permutation null 0.47 ± 0.02, p<0.001) from annotation-category structure —
-  the deployable estimate of the *risk* axis in the impact×risk allocation. The headline 0.92 was
-  cell-identity leakage, corrected by grouping.
-- **Caveat:** 28-cell benchmark; the signal is largely "flag the few intrinsically-hard cells." Per-person
-  competence *within* a cell stays weak (AUC 0.55) — **per-decision, not per-person**.
+- **Data.** 764 completed point-labeling tasks by 16 calibrated annotators across 28 distinct neurons.
+  A task is an "error" if the annotator's labels did not exactly match the expert grader's. 25% of all
+  tasks were errors (the dashed base-rate line in both panels).
+- **Left panel — behavior ("a task slow *for that person*").** For each task we compared how long the
+  annotator took to that *same* annotator's own average time (removing person-to-person speed
+  differences). Tasks split into four equal groups, fastest-relative-to-self to slowest; the real error
+  rate per group is **16% / 27% / 25% / 34%**. Ranking-accuracy score = **0.59** (0.5 = chance, 1.0 =
+  perfect: the chance a random error-task ranks slower-for-that-person than a random correct one).
+  Significance: 2,000 random shuffles of the error labels scored 0.50 ± 0.02; the real 0.59 beat
+  essentially all — **p<0.001**.
+- **Right panel — task structure ("from the task's own composition").** No behavior used. Each labeled
+  point is an anatomical category (spine, nucleus, dendrite, axon, cell body); we predict error from the
+  task's *fraction in each category*, training and testing on **disjoint neurons (whole cells held out)**
+  so the model can't memorize a neuron's typical error rate. Tasks split into four groups by predicted
+  risk; real error rate per group is **16% / 10% / 25% / 51%**. Ranking-accuracy score = **0.76**;
+  1,000 shuffles preserving the held-out-neuron rule scored 0.47 ± 0.02 — **p<0.001**. Strongest drivers:
+  fraction of axon points (axon-heavy tasks were *safer*, 17% vs 25%) and dendrite points.
+- **Honesty note.** An earlier 0.92 let the model see other tasks from the same neuron (it memorized
+  per-neuron error rates); holding out whole neurons removes that and gives the honest 0.76. Only the
+  honest number is shown.
+- **Claims / limits.** Two independent no-answer-key signals each beat chance, both significant. NOT large
+  or deploy-ready: pilot scale (764 decisions, 28 neurons, 16 annotators); the behavioral effect is modest.
+  The signals are complementary at different levels — behavior ranks *individual decisions*, structure ranks
+  *whole tasks/neurons*; adding structure to the per-decision behavioral model did not improve per-decision
+  ranking. "Error" = disagreement with the grader on this one task, not absolute biological correctness.
+  (`make_risk_fig.py`; numbers via `explore_task_risk_prediction.py`.)
 
 ## Point-agreement evidence — `fig_point_agreement.png` (backup slide 24; cited in slides 8 & 17 footnotes)
 - **Plots:** (left) per-annotator **point-label agreement with the expert grader** (Pat / `rivlipk1`)
