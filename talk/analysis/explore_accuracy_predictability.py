@@ -7,8 +7,10 @@ Findings (see ../deck_coherence_review.md / transparency_failure_modes.md):
   one-sided p ~ 0.07. Honest statement: 'no reliable annotator-level accuracy signal.'
 - Classifier/weight sweep (LR weighted/unweighted, C-sweep, RF) spans 0.00-0.34 — instability
   inside the null, not a tunable signal. The target, not the model, is the problem.
-- The point estimate dips below 0.5 because the EXPERTISE axis is weakly OPPOSED to accuracy among
-  calibrated annotators (total_rot_deg rho ~ -0.44) — an effort/difficulty confound on a ceiling.
+- The point estimate dips below 0.5 only as noise: the total_rot_deg rho ~ -0.44 behind it is n.s.
+  (p=0.10, 95% CI [-0.83,+0.20]) and is the largest of 29 chance-level coefficients (0/29 p<0.05,
+  sign 17-/12+) — a max-of-a-null-field on a ceiling target, NOT a difficulty confound (it survives
+  partialling task size/axon-fraction, which are equal across cohorts). See rho_robustness.py.
 - Constructive paths: per-task unit (AUC 0.59), task-difficulty controls, a variance-rich target.
 
 Offline; reads the CSVs in live_out/. Run with BERLIN_DATA / BERLIN_TALK to override paths."""
@@ -59,7 +61,7 @@ print("continuous-acc Ridge 5-fold Spearman=%.2f"%stats.spearmanr(
 # expertise axis vs accuracy (calibrated cohort with dense telemetry)
 T=pd.read_csv(OUT/"tiers_data.csv"); fp=pd.read_csv(OUT/"fullyproofread_accuracy.csv")[["assignee","acc_relax"]]
 M=T.merge(fp,on="assignee",how="inner"); rho,pp=stats.spearmanr(M.total_rot_deg,M.acc_relax)
-print("expertise axis vs accuracy (n=%d): total_rot_deg rho=%.2f p=%.2f (WRONG sign for accuracy)"%(len(M),rho,pp))
+print("expertise axis vs accuracy (n=%d): total_rot_deg rho=%.2f p=%.2f (n.s.; selection-confounded between-cohort comparison — see rho_robustness.py)"%(len(M),rho,pp))
 
 # ---- 3-panel diagnostic figure ----
 fig,ax=plt.subplots(1,3,figsize=(13.8,4))
@@ -72,12 +74,15 @@ ax[1].axvline(null.mean(),c="k",lw=1,label="null mean %.2f"%null.mean())
 ax[1].axvline(obs,c="#de2d26",lw=2.2,label="observed %.2f"%obs); ax[1].axvline(0.5,ls=":",c="#888",label="0.5")
 ax[1].set_title("'Worse than chance' is within the noise\nLOO null %.2f±%.2f; one-sided p=%.2f"%(null.mean(),null.std(),(null<=obs).mean()),fontsize=10)
 ax[1].set_xlabel("leave-one-out AUC (annotator accuracy)"); ax[1].set_ylabel("density"); ax[1].legend(fontsize=8)
+# the -0.44 is a BETWEEN-COHORT SELECTION effect: proto-experts were promoted FOR grader-agreement,
+# and fullyProofread accuracy IS grader-agreement -> the comparison group is selected on the outcome.
 for coh,c,lb in [("expert",EXP,"expert"),("student",STU,"proto-expert")]:
-    s=M[M.cohort==coh]; ax[2].scatter(s.total_rot_deg,s.acc_relax,c=c,s=46,edgecolor="k",lw=.3,label=lb)
+    s=M[M.cohort==coh]
+    ax[2].scatter(s.total_rot_deg,s.acc_relax,c=c,s=46,edgecolor="k",lw=.3,label="%s (mean acc %.2f)"%(lb,s.acc_relax.mean()))
 xs=np.linspace(M.total_rot_deg.min(),M.total_rot_deg.max(),50)
-ax[2].plot(xs,np.polyval(np.polyfit(M.total_rot_deg,M.acc_relax,1),xs),ls="--",c="k",lw=1)
-ax[2].set_title("Expertise axis points the wrong way for accuracy\nmore rotation → weakly lower accuracy (rho=%.2f)"%rho,fontsize=10)
-ax[2].set_xlabel("total camera rotation (expertise signal) →"); ax[2].set_ylabel("fullyProofread accuracy"); ax[2].legend(fontsize=8)
+ax[2].plot(xs,np.polyval(np.polyfit(M.total_rot_deg,M.acc_relax,1),xs),ls="--",c="0.6",lw=1,label="pooled ρ=%.2f (confounded, n.s.)"%rho)
+ax[2].set_title("Expertise↔accuracy is a selection artifact, not 'skill hurts'\nproto-experts promoted FOR grader-agreement = the accuracy metric",fontsize=9.5)
+ax[2].set_xlabel("total camera rotation (expertise signal) →"); ax[2].set_ylabel("fullyProofread accuracy"); ax[2].legend(fontsize=7.5)
 plt.figtext(0.995,0.004,"Preliminary analysis — MICrONS proofreading annotators",ha="right",va="bottom",fontsize=6,style="italic",color="0.5")
 plt.tight_layout(); plt.savefig(TALK/"fig_accuracy_unpredictable.png",dpi=150)
 print("saved fig_accuracy_unpredictable.png")

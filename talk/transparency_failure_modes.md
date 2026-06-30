@@ -30,6 +30,23 @@ metric). Companion to `methodology_provenance.md`.
    (two different handles resolved to the same uid 1833; names did not resolve on a later run).
    **Not used for any claim**; we use the project lead's authoritative promoted list.
 
+## Fishing audit — how much of the expertise AUC is real?
+The 28 "designed" features and 10 k-means motifs were built on this same n=16 (post-hoc, not
+preregistered), so the headline 0.90–0.98 is optimistic. We audited it three ways
+(`fishing_audit.py`, `motif_cv.py`):
+- **Robust floor ~0.80.** Median of 38 single-feature AUCs = 0.80; the un-fished 4-count naive tier
+  = LOO 0.81; the **learned** motif dictionary refit **inside each CV fold** = **0.81** (on fresh
+  windows the in-fold and leaky variants agree, premium ≈ 0.00). The 0.90/0.95 once reported for the
+  learned tier fit the k-means on **all** annotators (representation leakage) and is **retired**; the
+  lone high tier is the post-hoc **designed bank (0.98)**, an **exploratory ceiling**.
+- **Not mere p≫n dimensionality.** 28 pure-noise features reach AUC 1.0 in-sample but collapse to
+  0.45 under the same LOO, matching the label-permutation null (0.47 ± 0.19) — CV catches the
+  trivial fit; the real features carry signal the noise does not.
+- **Model-free anchor.** Experts rotate 1014° vs proto 466° (2.18×) — no classifier needed.
+Honest claim: a real, broad **~0.80** expertise signal (naive and CV'd-learned tiers both 0.81)
+anchored in 3-D exploration; the **designed 0.98 is an engineered ceiling** pending the pre-registered
+prospective test.
+
 ## Targets that proved too clustered (ceiling effects)
 6. **multiSomaSplit** one-point distance-to-GT: trained novices match experts (medians ~309 vs
    ~399 nm, p=0.092); little variance.
@@ -40,9 +57,20 @@ metric). Companion to `methodology_provenance.md`.
      permutation null (**0.45 ± 0.20**, one-sided p≈0.07) the 0.14 is *no signal*, not an anti-signal;
      it holds on **both** ceiling-bound label accuracy **and** the variance-rich `multiSomaSplit`
      distance-to-GT (Ridge ρ=0.07, p=0.71), and a classifier/weight sweep spans 0.00–0.34 (all inside
-     the null). The sub-0.5 estimate reflects the *expertise* axis being weakly **opposed** to
-     accuracy among calibrated annotators (rotation ρ≈−0.44). **The signal that survives is
-     per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
+     the null). The sub-0.5 point estimate is **not an anti-signal**: the rotation ρ≈−0.44 behind it
+     is non-significant (p=0.10; bootstrap 95% CI **[−0.83, +0.20]**, crosses zero) AND it is a
+     **selection-confounded between-cohort comparison, not "skill hurts."** It decomposes into two
+     clouds — experts (high rotation, accuracy 0.92) vs proto-experts (low rotation, accuracy 0.98) —
+     with no within-cohort trend (experts ρ=−0.60 n=8 n.s.; proto-experts ρ=−0.04). The proto-experts
+     are exactly the students **promoted for agreeing with the graders**, while fullyProofread accuracy
+     *is* agreement with grader GT — so the comparison group was selected on the outcome metric, and
+     the expertise features (rotation, runs, motifs — systematically the most-negative coefficients)
+     inherit a spurious negative. It is the footprint of agreement-gated promotion + range restriction
+     (no true novices), not an "expertise axis pointing the wrong way." Task difficulty is not the
+     driver (equal across cohorts, 8.0 vs 8.0 pts, 0.25 vs 0.24 axon-frac; partialling it leaves −0.44
+     unchanged), and no per-person accuracy signal is recoverable by a richer grammar because the
+     **target has almost no variance** (0.95±0.09) and is selection-shaped. **The signal
+     that survives is per-decision and ground-truth-free** (AUC 0.59) and is *not* a difficulty artifact: `dur_z` is
      uncorrelated with task size and holds within every size stratum (0.57 / 0.52 / 0.69). Scale transforms (log, rank-invariant) and flexible
      regressors (RF/GBM/kNN) on the continuous distance target don't recover a signal either (best CV
      Spearman 0.26, permutation p=0.25); the only difficulty proxy controlled is task **size** —
@@ -102,7 +130,7 @@ Two follow-ups on *"learn the features, don't hand-build them"*:
   (`cave_morphology.py`)
 
 ## What survived
-Expertise AUC 0.90 (naive/designed/learned 0.75/0.95/0.90); accuracy ceiling-clustering on two
+Expertise signal ~0.81 CV (naive and learned both 0.81; designed 0.98 engineered; the leaky 0.75/0.95/0.90 retired); accuracy ceiling-clustering on two
 tasks; promoted ≈ expert < unpromoted; annotator-level accuracy **not predictable** (AUC 0.14, but
 within the LOO null 0.45±0.20 — *no signal*, not "worse than chance"; also null on variance-rich
 distance-to-GT); per-task GT-free uncertainty (AUC 0.59, flag-20%→catch-28%, robust to task size); GT-free task **RISK** predictable at 0.76 (grouped CV, p<0.001). All

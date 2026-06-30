@@ -148,12 +148,53 @@ expert-level task. So the behavioral "expert vs student" model in fact separates
 from proto-experts** (conservative), and *doing* the dense task is itself evidence of
 promotion.
 
-**Three-tier representation (naive → designed → learned), CV ROC-AUC, expert vs proto-expert
-(n=16):** naive (4 counts) **0.75** → designed (28 hand-built) **0.95** → learned (10-motif
-unsupervised k-means dictionary over windowed label+timing+rotation streams) **0.90**. Honest
-status: "designed" is hand-built — only RF *importance* is learned; "learned" is the genuine
-unsupervised representation (language-of-surgery analog). Both beat naive; designed ≈ learned.
-(`mine_tiers.py` → `tiers_data.csv`.)
+**Three-tier representation (naive → designed → learned), expert vs proto-expert (n=16):** naive
+(4 counts) **0.81** → designed (28 hand-built, post-hoc) **0.98** → learned (10-motif k-means
+dictionary) **0.81 with the dictionary refit INSIDE each CV fold**. The originally-reported
+0.75/0.95/0.90 fit the k-means + scaler on **all** annotators before the split (representation
+leakage, `mine_tiers.py` l.117-121); done correctly the learned tier is **0.81** and the leaky
+0.90/0.95 is **retired**. Honest status: "designed" is hand-built — only RF *importance* is learned;
+"learned" is the genuine unsupervised representation (language-of-surgery analog). The only high tier
+is the post-hoc designed bank (0.98); naive and learned both sit at the ~0.81 floor.
+(`mine_tiers.py`, `motif_cv.py`.)
+
+**Uncertainty on the tier AUCs (n=16; second estimator).** Under leave-one-out + balanced logistic,
+naive and designed give **0.81** and **0.98** with 1000-permutation nulls 0.45–0.47 ± 0.20, one-sided
+p = **0.022 / <0.001**, and 400-bootstrap 95% CIs **[0.62,1.00] / [0.96,1.00]**. (The learned tier
+reads 0.95 here only because substantiate.py used the cached k-means-on-all columns; refit in-fold it
+is **0.81** — see the fishing audit.) Bars are wide at n=16; the honest verb is "separates in a
+pilot." (`scratchpad/substantiate.py`.)
+
+**Fishing audit — is the high AUC real or in-sample inflation?** The 28 designed + 10 motif features
+were engineered on this same n=16 (post-hoc, not preregistered), so the magnitudes are optimistic.
+What is robust and pipeline-stable converges on **~0.80**: the median of 38 single-feature AUCs is 0.80,
+the un-fished 4-count naive tier is LOO 0.81, and re-mining the motif dictionary **inside the CV fold**
+gives 0.81 — on fresh windows the in-fold and leaky variants agree (premium ≈ 0.00); the cached 0.95
+came from a different extraction run. The lone **exploratory ceiling** is the post-hoc **designed 0.98**;
+the learned/motif tier, CV'd correctly, sits at the **~0.81 floor**. This is *not* mere
+p≫n dimensionality: 28 pure-noise features hit AUC 1.0 in-sample but **collapse to 0.45 under the same
+LOO**, matching the label-permutation null (0.47 ± 0.19) — CV catches the trivial fit, and the real
+features carry signal the noise does not. Anchor (no classifier): experts rotate 1014° vs proto 466°
+(2.18×). Confirmation = the pre-registered prospective held-out test. (`fishing_audit.py`, `motif_cv.py`.)
+
+**Volume vs style (is it just "experts did more"?).** Stripping the six raw-volume totals
+(event/session counts, total rotation, run maxima) and keeping only the 22 **rate/intensive** features
+still separates at **AUC 0.95** (raw totals alone 0.84; all 28 designed 0.98) — the separation is not
+merely activity volume. Caveat: volume and style are entangled — experts do ~2× more of everything
+(total_rot_deg ratio 2.18, n_rot 2.38, n_events 2.13) and total_rot_deg ~ n_events ρ=0.71 — so we
+report "survives removing volume," not "independent of volume."
+
+**Why accuracy cannot rank PEOPLE here (and why a richer grammar won't fix it).** The −0.44
+rotation↔accuracy correlation is (i) non-significant (p=0.10, CI [−0.83,+0.20]) and (ii) a
+**selection-confounded between-cohort comparison**, not "skill hurts": it splits into experts
+(rotation↑, acc 0.92) vs proto-experts (rotation↓, acc 0.98) with no within-cohort trend (−0.60 n=8 /
+−0.04 n=7). Proto-experts were **promoted for agreeing with the graders**, and fullyProofread accuracy
+*is* grader-agreement — so the comparison group was chosen on the outcome metric, and the expertise
+features inherit a spurious negative (the most-negative coefficients are systematically the expertise
+ones: runN_max, motifs, rotation, n_rot). Plus range restriction: the cohort is 8 experts + 8 promoted
+proto-experts with **no true-novice accuracy** to anchor the scale. Behavior reads *who is an expert*
+(0.90–0.98), not *residual accuracy among the calibrated* — no representation predicts a near-constant,
+selection-shaped target. (`rho_robustness.py`.)
 
 **Accuracy is ceiling-clustered across TWO task types** (so behavior can't predict it):
 - multiSomaSplit distance-to-GT: expert median 309 nm vs student 399 nm, MW p=0.092; best is
@@ -201,7 +242,7 @@ skill assessment: motif dictionary ↔ surgemes (JIGSAWS); behavioral kinematics
 motion; "skill lives in HOW, not WHAT" ↔ tacit knowledge (Polanyi, "we know more than we can
 tell"). Key difference: JIGSAWS skill is strongly legible because outcomes vary; here the
 workforce was **calibrated to converge**, so outcome variance is gone and the signal moves to
-(a) expertise *style* (AUC 0.90) and (b) per-task *uncertainty* (AUC 0.59). The prospective
+(a) expertise *style* (~0.81 CV) and (b) per-task *uncertainty* (AUC 0.59). The prospective
 claim — flag from behavior, pre-registered, no GT — is the open work.
 
 **Data limit.** The worst annotators (maggie, donovan9, emily, mia) have **no dense telemetry**

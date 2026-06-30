@@ -20,12 +20,13 @@ proofreading"), captured as per-event viewer telemetry during the minnie65 MICrO
 predicts the **quality** of their work. Using a graded series of representations (naive
 counts → a hand-designed behavioral grammar → an unsupervised motif dictionary), we find that
 behavior **encodes expertise as a working style** — separating experts from agreement-promoted
-"proto-experts" at ROC-AUC 0.90 — driven by three-dimensional exploration kinematics (experts
-inspect structure from ~2× more viewpoints). Yet **achieved accuracy does not separate skill
+"proto-experts" as a broad signal (naive counts and the cross-validated learned motif tier both ~0.81; a 28-feature
+designed bank reaches 0.98 but is engineered post-hoc on n=16) driven by three-dimensional
+exploration kinematics (experts accumulate ~2× more camera rotation). Yet **achieved accuracy does not separate skill
 levels**: across two independent grading tasks the trained workforce converges to a ceiling
 (experts and novices place split points equally well; per-category label accuracy is
 statistically indistinguishable), and coarse per-annotator behavior fails to predict
-competence (leave-one-out AUC 0.14). Critically, a **ground-truth-free, per-decision**
+competence (leave-one-out AUC within its permutation null — no signal). Critically, a **ground-truth-free, per-decision**
 signal survives: a task that is anomalously slow *for that individual* is significantly more
 error-prone (AUC 0.59, p<0.001), so flagging the most behaviorally-anomalous 20% of tasks
 recovers 28% of errors (1.4× over chance) with no reference annotation. We interpret these
@@ -75,16 +76,26 @@ grammar, motif n-grams, run-length and inter-event-interval distributions, actio
 and exploration kinematics — the components of a "language of proofreading."
 
 ### Behavior encodes expertise as a working style
-On the dense common task (`multiSomaId`), we compared three representations of increasing
-sophistication for separating experts from proto-experts (n=16; held-out cross-validation):
-a **naive** tier (four obvious counts), a **designed** tier (the full hand-built grammar +
-kinematics, 28 features), and a **learned** tier (an unsupervised k-means **motif
-dictionary** of windowed label+timing+rotation "gestures", the surgical-surgeme analog).
-ROC-AUC rose **0.75 → 0.95 → 0.90** (Fig. 1). The discriminative signal is concentrated in
-**3-D exploration kinematics**: experts accumulate ~2× more total camera rotation and examine
-each object from many more viewpoints, and they work ~2× faster. We note honestly that only
-the motif dictionary is a *learned representation*; in the designed tier, "learning" is
-limited to feature-importance selection.
+The most robust fact needs no model: on the dense common task (`multiSomaId`), experts
+**explore ~2× more** than proto-experts — 1014° vs 466° of accumulated camera rotation
+(ratio 2.18), inspecting each object from more viewpoints and working ~2× faster. The signal is
+**broad, not cherry-picked**: across 38 behavioral features the *median* single feature separates
+experts from proto-experts at AUC 0.80, and a conservative **un-fished four-count tier** (event
+count, events/session, %navigate, dwell) reaches leave-one-out AUC **0.81** (Fig. 1).
+
+The **designed** 28-feature grammar+kinematics bank scores higher — LOO 0.98 — but those features
+were **hand-engineered on this same 16-annotator sample** (post-hoc, not preregistered), so we read
+0.98 as an **exploratory ceiling** rather than a calibrated estimate. The **learned** motif
+dictionary, with the k-means refit *inside* each CV fold (the only valid way), scores **0.81** — not
+the 0.90/0.95 obtained when the dictionary is fit on all annotators before the split, which is
+representation leakage. The high numbers are **not** an artifact of
+fitting 28 features to 16 points: 28 *pure-noise* features reach AUC 1.0 in-sample but **collapse
+to 0.45 under the same leave-one-out**, matching the label-permutation null (0.47 ± 0.19) — so
+cross-validation catches the trivial fit, and the real features carry signal the noise does not
+(Fig. 1). We therefore report a **real, broad ~0.80 expertise signal** anchored in 3-D
+exploration, with a richer but provisional ceiling whose confirmation is the **pre-registered
+prospective test on held-out annotators**. (In the designed tier "learning" is only
+feature-importance selection; only the motif dictionary is a genuinely learned representation.)
 
 A structural observation reinforces the interpretation: among students, **only the
 agreement-promoted proto-experts ever performed the dense expert task at all** — so the
@@ -168,7 +179,7 @@ it is a weak readout of **achieved accuracy** — because the workforce was deli
 experts perform like experts), so the variance that surgical-skill studies exploit is largely
 gone, and the legible behavioral signal moves to (i) who works like an expert and (ii) which
 individual decisions carry hidden uncertainty. This reconciles the apparently paradoxical pair
-of findings — AUC 0.90 for expertise, no signal for accuracy — and turns a "negative" result
+of findings — a clear expertise signal (~0.81 CV), no signal for accuracy — and turns a "negative" result
 into a statement about calibration: *successful calibration is exactly what makes outcomes
 hard to predict from behavior.*
 
@@ -179,12 +190,24 @@ behavior signals risk. This reframes "calibrate the annotators" as an online, la
 control problem rather than a retrospective audit.
 
 **Limitations.** Cohorts are small (expertise n=16; per-annotator competence n=36) and effect
-estimates are wide; the expertise comparison is retrospective (selection on known outcome) and
-is experts-vs-proto-experts, not experts-vs-arbitrary-novices; the poorest performers lack
-dense telemetry entirely, so the rich behavioral test cannot yet reach them; identity linkage
-through the chunkedgraph operation `user` field is unreliable (executor ≠ assignee) and was
-not used for any claim. Two distinct quality tasks show the same ceiling, which strengthens the
-convergence interpretation but limits accuracy-prediction power.
+estimates are wide. Most consequentially, **we cannot test naive-vs-expert on achieved accuracy
+at all**: the ground-truth-labeled cohort is 8 experts + 8 *agreement-promoted* proto-experts —
+both already calibrated — so the accuracy range is restricted to its top, and the bottom (true
+novices) is unmeasured for want of graded tasks. The apparent **anti**-correlation between
+expertise style and accuracy (rotation ρ≈−0.44) is **not significant** (p=0.10, 95% CI [−0.83, +0.20])
+and is a **selection-confounded between-cohort comparison**: it splits into experts (more rotation,
+accuracy 0.92) versus proto-experts (less rotation, accuracy 0.98), with no within-cohort trend, and
+the proto-experts are precisely the students *promoted for agreeing with the graders* — the same
+agreement that fullyProofread accuracy scores. We therefore do **not** read it as "style opposes
+proficiency"; it is the footprint of agreement-gated promotion on a range-restricted, near-ceiling
+target, not a too-poor representation. The expertise comparison is likewise retrospective (selection on known outcome)
+and is experts-vs-proto-experts, not experts-vs-arbitrary-novices; the poorest performers lack
+dense telemetry entirely, so the rich behavioral test cannot yet reach them. The richer task
+description that lifts risk prediction relies on per-point category labels, whose coverage is
+uneven across task types. Identity linkage through the chunkedgraph operation `user` field is
+unreliable (executor ≠ assignee) and was not used for any claim. Two distinct quality tasks show
+the same ceiling, which strengthens the convergence interpretation but limits accuracy-prediction
+power.
 
 **The prospective test.** We pre-register the decisive experiment for the next campaign:
 predict competence and flag risky decisions **from early behavior, before outcomes are known**,

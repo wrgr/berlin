@@ -16,16 +16,17 @@ group is the 8 promoted students who have dense logs; in the grading-task figure
 
 ## Slide 13 — the two evidence panels
 
-### `fig_tier_auc.png` — Behavior separates experts from proto-experts
-- **Plots:** three bars = cross-validated ROC-AUC for classifying expert vs proto-expert from
-  behavior alone, under three feature representations — **naive 0.75** (4 obvious counts: events,
-  rate, %navigate, median interval), **designed 0.95** (28 hand-built features: action-mix,
-  transition grammar, motif usage, run-lengths, entropy, 3-D kinematics), **learned 0.90**
-  (10-motif unsupervised k-means dictionary). n = 16 (8 + 8).
-- **Reads as:** behavioral *style* is highly diagnostic of expertise — 4 trivial counts already
-  beat chance (0.5), hand-built peaks, an unsupervised "grammar" nearly matches it.
-- **Caveat:** small n; the 0.95 is a pilot point (confirmatory data = the summer test). This
-  separates *expertise*, not *correctness*.
+### `fig_expertise_evidence.png` — Experts explore ~2.18× more; honest AUC ladder (replaces fig_tier_auc)
+- **Left:** total camera rotation per annotator — experts accumulate ~2.18× more (1014° vs 466°), a
+  model-free difference.
+- **Right (LOO, cross-validated):** **designed** 28 hand-built features **0.98** (engineered post-hoc
+  on n=16 — an exploratory ceiling); **naive** 4 counts **0.81** and **learned** 10-motif dictionary
+  with k-means refit *in-fold* **0.81** (the robust floor); **28 pure-noise features 0.45** and the
+  **permuted-label null 0.46** (chance — CV catches trivial fit). n = 16 (8 + 8).
+- **Reads as:** a real, broad ~0.81 expertise signal anchored in 3-D exploration; only the post-hoc
+  designed bank reaches 0.98, and CV rules out trivial overfit.
+- **Caveat:** small n; the leaky 0.90/0.95 once reported for the learned tier (k-means fit on *all*
+  annotators) is **retired**. Separates *expertise*, not *correctness*; confirmation = the prospective test.
 
 ### `fig_prospective_flagging.png` — Ground-truth-free error flagging
 - **Plots:** deployment curve. Rank fullyProofread tasks by a **label-free anomaly score** (how
