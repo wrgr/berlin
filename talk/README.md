@@ -33,6 +33,9 @@ De-identified copies of the per-annotator data behind every figure (handles → 
 no tokens, no name map), so the plots reproduce from this repo **with no credentials** — e.g.
 `cd analysis && BERLIN_DATA=../evidence python make_risk_fig.py` (regenerates `fig_task_risk.png`,
 AUC 0.59/0.76 bit-for-bit). Produced by `analysis/anonymize_evidence.py`; see `evidence/README.md`.
+**Exploratory (non-deck) analyses** — expert-to-expert agreement, competency variants, spatial effort,
+etc. — live in `analysis/other/` (code) + `evidence/other/` (de-identified data), indexed in
+`analysis/other/README.md`.
 
 ## Figures (in deck + spares)
 In-deck: `fig_expertise_evidence` (honest AUC ladder + 2.18× anchor, S13), `fig_prospective_flagging`,

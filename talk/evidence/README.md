@@ -32,4 +32,8 @@ BERLIN_DATA=../evidence python explore_task_risk_prediction.py # risk 0.76 group
 | `rf_importance.csv` | 9 | RandomForest / permutation feature importances (no handles) |
 | `motif_windows.npz` | 16 | windowed gesture features per annotator (learned-motif CV; keys de-identified) |
 
+## `other/` — exploratory analyses
+De-identified data behind the *non-deck* exploration (expert-to-expert agreement, competency variants,
+spatial effort, rich cross-task, learning trajectory, …). Indexed in `../analysis/other/README.md`.
+
 The upstream NeuVue/CAVE → CSV chain (which needs credentials) is documented in `../PROVENANCE.md`.
